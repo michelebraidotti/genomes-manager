@@ -1,0 +1,667 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.genomesmanager</groupId>
+	<artifactId>genomes-manager</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Genomes Manager</name>
+	<url>http://www.notthereyet.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<com.sun.xml.bind.version>2.0.3</com.sun.xml.bind.version>
+		<commons-codec.version>1.6</commons-codec.version>
+		<org.apache.commons-io.version>2.4</org.apache.commons-io.version>
+		<commons-lang.version>2.6</commons-lang.version>
+		<cglib.version>2.2.2</cglib.version>
+		<javax.xml.bind.version>2.0</javax.xml.bind.version>
+		<joda-time.version>2.1</joda-time.version>
+		<junit.version>4.10</junit.version>
+		<java.version>1.6</java.version>
+		<hsqldb.version>2.2.8</hsqldb.version>
+		<log4j.version>1.2.16</log4j.version>
+		<easymock.version>3.1</easymock.version>
+		<org.aspectj.version>1.7.0</org.aspectj.version>
+		<org.mockito.version>1.9.0</org.mockito.version>
+		<org.apache.commons.version>3.1</org.apache.commons.version>
+		<org.jadira.usertype.version>3.0.0.CR1</org.jadira.usertype.version>
+		<org.slf4j.version>1.6.6</org.slf4j.version>
+		<org.springframework.version>3.1.1.RELEASE</org.springframework.version>
+		<org.springframework.webservices.version>2.0.5.RELEASE</org.springframework.webservices.version>
+		<org.springframework.ldap.version>1.3.1.RELEASE</org.springframework.ldap.version>
+		<org.hibernate.version>4.1.1.Final</org.hibernate.version>
+		<org.hibernate.java-persistence.version>2.0-cr-1</org.hibernate.java-persistence.version>
+		<org.hibernate.hibernate-jpamodelgen.version>1.1.1.Final</org.hibernate.hibernate-jpamodelgen.version>
+		<powermock.version>1.4.12</powermock.version>
+		<XmlSchema.version>1.4.7</XmlSchema.version>
+		<dozer.version>5.3.2</dozer.version>
+		<commons-httpclient.version>3.1</commons-httpclient.version>
+		<joda-time-hibernate-version>1.3</joda-time-hibernate-version>
+		<commons-logging-version>1.1.1</commons-logging-version>
+		<groovy.version>2.0.0</groovy.version>
+		<groovy-eclipse-compiler-version>2.7.0-01</groovy-eclipse-compiler-version>
+		<postgresql.version>9.1-901.jdbc4</postgresql.version>
+
+		<maven-compiler-version>2.5</maven-compiler-version>
+		<maven-release-plugin-version>2.3.2</maven-release-plugin-version>
+		<spring.modules.cache.version>0.7</spring.modules.cache.version>
+		<ehcache-version>1.2.3</ehcache-version>
+		<jetty-maven-plugin-version>8.1.4.v20120524</jetty-maven-plugin-version>
+		<maven.clean.plugin.version>2.5</maven.clean.plugin.version>
+		<maven.processor.plugin.version>2.0.6</maven.processor.plugin.version>
+		<maven.jar.plugin.version>2.4</maven.jar.plugin.version>
+		<org.codehaus.mojo.hibernate3.plugin>3.0</org.codehaus.mojo.hibernate3.plugin>
+		
+
+		<javax.mail.version>1.4</javax.mail.version>
+		<biojava3.version>3.0.4</biojava3.version>
+	</properties>
+
+
+
+	<!-- which modules to the applications consist of? -->
+	<modules>
+		<module>common</module>
+		<module>domain</module>
+		<module>integration</module>
+		<module>services</module>
+	</modules>
+
+	<developers>
+		<developer>
+			<id>me</id>
+			<name>Braidotti Michele</name>
+			<email>michele.braidotti@gmail.com</email>
+			<organization>Genomes manager</organization>
+			<organizationUrl>www.genomesmanager.org</organizationUrl>
+			<timezone>+1</timezone>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Other modules in the same project -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>genomes-manager-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>genomes-manager-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>genomes-manager-domain</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>genomes-manager-integration</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>genomes-manager-services-intf</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>genomes-manager-services-impl</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>genomes-manager-webservices</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<!-- external dependencies -->
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.java-persistence</groupId>
+				<artifactId>jpa-api</artifactId>
+				<version>${org.hibernate.java-persistence.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-jpamodelgen</artifactId>
+				<version>${org.hibernate.hibernate-jpamodelgen.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>${cglib.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy</artifactId>
+				<version>${groovy.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>${org.codehaus.mojo.hibernate3.plugin}</version>
+			</dependency>
+
+
+			<!-- test dependencies -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>${easymock.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${org.mockito.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${org.springframework.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-junit4</artifactId>
+				<version>${powermock.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-easymock</artifactId>
+				<version>${powermock.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito</artifactId>
+				<version>${powermock.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- hsqldb Server Connector -->
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${hsqldb.version}</version>
+			</dependency>
+
+
+			<!-- Hibernate core (annotations included) -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${org.hibernate.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${org.hibernate.version}</version>
+			</dependency>
+
+			<!-- core spring used by the other spring modules -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- for use of the spring-EL -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- for use of the spring-bean-factory -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- for use of spring aop -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- for application context access -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- if use of EhCache, JavaMail and Quartz is needed -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- for use of transactions / DAO exceptions -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- JDBC Data Access Library -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- ORM - hibernate/JPA integration -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Object-to-XML Mapping (OXM) abstraction and integration with JAXB, 
+				JiBX, Castor, XStream, and XML Beans -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-oxm</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Web application development utilities applicable to both Servlet 
+				and Portlet Environments Spring-MVC/JSF -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Spring MVC for Servlet Environments -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Spring WebServices -->
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>spring-ws-core</artifactId>
+				<version>${org.springframework.webservices.version}</version>
+			</dependency>
+
+			<!-- Spring LDAP -->
+			<dependency>
+				<groupId>org.springframework.ldap</groupId>
+				<artifactId>spring-ldap-core</artifactId>
+				<version>${org.springframework.ldap.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.ldap</groupId>
+				<artifactId>spring-ldap-core-tiger</artifactId>
+				<version>${org.springframework.ldap.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.ldap</groupId>
+				<artifactId>spring-ldap-odm</artifactId>
+				<version>${org.springframework.ldap.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.ldap</groupId>
+				<artifactId>spring-ldap-ldif-core</artifactId>
+				<version>${org.springframework.ldap.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.ldap</groupId>
+				<artifactId>spring-ldap-ldif-batch</artifactId>
+				<version>${org.springframework.ldap.version}</version>
+			</dependency>
+
+			<!-- Spring Caching Annotation -->
+			<dependency>
+				<groupId>ehcache</groupId>
+				<artifactId>ehcache</artifactId>
+				<version>${ehcache-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springmodules</groupId>
+				<artifactId>spring-modules-cache</artifactId>
+				<version>${spring.modules.cache.version}</version>
+			</dependency>
+
+
+			<!-- Spring MVC for Portlet Environments (depends on spring-core, spring-beans, 
+				spring-context, spring-web) Define this if you use Spring MVC with a Portlet 
+				Container (org.springframework.web.portlet.*) -->
+			<!-- <dependency> -->
+			<!-- <groupId>org.springframework</groupId> -->
+			<!-- <artifactId>spring-webmvc-portlet</artifactId> -->
+			<!-- <version>${org.springframework.version}</version> -->
+			<!-- </dependency> -->
+
+			<!-- logging - more performant -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${org.slf4j.version}</version>
+			</dependency>
+
+			<!-- bridge between log4j and slf4j -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${org.slf4j.version}</version>
+			</dependency>
+
+			<!-- logging -->
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+
+			<!-- jakarta commons -->
+			<!--TODO bme kick the old version out! -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${org.apache.commons.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.6</version>
+			</dependency>
+
+			<!-- jaxb -->
+			<!-- dependencies for JAXB. If used somewhere else, shoulde be pulled 
+				up the maven inheritance tree -->
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>${javax.xml.bind.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-impl</artifactId>
+				<version>${com.sun.xml.bind.version}</version>
+			</dependency>
+
+			<!-- needed for aspectj weaving and annotations -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${org.aspectj.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${org.aspectj.version}</version>
+			</dependency>
+
+			<!-- joda time -->
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda-time.version}</version>
+			</dependency>
+
+			<!-- joda time jpa annotations -->
+			<dependency>
+				<groupId>org.jadira.usertype</groupId>
+				<artifactId>usertype.core</artifactId>
+				<version>${org.jadira.usertype.version}</version>
+			</dependency>
+
+			<!-- BASE64 encoding/decoding -->
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>
+
+			<!-- dozer mapping -->
+			<dependency>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer</artifactId>
+				<version>${dozer.version}</version>
+			</dependency>
+
+			<!-- schema-validation -->
+			<dependency>
+				<groupId>org.apache.ws.commons.schema</groupId>
+				<artifactId>XmlSchema</artifactId>
+				<version>${XmlSchema.version}</version>
+			</dependency>
+
+			<!-- client for webservices -->
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>${commons-httpclient.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time-hibernate</artifactId>
+				<version>${joda-time-hibernate-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>${commons-logging-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${org.apache.commons-io.version}</version>
+			</dependency>
+
+			<!-- JavaX Mail -->
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${javax.mail.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.biojava</groupId>
+				<artifactId>biojava3-core</artifactId>
+				<version>${biojava3.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- Biojava repo -->
+	<repositories>
+		<repository>
+			<id>biojava-maven-repo</id>
+			<name>BioJava repository</name>
+			<url>http://www.biojava.org/download/maven/</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<!-- Plugin for the compiler -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-version}</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven.clean.plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.bsc.maven</groupId>
+					<artifactId>maven-processor-plugin</artifactId>
+					<version>${maven.processor.plugin.version}</version>
+				</plugin>
+
+				<!-- Plugin to run the unit-tests -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<version>2.8</version>
+				</plugin>
+
+				<!-- Plugin to do code coverage -->
+				<!-- EMMA gives errors here! -->
+
+				<!-- Plugin to do code coverage -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>cobertura-maven-plugin</artifactId>
+					<version>2.5.1</version>
+				</plugin>
+
+				<!-- Plugin to create eclipse-projects -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<additionalProjectnatures>
+							<projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
+							<projectnature>org.maven.ide.eclipse.maven2Nature</projectnature>
+						</additionalProjectnatures>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<configuration>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>true</downloadJavadocs>
+					</configuration>
+					<version>1.7</version>
+					<executions>
+						<execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>src/main/java</source>
+								</sources>
+							</configuration>
+						</execution>
+						<execution>
+							<id>add-test-source</id>
+							<phase>generate-test-sources</phase>
+							<goals>
+								<goal>add-test-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>src/test/java</source>
+								</sources>
+							</configuration>
+						</execution>
+						<execution>
+							<id>add-resource</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>add-resource</goal>
+							</goals>
+							<configuration>
+								<resources>
+									<resource>
+										<directory>src/main/java/resources</directory>
+										<directory>src/main/groovy/resources</directory>
+										<directory>src/test/java/resources</directory>
+										<!-- <excludes> -->
+										<!-- <exclude>**/junk/**</exclude> -->
+										<!-- </excludes> -->
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>2.3.1</version>
+					<configuration>
+						<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+						<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jxr-plugin</artifactId>
+					<version>2.3</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${maven-release-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven.jar.plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
