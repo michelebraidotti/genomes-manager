@@ -102,7 +102,7 @@ public class Sequence implements Serializable {
 	}
 
 
-    @Lob  // should be lazy-loaded
+    @Lob
     @Basic(fetch=FetchType.LAZY)
 	public String getSequence() {
 		return this.sequence;

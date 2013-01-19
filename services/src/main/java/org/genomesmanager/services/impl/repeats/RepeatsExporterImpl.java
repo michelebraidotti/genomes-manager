@@ -9,6 +9,7 @@ import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsOrder;
 import org.genomesmanager.domain.entities.Scaffold;
+import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SequenceSliceException;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.repositories.repeats.RepeatRepo;
@@ -105,8 +106,8 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(int)
 	 */
 	@Override
-	public void setRepeatsList(int seqId) {
-		repeats = repeatsList.getAllBySequence(seqId);
+	public void setRepeatsList(Sequence seq) {
+		repeats = repeatsList.getAllBySequence(seq.getId());
 	}
 	
 	/* (non-Javadoc)
@@ -124,24 +125,24 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(int, org.genomesmanager.domain.entities.RepeatsClassification)
 	 */
 	@Override
-	public void setRepeatsList(int seqId, RepeatsClassification repClass) {
-		repeats = repeatsList.getAllBySequence(seqId, repClass);
+	public void setRepeatsList(Sequence seq, RepeatsClassification repClass) {
+		repeats = repeatsList.getAllBySequence(seq.getId(), repClass);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(int, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
 	 */
 	@Override
-	public void setRepeatsList(int seqId, RepeatsOrder repOrd, String superFamily) {
-		repeats = repeatsList.getAllBySequence(seqId, repOrd, superFamily);
+	public void setRepeatsList(Sequence seq, RepeatsOrder repOrd, String superFamily) {
+		repeats = repeatsList.getAllBySequence(seq.getId(), repOrd, superFamily);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(int, org.genomesmanager.domain.entities.RepeatsOrder)
 	 */
 	@Override
-	public void setRepeatsList(int seqId, RepeatsOrder repOrd) {
-		repeats = repeatsList.getAllBySequence(seqId, repOrd);
+	public void setRepeatsList(Sequence seq, RepeatsOrder repOrd) {
+		repeats = repeatsList.getAllBySequence(seq.getId(), repOrd);
 	}
 	
 	/* (non-Javadoc)

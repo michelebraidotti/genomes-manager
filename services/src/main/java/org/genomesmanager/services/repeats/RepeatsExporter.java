@@ -7,6 +7,7 @@ import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsOrder;
+import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.repositories.repeats.RepeatRepoException;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
@@ -30,18 +31,18 @@ public interface RepeatsExporter {
 	public abstract void setRepeatsList(Chromosome chr, RepeatsOrder repOrd,
 			String superFamily);
 
-	public abstract void setRepeatsList(int seqId);
+	public abstract void setRepeatsList(Sequence seq);
 
 	public abstract void setRepeatsList(List<Integer> repIds)
 			throws RepeatRepoException;
 
-	public abstract void setRepeatsList(int seqId,
+	public abstract void setRepeatsList(Sequence seq,
 			RepeatsClassification repClass);
 
-	public abstract void setRepeatsList(int seqId, RepeatsOrder repOrd,
+	public abstract void setRepeatsList(Sequence seq, RepeatsOrder repOrd,
 			String superFamily);
 
-	public abstract void setRepeatsList(int seqId, RepeatsOrder repOrd);
+	public abstract void setRepeatsList(Sequence seq, RepeatsOrder repOrd);
 
 	public abstract int getNOfRepeats();
 

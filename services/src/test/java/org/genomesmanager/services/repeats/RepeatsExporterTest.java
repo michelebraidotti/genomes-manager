@@ -101,6 +101,7 @@ public class RepeatsExporterTest {
 		
 		repeatsExporter.setRepeatsList(chr);
 		repeatsExporter.setFileContent(AgiExportType.GFF3PLUS);
+		for (String s:repeatsExporter.getFileContent()) System.out.print(s);
 		assertTrue(repeatsExporter.getFileContent().size() > 0);
 		assertEquals(repeatsExporter.getNOfRepeats(), repeats.size());
 	}
@@ -110,7 +111,7 @@ public class RepeatsExporterTest {
 		when(speciesRepo.get(sp.toString())).thenReturn(sp);
 		when(repeatsList.getAllBySequence(seq.getId())).thenReturn(repeats);
 		
-		repeatsExporter.setRepeatsList(seq.getId());
+		repeatsExporter.setRepeatsList(seq);
 		repeatsExporter.setFileContent(AgiExportType.GFF3);
 		assertTrue(repeatsExporter.getFileContent().size() > 0);
 		assertEquals(repeatsExporter.getNOfRepeats(), repeats.size());
