@@ -8,7 +8,7 @@ import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsClassificationPK;
 import org.genomesmanager.domain.entities.RepeatsOrder;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepo;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepoException;
+import org.genomesmanager.repositories.repeats.RepeatsClassificationException;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,7 +28,7 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 	 */
     @Override
 	public RepeatsClassification generate(String name, 
-    		String agiDesc) throws RepeatsClassificationRepoException {
+    		String agiDesc) throws RepeatsClassificationException {
 		RepeatsClassificationPK rcPK = new RepeatsClassificationPK();
 		String repClass = "";
 		String subclass= "";
@@ -94,7 +94,7 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 			family = "UNKNOWN";
 		}
 		else {
-			throw new RepeatsClassificationRepoException("Error classifing " + name + 
+			throw new RepeatsClassificationException("Error classifing " + name + 
 					", no suitable repeat class found");
 		}
 		if ( family.equals("") || family.equals("NA")) {
@@ -109,11 +109,11 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 				}
 			}
 			if ( family.equals("")) {
-				throw new RepeatsClassificationRepoException("Error parsing superfamily name " +
+				throw new RepeatsClassificationException("Error parsing superfamily name " +
 						"from definition" + agiDesc);
 			}
 			if ( superFamlily.equals("")) {
-				throw new RepeatsClassificationRepoException("Error parsing family name " +
+				throw new RepeatsClassificationException("Error parsing family name " +
 						"from definition" + agiDesc);
 			}
 		}
@@ -188,10 +188,10 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsClassificationRepo#get(java.lang.String)
 	 */
 	@Override
-	public RepeatsClassification get(String repClassPKDefinition) throws RepeatsClassificationRepoException {
+	public RepeatsClassification get(String repClassPKDefinition) throws RepeatsClassificationException {
 		String[] definition = repClassPKDefinition.split(RepeatsClassification.SEPARATOR);
 		if ( definition == null || definition.length < 5 ) { 
-			throw new RepeatsClassificationRepoException("Cannot parse classification definition " + repClassPKDefinition);
+			throw new RepeatsClassificationException("Cannot parse classification definition " + repClassPKDefinition);
 		}
 		RepeatsClassificationPK repClassPK = new RepeatsClassificationPK();
 		repClassPK.setRepClass(definition[0]);
@@ -214,7 +214,7 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsClassificationRepo#insert(org.genomesmanager.domain.entities.RepeatsClassification)
 	 */
 	@Override
-	public void insert(RepeatsClassification repeatsClass) throws RepeatsClassificationRepoException {
+	public void insert(RepeatsClassification repeatsClass) throws RepeatsClassificationException {
 		validateKey(repeatsClass);
 		em.persist(repeatsClass);
 	}
@@ -223,7 +223,7 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsClassificationRepo#insertIfNotExists(org.genomesmanager.domain.entities.RepeatsClassification)
 	 */
 	@Override
-	public void insertIfNotExists(RepeatsClassification repeatsClass) throws RepeatsClassificationRepoException {
+	public void insertIfNotExists(RepeatsClassification repeatsClass) throws RepeatsClassificationException {
 		RepeatsClassification testRep = 
 			em.find( RepeatsClassification.class, repeatsClass.getId() );
 		if ( testRep == null ) {
@@ -233,66 +233,66 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 		}
 	}
 	
-	private void validateKey(RepeatsClassification repClass) throws RepeatsClassificationRepoException {
+	private void validateKey(RepeatsClassification repClass) throws RepeatsClassificationException {
 		RepeatsClassificationPK  repClassPK = repClass.getId();
 		if ( repClassPK.getOrder().equals(RepeatsOrder.LINE.getLabel() ) ) {
 			if ( ! repClassPK.getRepClass().equals("I") || ! repClassPK.getSubclass().equals("I") ) {
-				throw new RepeatsClassificationRepoException("LINE repeat must be Class I and Subclass I " +
+				throw new RepeatsClassificationException("LINE repeat must be Class I and Subclass I " +
 						"was '" + repClassPK.getRepClass() + ", " + repClassPK.getSubclass() + "'");
 			}
 		}
 		else if ( repClassPK.getOrder().equals(RepeatsOrder.LTR.getLabel() ) ) {
 			if ( ! repClassPK.getRepClass().equals("I") || ! repClassPK.getSubclass().equals("I") ) {
-				throw new RepeatsClassificationRepoException("LTR repeat must be Class I and Subclass I " +
+				throw new RepeatsClassificationException("LTR repeat must be Class I and Subclass I " +
 						"was '" + repClassPK.getRepClass() + ", " + repClassPK.getSubclass() + "'");
 			}
 		} 
 		else if ( repClassPK.getOrder().equals(RepeatsOrder.SINE.getLabel() ) ) {
 			if ( ! repClassPK.getRepClass().equals("I") || ! repClassPK.getSubclass().equals("I") ) {
-				throw new RepeatsClassificationRepoException("SINE repeat must be Class I and Subclass I " +
+				throw new RepeatsClassificationException("SINE repeat must be Class I and Subclass I " +
 						"was '" + repClassPK.getRepClass() + ", " + repClassPK.getSubclass() + "'");
 			}
 		}
 		else if ( repClassPK.getOrder().equals(RepeatsOrder.HEL.getLabel() ) ) {
 			if ( ! repClassPK.getRepClass().equals("II") || ! repClassPK.getSubclass().equals("II") ) {
-				throw new RepeatsClassificationRepoException("Helitron repeat must be Class II and Subclass II " +
+				throw new RepeatsClassificationException("Helitron repeat must be Class II and Subclass II " +
 						"was '" + repClassPK.getRepClass() + ", " + repClassPK.getSubclass() + "'");
 			}
 		}
 		else if ( repClassPK.getOrder().equals(RepeatsOrder.MITE.getLabel() ) ) {
 			if ( ! repClassPK.getRepClass().equals("II") || ! repClassPK.getSubclass().equals("III") ) {
-				throw new RepeatsClassificationRepoException("MITE repeat must be Class II and Subclass III " +
+				throw new RepeatsClassificationException("MITE repeat must be Class II and Subclass III " +
 						"was '" + repClassPK.getRepClass() + ", " + repClassPK.getSubclass() + "'");
 			}
 		}
 		else if ( repClassPK.getOrder().equals(RepeatsOrder.DNATE.getLabel() ) ) {
 			if ( ! repClassPK.getRepClass().equals("II") || ! repClassPK.getSubclass().equals("I") ) {
-				throw new RepeatsClassificationRepoException("DNATE repeat must be Class II and Subclass I " +
+				throw new RepeatsClassificationException("DNATE repeat must be Class II and Subclass I " +
 						"was '" + repClassPK.getRepClass() + ", " + repClassPK.getSubclass() + "'");
 			}
 		}
 		else if ( repClassPK.getOrder().equals(RepeatsOrder.UNKN.getLabel() ) ) {
 			if ( ! repClassPK.getRepClass().equals("UNKNOWN") || ! repClassPK.getSubclass().equals("UNKNOWN") ) {
-				throw new RepeatsClassificationRepoException("UNKNOWN repeat must be Class UNKNOWN and Subclass UNKNOWN " +
+				throw new RepeatsClassificationException("UNKNOWN repeat must be Class UNKNOWN and Subclass UNKNOWN " +
 						"was '" + repClassPK.getRepClass() + ", " + repClassPK.getSubclass() + "'");
 			}
 		}
 		else {
 			if ( repClassPK.getOrder() == null || repClassPK.getOrder().equals("") ) {
-				throw new RepeatsClassificationRepoException("Repeat order cannot be blank");
+				throw new RepeatsClassificationException("Repeat order cannot be blank");
 			}
 			else {
-				throw new RepeatsClassificationRepoException("Repeat order " + repClassPK.getOrder() + " not available, " + 
+				throw new RepeatsClassificationException("Repeat order " + repClassPK.getOrder() + " not available, " + 
 						" may be " + repClassPK.getOrder() + "s?" );
 			}
 		}
 		
 		if ( repClassPK.getSuperfamily() == null || repClassPK.getSuperfamily().equals("") ) {
-			throw new RepeatsClassificationRepoException("Repeat superfamily cannot be blank");
+			throw new RepeatsClassificationException("Repeat superfamily cannot be blank");
 		}
 		
 		if ( repClassPK.getFamily() == null || repClassPK.getFamily().equals("") ) {
-			throw new RepeatsClassificationRepoException("Repeat family cannot be blank");
+			throw new RepeatsClassificationException("Repeat family cannot be blank");
 		}
 		
 	}
@@ -302,7 +302,7 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 	 */
 	@Override
 	public RepeatsOrder getRepeatOrder(String classifDefinition)
-			throws RepeatsClassificationRepoException {
+			throws RepeatsClassificationException {
 		String[] definition = classifDefinition.split(RepeatsClassification.SEPARATOR);
 		/*
 		 * definition[0] = class
@@ -310,7 +310,7 @@ public class RepeatsClassificationRepoJpa implements RepeatsClassificationRepo {
 		 * definition[2] = order
 		 */
     	if ( definition == null || definition.length < 3 ) { 
-    		throw new RepeatsClassificationRepoException("Cannot parse classification definition " + classifDefinition);
+    		throw new RepeatsClassificationException("Cannot parse classification definition " + classifDefinition);
     	}
     	for (RepeatsOrder ro:RepeatsOrder.values() ) {
     		if ( ro.getLabel().equals(definition[2])) {

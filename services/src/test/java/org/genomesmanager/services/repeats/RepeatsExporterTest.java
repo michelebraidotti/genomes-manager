@@ -84,12 +84,37 @@ public class RepeatsExporterTest {
 	}
 	
 	@Test
-	public void testExport() throws SpeciesRepoException, RepeatsExporterException {
+	public void testExportByChrGff3() throws SpeciesRepoException, RepeatsExporterException {
 		when(speciesRepo.get(sp.toString())).thenReturn(sp);
 		when(repeatsList.getAllByChromosome(chr.getId())).thenReturn(repeats);
 		
 		repeatsExporter.setRepeatsList(chr);
 		repeatsExporter.setFileContent(AgiExportType.GFF3);
 		assertTrue(repeatsExporter.getFileContent().size() > 0);
+		assertEquals(repeatsExporter.getNOfRepeats(), repeats.size());
 	}
+	
+	@Test
+	public void testExporByChrtGff3Plus() throws SpeciesRepoException, RepeatsExporterException {
+		when(speciesRepo.get(sp.toString())).thenReturn(sp);
+		when(repeatsList.getAllByChromosome(chr.getId())).thenReturn(repeats);
+		
+		repeatsExporter.setRepeatsList(chr);
+		repeatsExporter.setFileContent(AgiExportType.GFF3PLUS);
+		assertTrue(repeatsExporter.getFileContent().size() > 0);
+		assertEquals(repeatsExporter.getNOfRepeats(), repeats.size());
+	}
+	
+	@Test
+	public void testExportBySeqGff3() throws SpeciesRepoException, RepeatsExporterException {
+		when(speciesRepo.get(sp.toString())).thenReturn(sp);
+		when(repeatsList.getAllBySequence(seq.getId())).thenReturn(repeats);
+		
+		repeatsExporter.setRepeatsList(seq.getId());
+		repeatsExporter.setFileContent(AgiExportType.GFF3);
+		assertTrue(repeatsExporter.getFileContent().size() > 0);
+		assertEquals(repeatsExporter.getNOfRepeats(), repeats.size());
+	}
+	
+	
 }

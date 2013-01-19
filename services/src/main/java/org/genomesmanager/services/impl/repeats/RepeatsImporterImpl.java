@@ -16,7 +16,7 @@ import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.repositories.repeats.RepeatRepo;
 import org.genomesmanager.repositories.repeats.RepeatRepoException;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepo;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepoException;
+import org.genomesmanager.repositories.repeats.RepeatsClassificationException;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.repeats.RepeatsImporter;
@@ -94,7 +94,7 @@ public class RepeatsImporterImpl implements RepeatsImporter {
     		catch (RepeatRepoException e) {
 				wrongLines.add(lineN + "\t" + line + "\t" + "RepeatEAException: " + e.getMessage());
 			} 
-			catch (RepeatsClassificationRepoException e) {
+			catch (RepeatsClassificationException e) {
 				wrongLines.add(lineN + "\t" + line + "\t" + "RepeatsClassificationRepoException: " +e.getMessage());
 			}
 			catch (NumberFormatException e) {
@@ -180,7 +180,7 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	    		catch (RepeatRepoException e) {
 	    			throw new RepeatsImporterException("RepeatEAException " + e.getMessage());
 	    		} 
-	    		catch (RepeatsClassificationRepoException e) {
+	    		catch (RepeatsClassificationException e) {
 	    			throw new RepeatsImporterException("RepeatsClassificationException " + 
 	    					e.getMessage());
 				}
