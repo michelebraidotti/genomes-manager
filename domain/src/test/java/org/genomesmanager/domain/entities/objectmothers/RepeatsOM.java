@@ -127,7 +127,7 @@ public class RepeatsOM {
 			MiteRepeat mite = GenerateRepeat(new MiteRepeat(), i, repClass, sequence);
 			mite.setTirX(mite.getX() + 1);
 			mite.setTirY(mite.getY() - 1);
-			mite.setTsdSeq("TAGAAAA");
+			mite.setTsdSeq("TAG");
 			repeats.add(mite);
 		}
 		return repeats;
