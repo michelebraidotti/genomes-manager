@@ -27,11 +27,12 @@ public class SequencesOM {
 		String [] nuclotides = {"A","C","T","G"};
 		Random generator = new Random();
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < generator.nextInt(length); i++) {
+		int randomLength = generator.nextInt(length);
+		// Do not create short sequences
+		if ( randomLength < 100 ) randomLength += 100;
+		for (int i = 0; i < randomLength; i++) {
 			sb.append(nuclotides[generator.nextInt(4)]);
 		}
-		if (sb.length() < 10) 
-			return new StringBuilder("AACTGGACTC");
 		return sb;
 	}
 	

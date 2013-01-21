@@ -35,9 +35,15 @@ public class RepeatsOM {
 		String strandness = ( generator.nextInt()%2 ==0 ? "+" : "-");
 		try {
 			rep.setStrandness(strandness);
-			rep.setX(generator.nextInt(sequence.getLength()));
+			int x = generator.nextInt(sequence.getLength());
+			if ( x== 0) x++;
+			rep.setX(x);
 			int offset = sequence.getLength() - rep.getX();
-			rep.setY(rep.getX() + generator.nextInt(offset) - 1);
+			int y = rep.getX() + generator.nextInt(offset) - 1;
+			if ( y == rep.getX() ) 
+				rep.setY(y+1);
+			else 
+				rep.setY(y);
 		} catch (IntervalFeatureException e) {
 			e.printStackTrace();
 		}

@@ -1,4 +1,4 @@
-package org.genomesmanager.services.impl.repeats;
+package org.genomesmanager.batch.jpa.repeats;
 
 import java.util.List;
 
@@ -6,22 +6,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.genomesmanager.batch.repeats.RepeatsBatchUpdater;
 import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.repositories.repeats.RepeatRepo;
 import org.genomesmanager.repositories.repeats.RepeatRepoException;
-import org.genomesmanager.services.repeats.RepeatsBatchUpdates;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service("RepeatsBatchUpdates")
-public class RepeatsBatchUpdatesImpl implements RepeatsBatchUpdates {
+@Component("RepeatsBatchUpdater")
+public class RepeatsBatchUpdaterJpa implements RepeatsBatchUpdater {
 	@PersistenceContext
 	private EntityManager em;
 	private Query q;
 	@Autowired
 	private RepeatRepo repeatRepo;
 	
-    public RepeatsBatchUpdatesImpl() {
+    public RepeatsBatchUpdaterJpa() {
     }
     
     @Override
@@ -43,7 +43,6 @@ public class RepeatsBatchUpdatesImpl implements RepeatsBatchUpdates {
 				}
 			} 
 			catch (RepeatRepoException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			count++;

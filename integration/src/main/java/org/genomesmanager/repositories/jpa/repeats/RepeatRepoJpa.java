@@ -270,6 +270,7 @@ public class RepeatRepoJpa implements RepeatRepo  {
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatRepo#countChildren(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Long countChildren(int repId) throws RepeatRepoException {
 		q = em.createNamedQuery("Repeat.countChildren");
@@ -284,6 +285,7 @@ public class RepeatRepoJpa implements RepeatRepo  {
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatRepo#getParent(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Repeat getParent(int repId) {
 		q = em.createNamedQuery("Repeat.findParent");

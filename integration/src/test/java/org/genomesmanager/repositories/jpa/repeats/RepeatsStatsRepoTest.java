@@ -1,5 +1,7 @@
 package org.genomesmanager.repositories.jpa.repeats;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,30 +130,55 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 			repeatRepo.insert(sine);
 			repeats.add(sine);
 		}
+
+		System.out.println("countAllCompleteHelitrons  " + repeatsStatsRepo.countAllCompleteHelitrons());
+		System.out.println("countAllCompleteHelitronsNucleotides  " + repeatsStatsRepo.countAllCompleteHelitronsNucleotides());
+		System.out.println("countAllDnaTeNucleotides  " + repeatsStatsRepo.countAllDnaTeNucleotides());
+		System.out.println("countAllDnaTes  " + repeatsStatsRepo.countAllDnaTes());
+		System.out.println("countAllLines  " + repeatsStatsRepo.countAllLines());
+		System.out.println("countAllLinesNucleotides  " + repeatsStatsRepo.countAllLinesNucleotides());
+		System.out.println("countAllLtrNucleotides  " + repeatsStatsRepo.countAllLtrNucleotides());
+		System.out.println("countAllLtrs  " + repeatsStatsRepo.countAllLtrs());
+		System.out.println("countAllMites  " + repeatsStatsRepo.countAllMites());
+		System.out.println("countAllMitesNucleotides  " + repeatsStatsRepo.countAllMitesNucleotides());
+		System.out.println("countAllPartialHelitrons  " + repeatsStatsRepo.countAllPartialHelitrons());
+		System.out.println("countAllPartialHelitronsNucleotides  " + repeatsStatsRepo.countAllPartialHelitronsNucleotides());
+		System.out.println("countAllSines  " + repeatsStatsRepo.countAllSines());
+		System.out.println("countAllSinesNucleotides  " + repeatsStatsRepo.countAllSinesNucleotides());
+		System.out.println("countAllUnkns  " + repeatsStatsRepo.countAllUnkns());
+		System.out.println("countCompleteLtrs  " + repeatsStatsRepo.countCompleteLtrs());
+		System.out.println("countOrfCountHelitrons  " + repeatsStatsRepo.countOrfCountHelitrons());
+		System.out.println("countPotAutonHelitrons  " + repeatsStatsRepo.countPotAutonHelitrons());
+		System.out.println("countPotCdsCountHelitrons  " + repeatsStatsRepo.countPotCdsCountHelitrons());
+		System.out.println("countRepeatsAndBases  " + repeatsStatsRepo.countRepeatsAndBases().size());
+		System.out.println("countRepeatsBasesByChromosome  " + repeatsStatsRepo.countRepeatsBasesByChromosome(chr.getId()).size());
+		System.out.println("countSoloLtrs  " + repeatsStatsRepo.countSoloLtrs());
+		System.out.println("countTruncatedLtrs  " + repeatsStatsRepo.countTruncatedLtrs());
+		Long nOfRepeatsCheck = new Long(nOfRepeats);
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllCompleteHelitrons());
+		assertTrue(repeatsStatsRepo.countAllCompleteHelitronsNucleotides() > 0);
+		assertTrue(repeatsStatsRepo.countAllDnaTeNucleotides() > 0);
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllDnaTes());
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllLines());
+		assertTrue(repeatsStatsRepo.countAllLinesNucleotides() > 0);
+		assertTrue(repeatsStatsRepo.countAllLtrNucleotides() > 0);
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllLtrs());
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllMites());
+		assertTrue(repeatsStatsRepo.countAllMitesNucleotides() > 0);
+		assertEquals(new Long(0), repeatsStatsRepo.countAllPartialHelitrons());
+		assertEquals(new Long(0), repeatsStatsRepo.countAllPartialHelitronsNucleotides());
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllSines());
+		assertTrue(repeatsStatsRepo.countAllSinesNucleotides() > 0);
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllUnkns());
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countCompleteLtrs());
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countOrfCountHelitrons());
+		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countPotAutonHelitrons());
+		assertTrue(repeatsStatsRepo.countPotCdsCountHelitrons() > 0);
+		assertTrue(repeatsStatsRepo.countRepeatsAndBases().size() > 0);
+		assertTrue(repeatsStatsRepo.countRepeatsBasesByChromosome(chr.getId()).size() > 0);
+		assertEquals(new Long(0), repeatsStatsRepo.countSoloLtrs());
+		assertEquals(new Long(0), repeatsStatsRepo.countTruncatedLtrs());
 		
-		repeatsStatsRepo.countAllCompleteHelitrons();
-		repeatsStatsRepo.countAllCompleteHelitronsNucleotides();
-		repeatsStatsRepo.countAllDnaTeNucleotides();
-		repeatsStatsRepo.countAllDnaTes();
-		repeatsStatsRepo.countAllLines();
-		repeatsStatsRepo.countAllLinesNucleotides();
-		repeatsStatsRepo.countAllLtrNucleotides();
-		repeatsStatsRepo.countAllLtrs();
-		repeatsStatsRepo.countAllMites();
-		repeatsStatsRepo.countAllMitesNucleotides();
-		repeatsStatsRepo.countAllPartialHelitrons();
-		repeatsStatsRepo.countAllPartialHelitronsNucleotides();
-		repeatsStatsRepo.countAllSines();
-		repeatsStatsRepo.countAllSinesNucleotides();
-		repeatsStatsRepo.countAllUnkns();
-		repeatsStatsRepo.countCompleteLtrs();
-		repeatsStatsRepo.countOrfCountHelitrons();
-		repeatsStatsRepo.countPotAutonHelitrons();
-		repeatsStatsRepo.countPotCdsCountHelitrons();
-		repeatsStatsRepo.countRepeatsAndBases();
-		repeatsStatsRepo.countRepeatsBasesByChromosome(chr.getId());
-		repeatsStatsRepo.countSoloLtrs();
-		repeatsStatsRepo.countTruncatedLtrs();
 	}
 }
 

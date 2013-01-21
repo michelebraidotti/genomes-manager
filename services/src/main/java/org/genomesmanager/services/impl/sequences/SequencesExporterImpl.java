@@ -3,14 +3,9 @@ package org.genomesmanager.services.impl.sequences;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SequenceSliceException;
-import org.genomesmanager.repositories.sequences.ChromosomeRepo;
 import org.genomesmanager.repositories.sequences.SequencesList;
 import org.genomesmanager.services.sequences.SequencesExporter;
 import org.springframework.beans.factory.annotation.Autowired;

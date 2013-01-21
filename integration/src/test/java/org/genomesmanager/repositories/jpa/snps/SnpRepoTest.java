@@ -20,7 +20,6 @@ import org.genomesmanager.repositories.sequences.ChromosomeRepoException;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.repositories.snps.SnpRepo;
-import org.genomesmanager.repositories.snps.SnpsList;
 import org.genomesmanager.repositories.species.IndividualRepo;
 import org.genomesmanager.repositories.species.SpeciesRepo;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
@@ -41,12 +40,9 @@ public class SnpRepoTest extends AbstractIntegrationTest {
 	private IndividualRepo individualRepo;
 	@Autowired
 	private SnpRepo snpRepo;
-	@Autowired
-	private SnpsList snpsList;
 	
 	@Test
 	public void test() throws SpeciesRepoException, ChromosomeRepoException, SequenceRepoException {
-		int nOfSnps = 7;
 		Species sp = SpeciesOM.Generate(1).get(0);
 		speciesRepo.insert(sp);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
@@ -57,11 +53,10 @@ public class SnpRepoTest extends AbstractIntegrationTest {
 		varietyRepo.insert(variety);
 		Individual individual = IndividualsOM.Generate(1, variety).get(0);
 		individualRepo.insert(individual);
-		for (Snp snp:SnpsOM.Generate(nOfSnps, individual, seq) ) {
-			snpRepo.insert(snp);
-		}
-		assertEquals(nOfSnps, snpsList.getAllByChromosome(chr.getId()).size());
-		assertEquals(nOfSnps, snpsList.getAllBySpecies(sp.getId()).size());
+		Snp snp = SnpsOM.Generate(1, individual, seq).get(0);
+		snpRepo.insert(snp);
+		Snp postSnp = snpRepo.get(snp.getId());
+		assertEquals(snp, postSnp);
 	}
 	
 }
