@@ -39,7 +39,9 @@ public class RepeatsOM {
 			if ( x== 0) x++;
 			rep.setX(x);
 			int offset = sequence.getLength() - rep.getX();
-			int y = rep.getX() + generator.nextInt(offset) - 1;
+			int length = generator.nextInt(offset);
+			if ( length <= 1 ) length = 2;
+			int y = rep.getX() + length - 1;
 			if ( y == rep.getX() ) 
 				rep.setY(y+1);
 			else 
@@ -102,8 +104,8 @@ public class RepeatsOM {
 			ltr.setIntPresence(true);
 			ltr.setIntSequence("AACCTTGG");
 			ltr.setIntStopCodonsCount(i + 1);
-			ltr.setLtr3Length(i + 2);
-			ltr.setLtr5Length(i + 3);
+			ltr.setLtr3Length(1);
+			ltr.setLtr5Length(1);
 			ltr.setIsComplete(true);
 			ltr.setIsSolo(false);
 			ltr.setLtrComparisonInsertionTime(new BigDecimal(i + 4));

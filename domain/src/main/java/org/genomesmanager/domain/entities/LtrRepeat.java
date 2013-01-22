@@ -368,7 +368,7 @@ public class LtrRepeat extends Repeat implements Serializable {
 		super.validate();
 		int ltr3end = this.getY() - this.ltr3Length;
 		if ( ltr3Length != 0 && !isInternal(ltr3end) ) {
-			throw new OutOfBoundsException("ltr 3 start: " + ltr3end);
+			throw new OutOfBoundsException("ltr 3 end: " + ltr3end);
 		}
 		int ltr5end = this.getX() + this.ltr5Length;
 		if ( ltr5Length != 0 &&  !isInternal(ltr5end) ) {

@@ -8,13 +8,16 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ConfigurationRepoTest extends AbstractIntegrationTest {
-
 	@Autowired
 	private ConfigurationRepo configurationRepo;
 	
 	@Test
-	public void getValue() {
-		assertEquals("michele.braidotti@gmail.com", configurationRepo.getValue("mailer", "sender.default"));
+	public void getSetValue() {
+		String category = "c";
+		String key = "k";
+		String value = "v";
+		configurationRepo.setValue(category, key, value);
+		assertEquals(value, configurationRepo.getValue(category, key));
 	}
 
 }

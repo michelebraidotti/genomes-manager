@@ -27,4 +27,11 @@ public class ConfigurationRepoJpa implements ConfigurationRepo  {
 		q = em.createNativeQuery(qry);
 		return (String) q.getSingleResult();
 	}
+	
+	@Override
+	public void setValue(String category, String key, String value) {
+		String qry = "INSERT INTO _sys_config VALUES ('" + category + "', '" + key + "', '" + value + "')";
+		q = em.createNativeQuery(qry);
+		q.executeUpdate();
+	}
 }

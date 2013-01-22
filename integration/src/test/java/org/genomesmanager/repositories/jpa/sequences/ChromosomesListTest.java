@@ -26,12 +26,13 @@ public class ChromosomesListTest extends AbstractIntegrationTest {
 	@Test
 	public void test() throws SpeciesRepoException, ChromosomeRepoException {
 		int nOfChrs = 3;
+		int nOfChrsPre = chromosomeList.getAll().size();
 		Species sp = SpeciesOM.Generate(1).get(0);
 		speciesRepo.insert(sp);
 		for ( Chromosome chr:ChromosomesOM.Generate(nOfChrs, sp) ) {
 			chromosomeRepo.insert(chr);
 		}
-		assertEquals(nOfChrs, chromosomeList.getAll().size());
+		assertEquals(nOfChrsPre + nOfChrs, chromosomeList.getAll().size());
 	}
 	
 }

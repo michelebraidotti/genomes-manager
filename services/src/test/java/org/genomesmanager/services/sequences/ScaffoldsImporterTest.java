@@ -84,7 +84,9 @@ public class ScaffoldsImporterTest {
 	
 	@Test
 	public void warningsTest() throws ScaffoldsImporterException {
-		fastaContent.add(">emptyone\n\n");
+		fastaContent.add(">emptyone");
+		fastaContent.add("");
+		manifest.add("emptyone\t21\tCN0");
 		scaffoldsImporter.importScaffolds(manifest, fastaContent, sp);
 		assertEquals(1, scaffoldsImporter.getWarningLines().size());
 	}

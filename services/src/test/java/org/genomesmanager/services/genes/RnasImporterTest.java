@@ -51,11 +51,11 @@ public class RnasImporterTest {
 		seq.setId(generator.nextInt());
 		
 		gff3Content.add(seq.getId() +"\t##gff-version 3");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	Rna	80	96	.	+	.	ID=Name0;Name=RnaName0");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	Rna	31	32	.	-	.	ID=Name1;Name=RnaName1");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	Rna	90	90	.	+	.	ID=Name2;Name=RnaName2");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	Rna	10	17	.	-	.	ID=Name3;Name=RnaName3");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	Rna	21	25	.	+	.	ID=Name4;Name=RnaName4");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	RNA	80	96	.	+	.	ID=Name0;Name=RnaName0");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	RNA	31	32	.	-	.	ID=Name1;Name=RnaName1");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	RNA	90	90	.	+	.	ID=Name2;Name=RnaName2");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	RNA	10	17	.	-	.	ID=Name3;Name=RnaName3");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	RNA	21	25	.	+	.	ID=Name4;Name=RnaName4");
 	}
 	
 	@Test

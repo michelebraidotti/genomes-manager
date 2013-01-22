@@ -43,6 +43,7 @@ public class PseudomoleculeRepoTest extends AbstractIntegrationTest {
 			sequenceRepo.insert(scaffold);
 		}
 		for (Scaffold scaffold:SequencesOM.GenerateScaffold(4, chr)) {
+			scaffold.setName(scaffold.getName() + "_2");
 			scaffold.setOrder(0);
 			scaffold.setIsUnplaced(true);
 			sequenceRepo.insert(scaffold);

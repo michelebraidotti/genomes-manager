@@ -66,7 +66,7 @@ public class SequencesOM {
 			seq.setSequence(seqText);
 			seq.setLength(seqText.length());
 			seq.setName("ScaffoldName" + i);
-			seq.setScaffVersion("ScaffVersion" + i);
+			seq.setScaffVersion("V" + i);
 			seq.setOrder(i);
 			seq.setPseudomolOffset((long) (1000 * i));
 			seq.setIsUnplaced(false);
