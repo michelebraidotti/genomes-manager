@@ -24,22 +24,6 @@
 	<!-- to use the spring database errorhandling -->
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
-	<!-- get some properties -->
-	<!--  NOT USED RIGH NOW
-	<bean
-		id="propertyPlaceholderConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:/properties/${env}/database.properties</value>
-			</list>
-		</property>
-		<property
-			name="ignoreUnresolvablePlaceholders"
-			value="true" />
-	</bean>
-	 -->
-
 	<!-- our datasource -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.hibernate.dialect.PostgreSQLDialect" />
