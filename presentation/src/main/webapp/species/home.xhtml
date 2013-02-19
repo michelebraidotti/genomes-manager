@@ -1,0 +1,30 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<f:view>
+			<h:form>
+				<h1>Species Manager</h1>
+				<h:panelGrid columns="2">
+					<h:outputText value="Available Species:" />
+					<h:selectOneMenu value="#{speciesBrowser.selectedSpecies}">
+						<f:selectItems value="#{speciesBrowser.species}" var="s"
+							itemLabel="#{s.toString()}" itemValue="#{s}" />
+					</h:selectOneMenu>
+					
+					<p></p>
+					<h:commandButton  type="submit" value="Details" action="#{speciesBrowser.speciesDetails}" />
+					
+					<h:outputText value="Selected Species:" />
+					<h:outputText value="#{speciesBrowser.currentSpecies}" rendered="#{not empty speciesBrowser.currentSpecies}" />
+				</h:panelGrid>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

@@ -34,6 +34,7 @@ public class SpeciesListJpa implements SpeciesList {
 	 * @see org.genomesmanager.repositories.jpa.species.SpeciesList#getRice()
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Species> getRice() {
 		q = em.createNamedQuery("Species.findRice");
 		List<Species> sps = q.getResultList();

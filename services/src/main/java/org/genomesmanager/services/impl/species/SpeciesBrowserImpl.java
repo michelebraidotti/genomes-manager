@@ -17,7 +17,7 @@ public class SpeciesBrowserImpl implements SpeciesBrowser {
 	@Autowired
 	private SpeciesList speciesList;
 	@Autowired
-	private SpeciesRepo spercRepo;
+	private SpeciesRepo speciesRepo;
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#getAll()
 	 */
@@ -37,21 +37,21 @@ public class SpeciesBrowserImpl implements SpeciesBrowser {
 	 */
 	@Override
 	public void delete(Species sp) {
-		spercRepo.delete(sp);
+		speciesRepo.delete(sp);
 	}
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#deleteByKey(org.genomesmanager.domain.entities.SpeciesPK)
 	 */
 	@Override
 	public void deleteByKey(SpeciesPK spk) {
-		spercRepo.deleteByKey(spk);
+		speciesRepo.deleteByKey(spk);
 	}
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#get(org.genomesmanager.domain.entities.SpeciesPK)
 	 */
 	@Override
 	public Species get(SpeciesPK spk) throws SpeciesRepoException {
-		return spercRepo.get(spk);
+		return speciesRepo.get(spk);
 	}
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#get(java.lang.String, java.lang.String, java.lang.String)
@@ -59,28 +59,28 @@ public class SpeciesBrowserImpl implements SpeciesBrowser {
 	@Override
 	public Species get(String genus, String species, String subspecies)
 			throws SpeciesRepoException {
-		return spercRepo.get(genus, species, subspecies);
+		return speciesRepo.get(genus, species, subspecies);
 	}
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#get(java.lang.String)
 	 */
 	@Override
 	public Species get(String speciesDefinition) throws SpeciesRepoException {
-		return spercRepo.get(speciesDefinition);
+		return speciesRepo.get(speciesDefinition);
 	}
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#insert(org.genomesmanager.domain.entities.Species)
 	 */
 	@Override
 	public void insert(Species sp) {
-		spercRepo.insert(sp);
+		speciesRepo.insert(sp);
 	}
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#update(org.genomesmanager.domain.entities.Species)
 	 */
 	@Override
 	public void update(Species sp) {
-		spercRepo.update(sp);
+		speciesRepo.update(sp);
 	}
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#getChromosomes(org.genomesmanager.domain.entities.SpeciesPK)
@@ -88,7 +88,7 @@ public class SpeciesBrowserImpl implements SpeciesBrowser {
 	@Override
 	public List<Chromosome> getChromosomes(SpeciesPK spk)
 			throws SpeciesRepoException {
-		return spercRepo.getChromosomes(spk);
+		return speciesRepo.getChromosomes(spk);
 	}
 	
 	

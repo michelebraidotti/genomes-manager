@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a="http://richfaces.org/a4j"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   contentType="text/html">
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <title>AGI GenomesWeb Repeats</title>
+      <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
+      <a:loadStyle src="resource:///stylesheet/theme.xcss"/>
+      <a:loadStyle src="/stylesheet/theme.css"/>
+      <ui:insert name="head"/>
+   </head>
+   <body>
+      
+      
+    <div id="uabanner">
+		<a href="http://www.arizona.edu">
+			<h:graphicImage value="/img/UA_A-line-css_BLU.gif" 
+				alt="The University of Arizona" width="370" height="42" align="right"/>
+		</a>
+	</div>
+	<h1 id="AGItitle"> 
+		Arizona Genomics Institute
+	</h1>
+      
+      <div class="leftmenu" style="width: 200px">
+      	<ui:insert name="leftmenu"/>
+      </div>
+      
+      <div class="body" style="margin-left: 200px">
+         <h:messages id="messages" globalOnly="true" styleClass="message"
+            errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
+            rendered="#{showGlobalMessages != 'false'}"/>
+         <ui:insert name="body"/>
+      </div>
+      
+      <div class="footer">
+         <p> Footer stuff </p>
+      </div>
+      
+   </body>
+</html>
+</f:view>

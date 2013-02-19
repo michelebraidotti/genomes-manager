@@ -39,12 +39,6 @@
 			<artifactId>groovy-all</artifactId>
 		</dependency>
 
-		<!-- Gwt server side components -->
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-		</dependency>
-
 		<!-- BPS Entities Test Dependencies -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>

@@ -1,0 +1,31 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/layout/template_agi.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<rich:panel>
+				<f:facet name="header">Repeat details</f:facet>
+				<h:panelGrid columns="2" columnClasses="boldRight,leftItalic">
+					<h:outputText value="Id:" />
+					<h:outputText value="#{repeatsSearch.repeat.id}" />
+					<h:outputText value="Classification:" />
+					<h:outputText value="#{repeatsSearch.repeat.getRepeatsClassification().toDescString()}" />
+					<h:outputText value="Position (start, end, strand):" />
+					<h:outputText value="#{repeatsSearch.repeat.x}, #{repeatsSearch.repeat.y}, #{repeatsSearch.repeat.strandness} " />
+					<h:outputText value="Overall structure desc:" />
+					<h:outputText value="#{repeatsSearch.repeat.overallStructureDesc}" />
+					<h:outputText value="Sequence:" />
+					<h:inputTextarea readonly="true" wrap="hard" rows="10" cols="60" value="#{repeatsSearch.repeat.getSequenceText()}"/>
+				</h:panelGrid>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,23 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<f:view>
+			<h1>Genomes Manager</h1>
+			<h:panelGrid columns="2">
+				<h:outputText value="Import:" />
+				<h:link value="Click here" outcome="import.xhtml" />
+				<h:outputText value="Export:" />
+				<h:link value="Click here" outcome="export.xhtml" />
+				<h:outputText value="Browse:" />
+				<h:link value="Click here" outcome="browse.xhtml" />
+			</h:panelGrid>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

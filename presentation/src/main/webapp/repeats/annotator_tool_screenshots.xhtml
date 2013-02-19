@@ -1,0 +1,50 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/layout/template_agi.xhtml">
+
+    <ui:define name="body">
+    	<h1>Annotator tool screenshots</h1>
+    	<rich:panel>
+				<f:facet name="header">Main repeats window</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/main_window.png"/>
+		</rich:panel>
+		<rich:panel>
+				<f:facet name="header">Slider search</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/slide_search.png"/>
+		</rich:panel>		
+		<rich:panel>
+				<f:facet name="header">Edit LTR</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/ltr_edit.png"/>
+		</rich:panel>
+		<rich:panel>
+				<f:facet name="header">Edit DNA TE</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/dnate_edit.png"/>
+		</rich:panel>
+		<rich:panel>
+				<f:facet name="header">Importing gff3 message</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/import_message.png"/>
+		</rich:panel>
+		<rich:panel>
+				<f:facet name="header">Importing gff3</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/import_ready.png"/>
+		</rich:panel>
+		<rich:panel>
+				<f:facet name="header">Insert new repeat</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/new_repeat.png"/>
+		</rich:panel>
+		<rich:panel>
+				<f:facet name="header">Export repeats (gff3 format)</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/export_gff3.png"/>
+		</rich:panel>
+		<rich:panel>
+				<f:facet name="header">Export flanking regions</f:facet>
+				<h:graphicImage value="/img/repeatsui_screenshots/export_flanking.png"/>
+		</rich:panel>
+    </ui:define>
+</ui:composition>

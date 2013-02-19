@@ -1,0 +1,112 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    template="/layout/template_agi.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="repsByClass">
+        <rich:panel>
+        	<f:facet name="header">Transposable elements data</f:facet>
+        	<h:panelGrid columns="1" width="100%">
+        		<h:outputText>
+        			<p>
+        				This form lets you filter the available transposable elements data. 
+        				The results page allows you to download the repeats data in gff3 or fasta formats.
+        			</p>
+        			
+        			<h4>Data availability</h4>
+        			<p>
+        				For the time being only the "Oryza glaberrima CG14" species has repeats available. 
+        				Any other species do not provide annotated transposable elements. 
+        			</p>
+        			
+        			<h4> Classification filtering</h4>
+        			<p>
+        				It is allowed to pick just the repeat classification without specify superfamily 
+        				and family, this will search every repeat of a specific class, subclass and order.
+        			</p>
+        			
+        			<h4>Species and sequence filtering</h4>
+        			<p>
+        				Currently it is not allowed to left the chromosme field blank, all searches are 
+        				done by chromosome but it is possible to download the dataset for the 
+        				entire "Oryza glaberrima CG14" from our ftp site: 
+        				<h:outputLink value="ftp://glabrepeats:glabr3p3t5@ftp.genome.arizona.edu">
+        					ftp.genome.arizona.edu
+        				</h:outputLink>
+        			</p>
+        			<p>
+        				<b>This is still a beta version, slowness and bugs are always possible</b><br/>
+        				If something goes wrong try the "Reset search" button at the end of this page or 
+        				try reload the page with the browser reload button.<br/>
+        				Send any problem/comment to 
+        				<a href="mailto:mbraidot@cals.arizona.edu">Michele Braidotti</a> or
+        				<a href="mailto:azuccolo@cals.arizona.edu">Andrea Zuccolo</a>    
+        			</p>
+        		</h:outputText>
+        	
+				<h:panelGrid columns="6" width="100%" cellpadding="10">
+					<h:outputText value="Classification:"/>
+		            <rich:comboBox width="200" valueChangeListener="#{repeatsSearch.classifSelected}">
+		                <f:selectItems value="#{repeatsSearch.classificationsList}"/>
+		                <a:support event="onselect" reRender="superfam, fam" ajaxSingle="true"/>
+		            </rich:comboBox>
+					
+					<h:outputText value="Superfamily:"/>
+		            <a:outputPanel id="superfam">
+		            	<h:outputText value="not found" rendered="#{empty repeatsSearch.superfamsList}"/>
+		                <rich:comboBox width="200" valueChangeListener="#{repeatsSearch.superfamSelected}"
+		                rendered="#{not empty repeatsSearch.superfamsList}">
+		                    <f:selectItems value="#{repeatsSearch.superfamsList}"/>
+		                    <a:support event="onselect" reRender="fam" ajaxSingle="true"/>
+		                </rich:comboBox>
+		            </a:outputPanel>
+		            
+					<h:outputText value="Family:"/>
+		            <a:outputPanel id="fam">
+		                <h:outputText value="not found" rendered="#{empty repeatsSearch.familiesList}"/>
+		                <rich:comboBox  width="200" valueChangeListener="#{repeatsSearch.familySelected}" 
+		                	rendered="#{not empty repeatsSearch.familiesList}">
+		                    <f:selectItems value="#{repeatsSearch.familiesList}"/>
+		                    <a:support event="onselect" ajaxSingle="true"/>
+		                </rich:comboBox>
+		            </a:outputPanel>
+					
+					<h:outputText value="Species:"/>
+		            <rich:comboBox width="200" valueChangeListener="#{repeatsSearch.speciesSelected}">
+		                <f:selectItems value="#{repeatsSearch.speciesList}"/>
+		                <a:support event="onselect" reRender="chrs, seqs" ajaxSingle="true"/>
+		            </rich:comboBox>
+		           
+		            <h:outputText value="Chromosome:"/>
+		            <a:outputPanel id="chrs">
+		            	<h:outputText value="no chromosomes found" rendered="#{empty repeatsSearch.chromosomesList}"/>
+		                <rich:comboBox width="200" valueChangeListener="#{repeatsSearch.chromosomeSelected}"
+		                rendered="#{not empty repeatsSearch.chromosomesList}">
+		                    <f:selectItems value="#{repeatsSearch.chromosomesList}"/>
+		                </rich:comboBox>
+		            </a:outputPanel>
+		           
+		            <h:outputText value=""/>
+		            <h:outputText value=""/>
+		            
+				</h:panelGrid>
+				
+				<h:panelGrid columns="4" width="30%" cellpadding="10" style="buttonsToTheRight">
+			        <h:commandButton value="Download" action="#{repeatsSearch.download()}"/>
+			        <h:commandButton value="Show" action="#{repeatsSearch.list()}"/>
+			        <h:outputText value="Or"/>
+			        <s:button action="#{repeatsSearch.newSearch()}" value="Reset search"/>
+		        </h:panelGrid>
+		        
+			</h:panelGrid>      
+        </rich:panel>
+    </h:form>
+	
+</ui:define>
+
+</ui:composition>

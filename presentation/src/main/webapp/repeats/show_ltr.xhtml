@@ -1,0 +1,75 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/layout/template_agi.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<rich:panel>
+				<f:facet name="header">LTR Repeat details</f:facet>
+				<h:panelGrid columns="2" columnClasses="boldRight,leftItalic" styleClass="middle">
+					<h:outputText value="Id:" />
+					<h:outputText value="#{repeatsSearch.repeat.id}" />
+					<h:outputText value="Classification:" />
+					<h:outputText value="#{repeatsSearch.repeat.getRepeatsClassification().toDescString()}" />
+					<h:outputText value="Position (start, end, strand):" />
+					<h:outputText value="#{repeatsSearch.repeat.x}, #{repeatsSearch.repeat.y}, #{repeatsSearch.repeat.strandness} " />
+					<h:outputText value="LTR 5' length:" />
+					<h:outputText value="#{repeatsSearch.repeat.ltr5Length}" />
+					<h:outputText value="LTR 3' length:" />
+					<h:outputText value="#{repeatsSearch.repeat.ltr3Length}" />
+					<h:outputText value="Is complete:" />
+					<h:outputText value="#{repeatsSearch.repeat.isComplete}" />
+					<h:outputText value="is a solo-LTR:" />
+					<h:outputText value="#{repeatsSearch.repeat.isSolo}" />
+					<h:outputText value="PBS (start, end):" />
+					<h:outputText value="#{repeatsSearch.repeat.pbsX}, #{repeatsSearch.repeat.pbsY}" />
+					<h:outputText value="PPT (start, end):" />
+					<h:outputText value="#{repeatsSearch.repeat.pptX}, #{repeatsSearch.repeat.pptY}" />
+					<h:outputText value="Reverse Transcriptase presence:" />
+					<h:outputText value="#{repeatsSearch.repeat.rtPresence}" />
+					<h:outputText value="Reverse Transcriptase sequence:" />
+					<h:outputText value="#{repeatsSearch.repeat.rtSequence}" />
+					<h:outputText value="Integrase presence:" />
+					<h:outputText value="#{repeatsSearch.repeat.intPresence}" />
+					<h:outputText value="Integrase sequence:" />
+					<h:outputText value="#{repeatsSearch.repeat.intSequence}" />
+					<h:outputText value="5’ &amp; 3’ LTR similarity:" />
+					<h:outputText value="#{repeatsSearch.repeat.ltrComparisonSimilarity}" />
+					<h:outputText value="5’ &amp; 3’ LTR nucleotide distance (K2p):" />
+					<h:outputText value="#{repeatsSearch.repeat.ltrComparisonNucDistance}" />
+					<h:outputText value="5’ and 3’ LTR C&lt;-&gt;A (G&lt;-&gt;T):" />
+					<h:outputText value="#{repeatsSearch.repeat.ltrComparisonMutationCa}" />
+					<h:outputText value="5’ and 3’ LTR C&lt;-&gt;T (G&lt;-&gt;A)" />
+					<h:outputText value="#{repeatsSearch.repeat.ltrComparisonMutationCt}" />
+					<h:outputText value="5’ and 3’ LTR A&lt;-&gt;T:" />
+					<h:outputText value="#{repeatsSearch.repeat.ltrComparisonMutationAt}" />
+					<h:outputText value="5’ and 3’ LTR C&lt;-&gt;G:" />
+					<h:outputText value="#{repeatsSearch.repeat.ltrComparisonMutationCg}" />
+					<h:outputText value="Estimated Insertion Time:" />
+					<h:outputText value="#{repeatsSearch.repeat.ltrComparisonInsertionTime}" />
+					<h:outputText value="TSD sequence:" />
+					<h:outputText value="#{repeatsSearch.repeat.tsdSequence}" />
+					<h:outputText value="5’ LTR GC content (%):" />
+					<h:outputText value="#{repeatsSearch.repeat.gcContent5}" />
+					<h:outputText value="3’ LTR GC content (%):" />
+					<h:outputText value="#{repeatsSearch.repeat.gcContent3}" />
+					<h:outputText value="Stop codons in the Reverse Transcriptase coding region:" />
+					<h:outputText value="#{repeatsSearch.repeat.rtStopCodonsCount}" />
+					<h:outputText value="Stop codons in the Integrase coding region:" />
+					<h:outputText value="#{repeatsSearch.repeat.intStopCodonsCount}" />
+					<h:outputText> Presence in in <i>O. sativa</i>: </h:outputText> 
+					<h:outputText value="#{repeatsSearch.repeat.presenceInSativa}" />
+					<h:outputText value="Sequence:" />
+					<h:inputTextarea readonly="true" wrap="hard" rows="10" cols="60" value="#{repeatsSearch.repeat.getSequenceText()}"/>
+				</h:panelGrid>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

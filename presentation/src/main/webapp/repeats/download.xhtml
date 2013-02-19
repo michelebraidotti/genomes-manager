@@ -1,0 +1,32 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a="http://richfaces.org/a4j"
+    template="/layout/template_agi.xhtml">
+<ui:define name="body">
+
+		<h:form id="repsByClass">
+        <rich:panel>
+        	<f:facet name="header">Transposable elements data</f:facet>
+        	<h:panelGrid columns="2" width="60%">
+        		<h:outputText value="Repeats classification: "/>
+        		<h:outputText value="#{repeatsSearch.getRepeatsTypeDesc()}"/>
+        		<h:outputText value="Chromosome: "/>
+        		<h:outputText value="#{repeatsSearch.chromosome.toString()}"/>
+        		<h:outputText value="Repeats found: "/>
+        		<h:outputText value="#{repeatsSearch.getNOfRepeats()}"/>
+        	</h:panelGrid>
+        	<h:panelGrid columns="1" width="100%">
+        		<h:commandButton value="Download FASTA" action="#{repeatsSearch.getFasta()}"/>
+        		<h:commandButton value="Download gff3" action="#{repeatsSearch.getGff3()}"/>    	
+	        	<s:button action="#{repeatsSearch.newSearch()}" value="New search"/>
+        	</h:panelGrid>
+        </rich:panel>
+		</h:form>
+</ui:define>
+</ui:composition>

@@ -10,7 +10,9 @@ import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.SpeciesPK;
 import org.genomesmanager.repositories.sequences.ScaffoldsList;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.springframework.stereotype.Repository;
 
+@Repository("ScaffoldsList")
 public class ScaffoldsListJpa implements ScaffoldsList {	
 	@PersistenceContext
 	private EntityManager em;

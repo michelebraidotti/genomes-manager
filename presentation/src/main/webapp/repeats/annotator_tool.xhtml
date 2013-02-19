@@ -1,0 +1,49 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/layout/template_agi.xhtml">
+
+    <ui:define name="body">
+    	 <rich:panel>
+        	<f:facet name="header">Annotator tool</f:facet>
+        	<p>
+        		A java client GUI has been developed to allow AGI annotators and
+				collaborators to easily import and edit repeat sequence data information.
+        	</p>
+        	
+       		<p>Main features:</p>
+       		<ul>
+       			<li>Bulk import and update using gff3 files.</li>
+       			<li>Exports fasta, gff3 and fully annotated gff3 files</li>
+       			<li>Single repeat edit</li>
+       			<li>Single repeat creation</li>
+       			<li>Export flanking regions of identified repeat in fasta format</li>
+       		</ul>
+       		
+       		<p>
+       			Currently this tool is in use internally at AGI, we are in the process of
+				releasing it to any collaborator interested. An AGI account is needed in
+				order to use this program.
+       		</p>
+       		
+       		<p>
+       			If you are a collaborator and you want to test this graphical interface
+				please let us know via email to 
+				<a href="mailto:mbraidot@ag.arizona.edu">Michele Braidotti</a>
+       			or <a href="mailto:azuccolo@ag.arizona.edu">Andrea Zuccolo</a>
+       		</p>
+       		
+       		<h4 align="center">
+       			<s:link view="/repeats/annotator_tool_screenshots.xhtml" >
+       				Screeshots
+       			</s:link>
+       		</h4>
+        	 
+        </rich:panel>
+    </ui:define>
+</ui:composition>

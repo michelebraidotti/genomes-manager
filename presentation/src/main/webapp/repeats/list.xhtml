@@ -1,0 +1,70 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/layout/template_agi.xhtml">
+
+    <ui:define name="body">
+        <h:form>
+        <rich:panel>
+        	<f:facet name="header">Transposable elements data</f:facet>
+         	<h:panelGrid columns="2" width="40%">
+        		<h:outputText value="Repeats classification: "/>
+        		<h:outputText value="#{repeatsSearch.getRepeatsTypeDesc()}"/>
+        		<h:outputText value="Chromosome: "/>
+        		<h:outputText value="#{repeatsSearch.chromosome.toString()}"/>
+        		<h:outputText value="Repeats found: "/>
+        		<h:outputText value="#{repeatsSearch.getNOfRepeats()}"/>
+			</h:panelGrid>
+        	<h:panelGrid columns="1" width="100%">
+        		<s:button action="#{repeatsSearch.newSearch()}" value="New search"/>
+        	</h:panelGrid>
+        		        
+	        <rich:dataTable value="#{repeatsSearch.repeats}" var="rep" id="repTable">
+				<f:facet name="header">
+					Repeats list
+				</f:facet>
+				<rich:column>
+					<f:facet name="header">Sequence, Version</f:facet>
+					<h:outputText value="#{rep.getSequence().toString()}"/>
+				</rich:column>
+				<rich:column sortBy="#{rep.id}">
+					<f:facet name="header">Id</f:facet>
+					<s:link action="#{repeatsSearch.showRepeat()}" value="#{rep.id}" propagation="join">
+						<f:param name="repid" value="#{rep.id}" />
+					</s:link> 
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">Type</f:facet>
+					<h:outputText value="#{rep.getType()}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">Structure</f:facet>
+					<h:outputText value="#{rep.getStructuralDesc()}" />
+				</rich:column>
+				<rich:column sortBy="#{rep.getX()}">
+					<f:facet name="header">Start</f:facet>
+					<h:outputText value="#{rep.getX()}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">End</f:facet>
+					<h:outputText value="#{rep.getY()}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">Strand</f:facet>
+					<h:outputText value="#{rep.getStrandness()}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">Classification <br/> (class, subclass, order, superfamily, family)</f:facet>
+					<h:outputText value="#{rep.getRepeatsClassification().toDescString()}" />
+				</rich:column>
+			</rich:dataTable>
+		</rich:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

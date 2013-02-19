@@ -15,11 +15,8 @@ import org.genomesmanager.domain.entities.SpeciesPK;
 import org.genomesmanager.domain.entities.UnknownRepeat;
 import org.genomesmanager.repositories.repeats.RepeatRepoException;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("springGwtServices/repeatsBrowser")
-public interface RepeatsBrowser extends RemoteService {
+public interface RepeatsBrowser {
 
 	public abstract void delete(Repeat repeat);
 
