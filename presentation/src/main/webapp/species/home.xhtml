@@ -16,12 +16,14 @@
 						<f:selectItems value="#{speciesBrowser.species}" var="s"
 							itemLabel="#{s.toString()}" itemValue="#{s}" />
 					</h:selectOneMenu>
-					
-					<p></p>
-					<h:commandButton  type="submit" value="Details" action="#{speciesBrowser.speciesDetails}" />
-					
+
+					<h:outputText value="" />
+					<h:commandButton type="submit" value="Details"
+						action="#{speciesBrowser.speciesDetails}" />
+
 					<h:outputText value="Selected Species:" />
-					<h:outputText value="#{speciesBrowser.currentSpecies}" rendered="#{not empty speciesBrowser.currentSpecies}" />
+					<h:outputText value="#{speciesBrowser.currentSpecies}"
+						rendered="#{not empty speciesBrowser.currentSpecies}" />
 				</h:panelGrid>
 			</h:form>
 		</f:view>

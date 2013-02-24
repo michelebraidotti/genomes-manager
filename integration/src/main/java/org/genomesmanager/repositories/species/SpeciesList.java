@@ -7,6 +7,7 @@ import org.genomesmanager.domain.entities.Species;
 public interface SpeciesList {
 
 	public abstract List<Species> getAll();
+	public abstract List<Species> getAll(boolean greedy);
 
 	public abstract List<Species> getRice();
 

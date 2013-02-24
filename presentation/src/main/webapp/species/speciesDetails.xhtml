@@ -13,6 +13,25 @@
 				<h:panelGrid columns="2">
 					<h:outputText value="Name:" />
 					<h:outputText value="#{speciesBrowser.currentSpecies}" />
+					<h:outputText value="Chromosomes available:" />
+					<h:dataTable value="#{speciesBrowser.currentSpecies.chromosomes}"
+						var="c">
+
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Internal Id</f:facet>
+							<!-- row record -->
+		    				#{c.id}
+		    			</h:column>
+
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Number</f:facet>
+							<!-- row record -->
+    						#{c.number}
+    					</h:column>
+
+					</h:dataTable>
 				</h:panelGrid>
 			</h:form>
 		</f:view>

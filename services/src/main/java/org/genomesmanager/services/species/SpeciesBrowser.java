@@ -10,6 +10,7 @@ import org.genomesmanager.repositories.species.SpeciesRepoException;
 public interface SpeciesBrowser {
 
 	public abstract List<Species> getAll();
+	public abstract List<Species> getAll(boolean greedy);
 
 	public abstract List<Species> getRice();
 

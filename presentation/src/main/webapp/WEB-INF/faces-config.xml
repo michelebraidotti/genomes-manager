@@ -11,12 +11,33 @@
 	<navigation-rule>
 		<from-view-id>/species/home.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{speciesBrowser.speciesDetails}</from-action>
+			<!-- <from-action>#{speciesBrowser.speciesDetails}</from-action> -->
 			<from-outcome>success</from-outcome>
 			<to-view-id>/species/speciesDetails.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	
-	
+	<!-- navigation rules for index.jspx -->
+	<navigation-rule>
+		<from-view-id>/helloWorld.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{helloWorldController.send}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/page2.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<!-- navigation rules for page2.jspx -->
+	<navigation-rule>
+		<from-view-id>/page2.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+
+
 </faces-config>
         

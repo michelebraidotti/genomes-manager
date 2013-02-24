@@ -20,44 +20,52 @@ package org.genomesmanager.presentation;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+
+import org.apache.myfaces.trinidad.render.ExtendedRenderKitService;
+import org.apache.myfaces.trinidad.util.Service;
+
 
 /**
- * A typical simple backing bean, that is backed to <code>helloWorld.xhtml</code>
+ * A typical simple backing bean, that is backed to <code>helloworld.jsp</code>
+ * 
  */
-@ManagedBean(name = "helloWorld")
+@ManagedBean(name = "helloWorldController")
 @RequestScoped
-public class HelloWorldController
-{
+public class HelloWorldController {
 
-    //properties
-    private String name;
+  //properties
+  private String _name;
 
-    /**
-     * default empty constructor
-     */
-    public HelloWorldController()
-    {
-    }
+  /**
+   * default empty constructor
+   */
+  public HelloWorldController()
+  {   
+  }
 
-    /**
-     * Method that is backed to a submit button of a form.
-     */
-    public String send()
-    {
-        //do real logic, return a string which will be used for the navigation system of JSF
-        return "page2.xhtml";
-    }
+  //-------------------getter & setter
+  public String getName()
+  {
+    return _name;
+  }
 
-    //-------------------getter & setter
+  public void setName(String name)
+  {
+    this._name = name;
+  }
 
-    public String getName()
-    {
-        return name;
-    }
+  /**
+   * Method that is backed to a submit button of a form.
+   */
+  public String send()
+  {
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    ExtendedRenderKitService service = (ExtendedRenderKitService)
+      Service.getRenderKitService(facesContext, ExtendedRenderKitService.class);
+    service.addScript(facesContext, "alert('Script added by ExtendedRenderKitService')");
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
+    //do real logic
+    return ("success");
+  }
 }

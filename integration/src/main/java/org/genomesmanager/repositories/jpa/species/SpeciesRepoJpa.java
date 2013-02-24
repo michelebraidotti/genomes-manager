@@ -11,7 +11,9 @@ import org.genomesmanager.domain.entities.SpeciesPK;
 import org.genomesmanager.repositories.species.SpeciesRepo;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Repository("SpeciesRepo")
 public class SpeciesRepoJpa implements SpeciesRepo {
     @PersistenceContext
