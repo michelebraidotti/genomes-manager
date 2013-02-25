@@ -15,6 +15,14 @@
 			<from-outcome>success</from-outcome>
 			<to-view-id>/species/speciesDetails.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>edit</from-outcome>
+			<to-view-id>/species/speciesEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>new</from-outcome>
+			<to-view-id>/species/speciesEdit.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 	
 	<!-- navigation rules for index.jspx -->

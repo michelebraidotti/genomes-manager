@@ -21,9 +21,16 @@
 					<h:commandButton type="submit" value="Details"
 						action="#{speciesBrowser.speciesDetails}" />
 
-					<h:outputText value="Selected Species:" />
-					<h:outputText value="#{speciesBrowser.currentSpecies}"
-						rendered="#{not empty speciesBrowser.currentSpecies}" />
+					<h:outputText value="" />
+					<h:commandButton type="submit" value="Edit"
+						action="#{speciesBrowser.speciesEdit}" />
+
+					<h:outputText value="" />
+					<h:outputText value=""/>
+					
+					<h:outputText value="" />
+					<h:commandButton type="submit" value="New"
+						action="#{speciesBrowser.speciesNew}" />
 				</h:panelGrid>
 			</h:form>
 		</f:view>

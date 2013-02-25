@@ -2,6 +2,8 @@ package org.genomesmanager.domain.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -100,6 +102,31 @@ public class Species implements Serializable {
 		String out =  id.getGenus() + separator +  id.getSpecies();
 		if ( ! id.getSubspecies().equals("") ) out += separator + id.getSubspecies();
 		return out;
+	}
+
+	@Transient
+	public String chromosomesList() {
+		return chromosomesList(", ");
+	}
+	
+	@Transient
+	public String chromosomesList(String separator) {
+		StringBuilder out = new StringBuilder();
+		Collections.sort(getChromosomes(), new ChromosomesComparable());
+		for (Chromosome c:getChromosomes()) {
+			out.append(c.getNumber() + separator);
+		}
+		if ( out.length() > separator.length() )
+			out.setLength(out.length() - separator.length());
+		return out.toString();
+	}
+	
+	public class ChromosomesComparable implements Comparator<Chromosome>{
+		 
+	    @Override
+	    public int compare(Chromosome c1, Chromosome c2) {
+	    	return (c1.getId()<c2.getId() ? -1 : (c1.getId()==c2.getId() ? 0 : 1));
+	    }
 	}
 	
 }
