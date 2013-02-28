@@ -10,27 +10,29 @@
 		<f:view>
 			<h:form>
 				<h1>Species Manager</h1>
+				<h:message style="color:red;margin:8px;" />
 				<h:panelGrid columns="2">
 					<h:outputText value="Available Species:" />
-					<h:selectOneMenu value="#{speciesBrowser.selectedSpecies}">
+					<h:selectOneMenu value="#{speciesManager.speciesDefinition}">
 						<f:selectItems value="#{speciesBrowser.species}" var="s"
 							itemLabel="#{s.toString()}" itemValue="#{s}" />
 					</h:selectOneMenu>
 
 					<h:outputText value="" />
-					<h:commandButton type="submit" value="Details"
-						action="#{speciesBrowser.speciesDetails}" />
+					<h:commandButton type="button" value="Details"
+						action="#{speciesManager.speciesDetails}" />
 
 					<h:outputText value="" />
-					<h:commandButton type="submit" value="Edit"
-						action="#{speciesBrowser.speciesEdit}" />
+					<h:commandButton type="button" value="Edit"
+						action="#{speciesManager.edit}" />
 
 					<h:outputText value="" />
-					<h:outputText value=""/>
-					
+					<h:commandButton type="button" value="New"
+						action="#{speciesManager.create}" />
+
 					<h:outputText value="" />
-					<h:commandButton type="submit" value="New"
-						action="#{speciesBrowser.speciesNew}" />
+					<h:commandButton type="button" value="Delete"
+						action="/species/speciesDelete.xhtml" />
 				</h:panelGrid>
 			</h:form>
 		</f:view>

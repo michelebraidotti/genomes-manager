@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -40,7 +41,6 @@ public class Species implements Serializable {
     public Species() {
     }
 
-
 	@EmbeddedId
 	public SpeciesPK getId() {
 		return this.id;
@@ -72,7 +72,7 @@ public class Species implements Serializable {
 
 
 	//bi-directional many-to-one association to Chromosomes
-	@OneToMany(mappedBy="species")
+	@OneToMany(mappedBy="species", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
 	@OrderBy(value="number")
 	public List<Chromosome> getChromosomes() {
 		return chromosomes;
@@ -128,5 +128,29 @@ public class Species implements Serializable {
 	    	return (c1.getId()<c2.getId() ? -1 : (c1.getId()==c2.getId() ? 0 : 1));
 	    }
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Species other = (Species) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 }

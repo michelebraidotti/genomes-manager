@@ -12,14 +12,16 @@
 				<h1>Species Detail</h1>
 				<h:panelGrid columns="2">
 					<h:outputText value="Name:" />
-					<h:outputText value="#{speciesBrowser.currentSpecies}" />
-					<h:outputText value="Chromosomes available:" />
-					<h:dataTable value="#{speciesBrowser.currentSpecies.chromosomes}"
+					<h:outputText value="#{speciesManager.species}" />
+					<h:outputText value="Chromosomes:" />
+					<h:outputText value="#{speciesManager.species.chromosomesList()}" />
+					<h:outputText value="Chromosomes details:" />
+					<h:dataTable value="#{speciesManager.species.chromosomes}"
 						var="c">
 
 						<h:column>
 							<!-- column header -->
-							<f:facet name="header">Internal Id</f:facet>
+							<f:facet name="header">System Id</f:facet>
 							<!-- row record -->
 		    				#{c.id}
 		    			</h:column>

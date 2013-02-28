@@ -1,0 +1,26 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<f:view>
+			<h:form>
+				<h1>Confirm delete.</h1>
+				<h:panelGrid columns="2">
+					<h:outputText value="Do you really want to delete " />
+					<h:outputText value="#{speciesManager.speciesDefinition}" />
+
+					<h:commandButton type="button" value="Yes"
+						action="#{speciesManager.delete}" />
+					<h:commandButton type="button" value="No"
+						action="#{speciesManager.cancel}" />
+				</h:panelGrid>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,44 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<f:view>
+			<h:form>
+				<h1>Species Detail</h1>
+				<h:panelGrid columns="2">
+					<h:outputText value="Genus:" />
+					<h:inputText value="#{speciesManager.species.id.genus}" />
+					<h:outputText value="Species:" />
+					<h:inputText value="#{speciesManager.species.id.species}" />
+					<h:outputText value="Subspecies:" />
+					<h:inputText value="#{speciesManager.species.id.subspecies}" />
+					<h:outputText value="Common name:" />
+					<h:inputText value="#{speciesManager.species.commonName}" />
+					<h:outputText value="Genome type:" />
+					<h:inputText value="#{speciesManager.species.genomeType}" />
+					<h:outputText value="Chromosomes:" />
+					<h:panelGrid columns="2">
+						<h:inputText value="#{speciesManager.newChromosome}" />
+						<h:commandButton type="submit" value="Add" action="#{speciesManager.addChromosome}" />
+						
+						<h:selectManyListbox value="#{speciesManager.selectedChromosomes}">
+							<f:selectItems value="#{speciesManager.species.chromosomes}" var="c"
+								itemLabel="#{c.number}" itemValue="#{c.number}" />
+						</h:selectManyListbox>
+						<h:commandButton type="submit" value="Remove Selected" action="#{speciesManager.removeChromosomes}" />
+					</h:panelGrid>
+					<h:commandButton type="submit" value="Save"
+						action="#{speciesManager.save}" />
+					<h:commandButton type="submit" value="Cancel"
+						action="#{speciesManager.cancel}" />
+				</h:panelGrid>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

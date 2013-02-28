@@ -1,13 +1,12 @@
-package org.genomesmanager.repositories.species;
+package org.genomesmanager.services.species;
 
-import java.util.List;
-
-import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.SpeciesPK;
+import org.genomesmanager.repositories.species.SpeciesNotFound;
+import org.genomesmanager.repositories.species.SpeciesRepoException;
 
-public interface SpeciesRepo {
-
+public interface SpeciesManager {
+	
 	public abstract void delete(Species sp);
 	
 	public abstract void delete(String speciesDefinition) throws SpeciesNotFound, SpeciesRepoException ;
@@ -25,8 +24,4 @@ public interface SpeciesRepo {
 	public abstract void insert(Species sp);
 
 	public abstract void update(Species sp);
-
-	public abstract List<Chromosome> getChromosomes(SpeciesPK spk)
-			throws SpeciesRepoException;
-
 }

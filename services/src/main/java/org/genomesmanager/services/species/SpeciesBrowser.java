@@ -11,25 +11,7 @@ public interface SpeciesBrowser {
 
 	public abstract List<Species> getAll();
 	public abstract List<Species> getAll(boolean greedy);
-
 	public abstract List<Species> getRice();
-
-	public abstract void delete(Species sp);
-
-	public abstract void deleteByKey(SpeciesPK spk);
-
-	public abstract Species get(SpeciesPK spk) throws SpeciesRepoException;
-
-	public abstract Species get(String genus, String species, String subspecies)
-			throws SpeciesRepoException;
-
-	public abstract Species get(String speciesDefinition)
-			throws SpeciesRepoException;
-
-	public abstract void insert(Species sp);
-
-	public abstract void update(Species sp);
-
 	public abstract List<Chromosome> getChromosomes(SpeciesPK spk)
 			throws SpeciesRepoException;
 

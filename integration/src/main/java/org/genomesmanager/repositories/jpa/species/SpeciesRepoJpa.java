@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.SpeciesPK;
+import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepo;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.springframework.stereotype.Repository;
@@ -29,6 +30,12 @@ public class SpeciesRepoJpa implements SpeciesRepo {
 	public void delete(Species sp) {
 		em.remove(sp);
 	}
+	
+	@Override
+	public void delete(String speciesDefinition) throws SpeciesNotFound, SpeciesRepoException {
+		em.remove(get(speciesDefinition));
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.repositories.jpa.species.SpeciesRepo#deleteByKey(org.genomesmanager.domain.entities.SpeciesPK)
@@ -42,10 +49,10 @@ public class SpeciesRepoJpa implements SpeciesRepo {
 	 * @see org.genomesmanager.repositories.jpa.species.SpeciesRepo#get(org.genomesmanager.domain.entities.SpeciesPK)
 	 */
 	@Override
-	public Species get(SpeciesPK spk) throws SpeciesRepoException {
+	public Species get(SpeciesPK spk) throws SpeciesNotFound {
 		Species sp = em.find(Species.class, spk);
 		if ( sp == null ) {
-			throw new SpeciesRepoException("Species: " + spk.getGenus() + 
+			throw new SpeciesNotFound("Species: " + spk.getGenus() + 
 					", " + spk.getSpecies() + ", " + spk.getSubspecies() + 
 					" not found");
 		}
@@ -58,7 +65,7 @@ public class SpeciesRepoJpa implements SpeciesRepo {
 	 * @see org.genomesmanager.repositories.jpa.species.SpeciesRepo#get(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Species get(String genus, String species, String subspecies) throws SpeciesRepoException {
+	public Species get(String genus, String species, String subspecies) throws SpeciesNotFound {
 		SpeciesPK spk = new SpeciesPK();
 		spk.setGenus(genus);
 		spk.setSpecies(species);
@@ -70,7 +77,7 @@ public class SpeciesRepoJpa implements SpeciesRepo {
 	 * @see org.genomesmanager.repositories.jpa.species.SpeciesRepo#get(java.lang.String)
 	 */
 	@Override
-	public Species get(String speciesDefinition) throws SpeciesRepoException {
+	public Species get(String speciesDefinition) throws SpeciesRepoException, SpeciesNotFound {
 		if ( speciesDefinition == null ) {
 			return null;
 		}
