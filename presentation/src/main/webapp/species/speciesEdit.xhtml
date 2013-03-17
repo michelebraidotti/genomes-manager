@@ -24,7 +24,7 @@
 					<h:outputText value="Chromosomes:" />
 					<h:panelGrid columns="2">
 						<h:inputText value="#{speciesManager.newChromosome}" />
-						<h:commandButton type="submit" value="Add" action="#{speciesManager.addChromosome}" />
+						<h:commandButton type="submit" value="Add Chromosome" action="#{speciesManager.addChromosome}" />
 						
 						<h:selectManyListbox value="#{speciesManager.selectedChromosomes}">
 							<f:selectItems value="#{speciesManager.species.chromosomes}" var="c"

@@ -34,18 +34,12 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	public ScaffoldsImporterImpl() {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.sequences.ScaffoldsImporter#importScaffolds(java.util.List, java.util.List, org.genomesmanager.domain.entities.Species)
-	 */
 	@Override
-	public void importScaffolds(List<String> manifest, List<String> fastaLines,
-			Species sp) throws ScaffoldsImporterException {
-		List<SimpleFasta> fastas = FastaLinesToSimpleFasta.GetSimpleFastas(fastaLines);
+	public void importScaffoldsWithInfo(List<ScaffoldInfo> scaffoldsinfo, List<SimpleFasta> fastas, Species sp)
+			throws ScaffoldsImporterException {
 		HashMap<String, ScaffoldInfo> scaffsPosition = new HashMap<String, ScaffoldInfo>();
-		for (String line : manifest) {
-			ScaffoldInfo info = new ScaffoldInfo(line);
+		for (ScaffoldInfo info : scaffoldsinfo) 
 			scaffsPosition.put(info.getName(), info);
-		}
 		for (SimpleFasta fasta : fastas) {
 			ScaffoldInfo info = scaffsPosition.get(fasta.getId());
 			if (info != null) {
@@ -82,7 +76,22 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 						+ " not found in manifest");
 			}
 		}
+		
+	}
 
+
+
+	/* (non-Javadoc)
+	 * @see org.genomesmanager.services.impl.sequences.ScaffoldsImporter#importScaffolds(java.util.List, java.util.List, org.genomesmanager.domain.entities.Species)
+	 */
+	@Override
+	public void importScaffolds(List<String> manifest, List<String> fastaLines,
+			Species sp) throws ScaffoldsImporterException {
+		List<SimpleFasta> fastas = FastaLinesToSimpleFasta.GetSimpleFastas(fastaLines);
+		List<ScaffoldInfo> infos = new ArrayList<ScaffoldInfo>();
+		for (String line : manifest) 
+			infos.add(new ScaffoldInfo(line));
+		importScaffoldsWithInfo(infos, fastas, sp);
 	}
 
 	/* (non-Javadoc)
@@ -197,12 +206,12 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 			throws ScaffoldsImporterException {
 		// Program recognize lines like these
 		// >Oglab10_0016 O. glaberrima chr10 anchored Scaffold0016 derived from ...
-		// ^^^ ^^^
-		// ||| |||
+		//   ^^^     ^^^
+		//   |||      |||
 		// splitId[0] splitId[1]
 		// >Oglab10_unplaced030 O. glaberrima unanchored scaffold derived from ...
-		// ^^^ ^^^
-		// ||| |||
+		//   ^^^        ^^^
+		//   |||        |||
 		// SplitName[0] SplitName[1]
 		Scaffold scaf = new Scaffold();
 		String[] splitId = id.split("\\s+");

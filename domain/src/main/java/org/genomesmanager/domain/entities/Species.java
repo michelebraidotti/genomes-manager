@@ -121,6 +121,15 @@ public class Species implements Serializable {
 		return out.toString();
 	}
 	
+	@Transient
+	public Chromosome getChromosome(int chrId) {
+		for (Chromosome c:chromosomes) {
+			if (c.getId() == chrId)
+				return c;
+		}
+		return null;
+	}
+	
 	public class ChromosomesComparable implements Comparator<Chromosome>{
 		 
 	    @Override

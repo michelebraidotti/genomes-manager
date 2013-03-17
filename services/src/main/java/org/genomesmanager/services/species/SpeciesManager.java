@@ -24,4 +24,6 @@ public interface SpeciesManager {
 	public abstract void insert(Species sp);
 
 	public abstract void update(Species sp);
+	
+	public abstract void update(Species oldSpecies, Species newSpecies);
 }

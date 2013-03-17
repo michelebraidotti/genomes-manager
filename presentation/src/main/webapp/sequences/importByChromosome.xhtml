@@ -1,0 +1,76 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<f:view>
+			<h:form enctype="multipart/form-data">
+				<h1>Import By Chromosome</h1>
+				<h:panelGrid columns="2">
+					<h:outputText value="Available Species:" />
+					<h:selectOneMenu value="#{importByChromosome.speciesDefinition}"
+						onchange="submit()"
+						valueChangeListener="#{importByChromosome.speciesChanged}">
+						<f:selectItems value="#{speciesBrowser.species}" var="s"
+							itemLabel="#{s.toString()}" itemValue="#{s}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="Available Chromosomes:" />
+					<h:selectOneMenu value="#{importByChromosome.chromosomeSelected}"
+						rendered="#{not empty importByChromosome.chromosomes}"
+						onchange="submit()">
+						<f:selectItems value="#{importByChromosome.chromosomes}" var="c"
+							itemLabel="#{c.number}" itemValue="#{c.number}" />
+					</h:selectOneMenu>
+					<h:outputText value="No chromosomes found."
+						rendered="#{empty importByChromosome.chromosomes}" />
+
+					<h:outputText rendered="#{importByChromosome.chromosomeSelected != ''}" value="Upload FASTA file:" />
+					<h:panelGrid columns="1"
+						rendered="#{importByChromosome.chromosomeSelected != ''}">
+						<tr:inputFile value="#{importByChromosome.file}" />
+						<tr:commandButton text="Upload"
+							action="#{importByChromosome.doUpload}" />
+					</h:panelGrid>
+					
+					<p></p>
+					<h:dataTable value="#{importByChromosome.simpleFasta}"
+						rendered="#{not empty importByChromosome.simpleFasta}"
+						var="f">
+
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Name</f:facet>
+							<!-- row record -->
+		    				#{f.id}
+		    			</h:column>
+
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Length</f:facet>
+							<!-- row record -->
+    						#{f.sequence.length()}
+    					</h:column>		
+					</h:dataTable>
+					
+					<h:outputText rendered="#{not empty importByChromosome.simpleFasta}" value="Sequence version:" />
+					<h:inputText rendered="#{not empty importByChromosome.simpleFasta}" value="#{importByChromosome.version}" />
+					
+					<h:outputText value="" />
+					<h:messages /> 
+					
+					<h:commandButton type="submit" value="Save" rendered="#{not empty importByChromosome.simpleFasta}"
+						action="#{importByChromosome.importSequences}" />
+					<h:commandButton type="submit" value="Cancel" rendered="#{not empty importByChromosome.simpleFasta}"
+						action="#{importByChromosome.cancel}" />
+				</h:panelGrid>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

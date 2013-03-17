@@ -109,4 +109,13 @@ public class SpeciesManagerImpl implements SpeciesManager, Serializable {
 		speciesRepo.update(sp);
 	}
 
+
+	@Override
+	public void update(Species oldSpecies, Species newSpecies) {
+		if (! oldSpecies.getId().equals(newSpecies.getId()) ) {
+			speciesRepo.updateId(oldSpecies, newSpecies.getId());
+		}
+		update(newSpecies);
+	}
+	
 }

@@ -29,4 +29,6 @@ public interface SpeciesRepo {
 	public abstract List<Chromosome> getChromosomes(SpeciesPK spk)
 			throws SpeciesRepoException;
 
+	public abstract void updateId(Species oldSpecies, SpeciesPK id);
+
 }

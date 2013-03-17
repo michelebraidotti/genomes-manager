@@ -9,11 +9,12 @@
 	<ui:define name="body">
 		<f:view>
 			<h1>Genomes Manager</h1>
-			<h:panelGrid columns="2">
-				<h:outputText value="Import Pseudomolecules:" />
-				<h:link value="Click here" outcome="importPseudomol.xhtml" />
-				<h:outputText value="Import Scaffolds:" />
-				<h:link value="Click here" outcome="importScaffolds.xhtml" />
+			<h:panelGrid columns="1">
+				<h:outputText value="Sequences" />
+				<h:link value="Pseudomelecules Import by Chromosome"
+					outcome="importByChromosome.xhtml" />
+				<h:link value="Scaffolds Import" outcome="importScaffolds.xhtml" />
+				<h:link value="Export" outcome="export.xhtml" />
 			</h:panelGrid>
 		</f:view>
 	</ui:define>

@@ -1,9 +1,14 @@
 package org.genomesmanager.services.sequences;
 
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.domain.entities.Species;
@@ -27,21 +32,46 @@ public class PseudomoleculeImporterTest {
 	private SequenceRepo seqRepo;
 	@InjectMocks
 	private PseudomoleculeImporter pseudomoleculeImporter = new PseudomoleculeImporterImpl();
-	
-	@Before 
+
+	@Before
 	public void initMocks() {
-		MockitoAnnotations.initMocks(this); 
+		MockitoAnnotations.initMocks(this);
 	}
-	
+
 	@Test
-	public void test() throws PseudomoleculeImporterException, ChromosomeRepoException {
-		
+	public void test() throws PseudomoleculeImporterException, 
+			ChromosomeRepoException {
+
 		Species sp = SpeciesOM.Generate(1).get(0);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
 		when(chrRepo.get(chr.getId())).thenReturn(chr);
-		
-		pseudomoleculeImporter.importPseudomolecule(chr.getId(), SequencesOM.GenererateSequence(1000000), 
-				"NewPseudommol", "1.0");
+
+		pseudomoleculeImporter
+				.importPseudomolecule(chr.getId(),
+						SequencesOM.GenererateSequence(1000000),
+						"NewPseudommol", "1.0");
 		verify(seqRepo).insert((Pseudomolecule) anyObject());
+	}
+	
+//	public abstract void importPseudomolecule(int chrId,
+//			List<SimpleFasta> fastas, String version)
+//			throws PseudomoleculeImporterException;
+	
+	@Test
+	public void importPseudomoleculeFasta() throws PseudomoleculeImporterException,
+			ChromosomeRepoException {
+
+		Species sp = SpeciesOM.Generate(1).get(0);
+		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		when(chrRepo.get(chr.getId())).thenReturn(chr);
+
+		List<SimpleFasta> fastas = new ArrayList<SimpleFasta>();
+		for (int i = 1; i < 3 ; i++) 
+			fastas.add( new SimpleFasta("fileName", "NewPseudomol" + i, SequencesOM.GenererateSequence(10*i).toString()) );
+		
+		
+		pseudomoleculeImporter
+				.importPseudomolecule(chr.getId(), fastas, "1.0");
+		verify(seqRepo, times(fastas.size())).insert((Pseudomolecule) anyObject());
 	}
 }

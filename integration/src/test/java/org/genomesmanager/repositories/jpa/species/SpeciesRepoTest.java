@@ -21,5 +21,17 @@ public class SpeciesRepoTest extends AbstractIntegrationTest {
 		Species spPost = speciesRepo.get(sp.getId());
 		assertEquals(sp, spPost);
 	}
+	
+	@Test
+	public void updateIdTest() throws SpeciesRepoException {
+		Species sp = SpeciesOM.Generate(1).get(0);
+		speciesRepo.insert(sp);
+
+		Species spNew = SpeciesOM.Generate(1).get(0);
+		spNew.getId().setSubspecies("someOtherSubSpecies");
+		speciesRepo.updateId(sp, spNew.getId());
+		Species spPost = speciesRepo.get(spNew.getId());
+		assertEquals(spNew, spPost);
+	}
 
 }

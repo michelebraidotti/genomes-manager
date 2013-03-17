@@ -1,0 +1,102 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<f:view>
+			<h:form enctype="multipart/form-data">
+				<h1>Scaffolds Import</h1>
+				<h:panelGrid columns="2">
+					<h:outputText value="Available Species:" />
+					<h:selectOneMenu value="#{importScaffolds.speciesDefinition}"
+						onchange="submit()"
+						valueChangeListener="#{importScaffolds.speciesChanged}">
+						<f:selectItems value="#{speciesBrowser.species}" var="s"
+							itemLabel="#{s.toString()}" itemValue="#{s}" />
+					</h:selectOneMenu>
+				
+				
+					<h:outputText rendered="#{empty importScaffolds.scaffoldsInfo}" value="Upload manifest file:" />
+					<h:panelGrid columns="1"
+						rendered="#{empty importScaffolds.scaffoldsInfo}">
+						<tr:inputFile value="#{importScaffolds.file}" />
+						<tr:commandButton text="Upload"
+							action="#{importScaffolds.doUpload}" />
+					</h:panelGrid>
+				
+					<p></p>
+					<h:dataTable value="#{importScaffolds.scaffoldsInfo}"
+						rendered="#{not empty importScaffolds.scaffoldsInfo}"
+						var="s">
+
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Name</f:facet>
+							<!-- row record -->
+		    				#{m.name}
+		    			</h:column>
+
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Chromosome</f:facet>
+							<!-- row record -->
+							<!-- Maybe look for chr name in selected species -->
+    						#{m.chr}
+    					</h:column>	
+    					<h:column>
+							<!-- column header -->
+							<f:facet name="header">Order</f:facet>
+							<!-- row record -->
+    						#{m.order}
+    					</h:column>			
+					</h:dataTable>
+				
+					
+					<h:outputText rendered="#{empty importScaffolds.fastas}" value="Upload scaffolds file:" />
+					<h:panelGrid columns="1"
+						rendered="#{empty importScaffolds.fastas}">
+						<tr:inputFile value="#{importScaffolds.file}" />
+						<tr:commandButton text="Upload"
+							action="#{importScaffolds.doUpload}" />
+					</h:panelGrid>
+				
+				
+				<p></p>
+					<h:dataTable value="#{importScaffolds.fastas}"
+						rendered="#{not empty importScaffolds.fastas}"
+						var="f">
+
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Name</f:facet>
+							<!-- row record -->
+		    				#{f.id}
+		    			</h:column>
+
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Length</f:facet>
+							<!-- row record -->
+    						#{f.sequence.length()}
+    					</h:column>		
+					</h:dataTable>
+					
+					<h:outputText value="" />
+					<h:messages /> 
+					
+					<h:commandButton type="submit" value="Save" rendered="#{not empty importScaffolds.fastas}"
+						action="#{importScaffolds.importSequences}" />
+					<h:commandButton type="submit" value="Cancel" rendered="#{not empty importScaffolds.fastas}"
+						action="#{importScaffolds.cancel}" />
+				
+				</h:panelGrid>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

@@ -1,5 +1,8 @@
 package org.genomesmanager.services.impl.sequences;
 
+import java.util.List;
+
+import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.repositories.sequences.ChromosomeRepo;
@@ -9,8 +12,10 @@ import org.genomesmanager.services.sequences.PseudomoleculeImporter;
 import org.genomesmanager.services.sequences.PseudomoleculeImporterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("PseudomoleculeImporter")
+@Transactional
 public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
 	@Autowired
 	private ChromosomeRepo chrRepo;
@@ -20,7 +25,17 @@ public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
     public PseudomoleculeImporterImpl() {
     }
     
-    /* (non-Javadoc)
+    @Override
+	public void importPseudomolecule(int chrId, List<SimpleFasta> fastas,
+			String version) throws PseudomoleculeImporterException {
+    	for (SimpleFasta fasta:fastas) {
+    			importPseudomolecule(chrId, new StringBuilder(fasta.getSequence()), fasta.getId(), version);
+		}
+	}
+
+
+
+	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.sequences.PseudomoleculeImporter#importPseudomolecule(int, java.lang.StringBuilder, java.lang.String, java.lang.String)
 	 */
     @Override

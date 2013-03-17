@@ -121,9 +121,10 @@ public class SpeciesManagerController {
 		return "speciesEdit.xhtml";
 	}
 
-	public String save() {
+	public String save() throws SpeciesNotFound, SpeciesRepoException {
 		if (editMode) {
-			speciesManager.update(species);
+			Species oldSpecies = speciesManager.get(speciesDefinition);
+			speciesManager.update(oldSpecies, species);
 			editMode = false;
 		} else
 			speciesManager.insert(species);

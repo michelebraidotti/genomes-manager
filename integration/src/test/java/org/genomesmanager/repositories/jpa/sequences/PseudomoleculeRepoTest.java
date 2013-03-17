@@ -2,7 +2,10 @@ package org.genomesmanager.repositories.jpa.sequences;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.genomesmanager.domain.entities.Chromosome;
+import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.SequenceSliceException;
 import org.genomesmanager.domain.entities.Species;
@@ -36,22 +39,22 @@ public class PseudomoleculeRepoTest extends AbstractIntegrationTest {
 		speciesRepo.insert(sp);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
 		chromosomeRepo.insert(chr);
-		int i = 1;
-		for (Scaffold scaffold:SequencesOM.GenerateScaffold(5, chr)) {
-			scaffold.setOrder(i++);
-			scaffold.setIsUnplaced(false);
-			sequenceRepo.insert(scaffold);
+		
+		List<Pseudomolecule> pseudomolecules = SequencesOM.GeneratePseudomolecule(3, chr); 
+		for (Pseudomolecule p:pseudomolecules) {
+			sequenceRepo.insert(p);
 		}
-		for (Scaffold scaffold:SequencesOM.GenerateScaffold(4, chr)) {
-			scaffold.setName(scaffold.getName() + "_2");
-			scaffold.setOrder(0);
-			scaffold.setIsUnplaced(true);
-			sequenceRepo.insert(scaffold);
+		
+		for (Pseudomolecule p:pseudomolecules) {
+			Pseudomolecule pPost = pseudomoleculeRepo.get(p.getId());
+			System.out.println("Name: " + p.getName() + ", Sequence: " + p.getSequence());
+			assertEquals(p, pPost);
 		}
-		StringBuilder sb = pseudomoleculeRepo.getFromChromosome(chr.getId(), false);
-		assertTrue(sb.length() > 0);
-		StringBuilder sbUn = pseudomoleculeRepo.getFromChromosomeUnplaced(chr.getId(), false);
-		assertTrue(sbUn.length() > 0);
+		
+//		StringBuilder sb = pseudomoleculeRepo.getFromChromosome(chr.getId(), false);
+//		assertTrue(sb.length() > 0);
+//		StringBuilder sbUn = pseudomoleculeRepo.getFromChromosomeUnplaced(chr.getId(), false);
+//		assertTrue(sbUn.length() > 0);
 	}
 	
 }

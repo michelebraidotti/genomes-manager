@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SpeciesRepoJpa implements SpeciesRepo {
     @PersistenceContext
 	private EntityManager em;
+    private Query q;
     
     public SpeciesRepoJpa() {
     }
@@ -84,7 +86,7 @@ public class SpeciesRepoJpa implements SpeciesRepo {
 		String [] spDef = speciesDefinition.split("\\s+");
 		if ( spDef.length < 2 ) {
 			throw new SpeciesRepoException("Cannot guess genus, species, subspecies " +
-					"from species definition " + speciesDefinition);
+					"from species definition '" + speciesDefinition + "'");
 		}
 		String genus = "";
 		String species = "";
@@ -121,6 +123,20 @@ public class SpeciesRepoJpa implements SpeciesRepo {
 		em.merge(sp);
 	} 
 	
+	@Override
+	public void updateId(Species oldSpecies, SpeciesPK id) {
+		q = em.createQuery(
+				"UPDATE Species s SET s.id.genus = :newGenus, s.id.species = :newSpecies, s.id.subspecies = :newSubspecies " +
+				"WHERE s.id.genus = :oldGenus and s.id.species = :oldSpecies and s.id.subspecies = :oldSubspecies");
+		q.setParameter("newGenus", id.getGenus());
+		q.setParameter("newSpecies", id.getSpecies());
+		q.setParameter("newSubspecies", id.getSubspecies());
+		q.setParameter ("oldGenus", oldSpecies.getId().getGenus());
+		q.setParameter ("oldSpecies", oldSpecies.getId().getSpecies());
+		q.setParameter ("oldSubspecies", oldSpecies.getId().getSubspecies());
+		q.executeUpdate();
+	}
+
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.repositories.jpa.species.SpeciesRepo#getChromosomes(org.genomesmanager.domain.entities.SpeciesPK)
 	 */
