@@ -29,7 +29,7 @@
 							action="#{importScaffolds.doUpload}" />
 					</h:panelGrid>
 				
-					<p></p>
+					<h:outputText rendered="#{not empty importScaffolds.scaffoldsInfo}" value="" />
 					<h:dataTable value="#{importScaffolds.scaffoldsInfo}"
 						rendered="#{not empty importScaffolds.scaffoldsInfo}"
 						var="s">
@@ -38,23 +38,32 @@
 							<!-- column header -->
 							<f:facet name="header">Name</f:facet>
 							<!-- row record -->
-		    				#{m.name}
+		    				#{s.name}
 		    			</h:column>
-
 						<h:column>
 							<!-- column header -->
-							<f:facet name="header">Chromosome</f:facet>
+							<f:facet name="header">Chromosome Id</f:facet>
 							<!-- row record -->
-							<!-- Maybe look for chr name in selected species -->
-    						#{m.chr}
+    						#{s.chr}
     					</h:column>	
     					<h:column>
 							<!-- column header -->
 							<f:facet name="header">Order</f:facet>
 							<!-- row record -->
-    						#{m.order}
-    					</h:column>			
+    						#{s.order}
+    					</h:column>
+    					<h:column>
+							<!-- column header -->
+							<f:facet name="header">Chromosome Descr</f:facet>
+							<!-- row record -->
+    						#{s.chrDescr}
+    					</h:column>	
+    								
 					</h:dataTable>
+					
+					<h:outputText rendered="#{not empty importScaffolds.scaffoldsInfo}" value="" />
+					<h:commandButton type="submit" value="Remove uploaded info" rendered="#{not empty importScaffolds.scaffoldsInfo}"
+						action="#{importScaffolds.clear}" />
 				
 					
 					<h:outputText rendered="#{empty importScaffolds.fastas}" value="Upload scaffolds file:" />
@@ -66,7 +75,7 @@
 					</h:panelGrid>
 				
 				
-				<p></p>
+					<h:outputText rendered="#{not empty importScaffolds.fastas}" value="" />
 					<h:dataTable value="#{importScaffolds.fastas}"
 						rendered="#{not empty importScaffolds.fastas}"
 						var="f">
@@ -77,7 +86,6 @@
 							<!-- row record -->
 		    				#{f.id}
 		    			</h:column>
-
 						<h:column>
 							<!-- column header -->
 							<f:facet name="header">Length</f:facet>
@@ -85,6 +93,10 @@
     						#{f.sequence.length()}
     					</h:column>		
 					</h:dataTable>
+					
+					<h:outputText rendered="#{not empty importScaffolds.fastas}" value="" />
+					<h:commandButton type="submit" value="Remove uploaded info" rendered="#{not empty importScaffolds.fastas}"
+						action="#{importScaffolds.clear}" />
 					
 					<h:outputText value="" />
 					<h:messages /> 

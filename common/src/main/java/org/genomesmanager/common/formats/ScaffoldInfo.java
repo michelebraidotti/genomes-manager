@@ -9,10 +9,17 @@ public class ScaffoldInfo {
     public ScaffoldInfo() {
     }
 
-    public ScaffoldInfo(String desc) {
+    public ScaffoldInfo(String desc) throws ScaffoldInfoException {
         String[] values = desc.split("\\s+");
+        if ( values.length != 3 ) 
+        	throw new ScaffoldInfoException("Error parsing string: needs to be 3 elements space sparated");
         this.name = values[0];
-        this.order = Integer.parseInt(values[1]);
+        try {
+        	this.order = Integer.parseInt(values[1]);
+        }
+        catch (NumberFormatException e) {
+        	throw new ScaffoldInfoException("Error parsing string: order must be a number");
+        }
         this.chr = values[2];
     }
 

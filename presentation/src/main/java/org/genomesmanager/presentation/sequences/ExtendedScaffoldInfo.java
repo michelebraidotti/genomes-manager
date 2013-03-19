@@ -1,0 +1,21 @@
+package org.genomesmanager.presentation.sequences;
+
+import org.genomesmanager.common.formats.ScaffoldInfo;
+import org.genomesmanager.common.formats.ScaffoldInfoException;
+
+public class ExtendedScaffoldInfo extends ScaffoldInfo {
+	private String chrDescr;
+
+	public ExtendedScaffoldInfo(String desc) throws ScaffoldInfoException {
+		super(desc);
+	}
+
+	public String getChrDescr() {
+		return chrDescr;
+	}
+
+	public void setChrDescr(String chrDescr) {
+		this.chrDescr = chrDescr;
+	}
+	
+}

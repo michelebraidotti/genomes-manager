@@ -15,6 +15,7 @@ import javax.faces.event.ValueChangeEvent;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
 import org.genomesmanager.common.formats.ScaffoldInfo;
+import org.genomesmanager.common.formats.ScaffoldInfoException;
 import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.common.parsers.FastaLinesToSimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
@@ -40,7 +41,7 @@ public class importScaffoldsController extends FileUpload {
 	private SpeciesManager speciesManager;
 	private String speciesDefinition = "";
 	private Species speciesSeleced;
-	private List<ScaffoldInfo> scaffoldsInfo = new ArrayList<ScaffoldInfo>();
+	private List<ExtendedScaffoldInfo> scaffoldsInfo = new ArrayList<ExtendedScaffoldInfo>();
 	private List<SimpleFasta> fastas = new ArrayList<SimpleFasta>();
 
 	public String getSpeciesDefinition() {
@@ -50,7 +51,7 @@ public class importScaffoldsController extends FileUpload {
 	public void setSpeciesDefinition(String speciesDefinition) {
 		this.speciesDefinition = speciesDefinition;
 	}
-	
+
 	public Species getSpeciesSeleced() {
 		return speciesSeleced;
 	}
@@ -59,11 +60,11 @@ public class importScaffoldsController extends FileUpload {
 		this.speciesSeleced = speciesSeleced;
 	}
 
-	public List<ScaffoldInfo> getScaffoldsInfo() {
+	public List<ExtendedScaffoldInfo> getScaffoldsInfo() {
 		return scaffoldsInfo;
 	}
 
-	public void setScaffoldsInfo(List<ScaffoldInfo> scaffoldsInfo) {
+	public void setScaffoldsInfo(List<ExtendedScaffoldInfo> scaffoldsInfo) {
 		this.scaffoldsInfo = scaffoldsInfo;
 	}
 
@@ -79,11 +80,17 @@ public class importScaffoldsController extends FileUpload {
 			SpeciesRepoException {
 		speciesDefinition = e.getNewValue().toString();
 		speciesSeleced = speciesManager.get(speciesDefinition);
+		cleanUp();
 	}
 
 	public void importScaffolds() {
 		try {
-			scaffoldsImporter.importScaffoldsWithInfo(scaffoldsInfo, fastas,
+			List<ScaffoldInfo> infos = new ArrayList<ScaffoldInfo>();
+			for (ExtendedScaffoldInfo es : scaffoldsInfo) {
+				infos.add(new ScaffoldInfo(es.getName(), es.getChr(), es
+						.getOrder()));
+			}
+			scaffoldsImporter.importScaffoldsWithInfo(infos, fastas,
 					speciesSeleced);
 		} catch (ScaffoldsImporterException e) {
 			// TODO Auto-generated catch block
@@ -93,31 +100,33 @@ public class importScaffoldsController extends FileUpload {
 
 	@Override
 	public String doUpload() {
+		BufferedReader br = null;
 		try {
+			UploadedFile file = getFile();
+			FileInputStream fstream = new FileInputStream(file.getFilename());
+			DataInputStream in = new DataInputStream(fstream);
+			br = new BufferedReader(new InputStreamReader(in));
 			if (scaffoldsInfo.size() == 0) {
 				// load manifest and reset fasta
-				UploadedFile file = getFile();
-				FileInputStream fstream = new FileInputStream(
-						file.getFilename());
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(
-						new InputStreamReader(in));
-
-				List<String> lines = new ArrayList<String>();
 				String line;
-				while ((line = br.readLine()) != null)
-					scaffoldsInfo.add(new ScaffoldInfo(line));
-				in.close();
+				while ((line = br.readLine()) != null) {
+					try {
+						ExtendedScaffoldInfo esi = new ExtendedScaffoldInfo(
+								line);
+						int chrId = Integer.parseInt(esi.getChr());
+						String chrDescr = speciesSeleced + ", chromosome "
+								+ speciesSeleced.getChromosome(chrId);
+						esi.setChrDescr(chrDescr);
+						scaffoldsInfo.add(esi);
+					} catch (ScaffoldInfoException e) {
+						FacesMessage fm = new FacesMessage(e.getMessage());
+						FacesContext.getCurrentInstance().addMessage(
+								"Error parsing scaffod info:", fm);
+						return "/sequences/importScaffolds.xhtml";
+					}
+				}
 				fastas = new ArrayList<SimpleFasta>();
 			} else if (fastas.size() == 0) {
-				// load fasta
-				UploadedFile file = getFile();
-				FileInputStream fstream = new FileInputStream(
-						file.getFilename());
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(
-						new InputStreamReader(in));
-
 				List<String> lines = new ArrayList<String>();
 				String line;
 				while ((line = br.readLine()) != null)
@@ -128,44 +137,37 @@ public class importScaffoldsController extends FileUpload {
 			} else {
 				// do nothing, should be unreachable
 			}
+			in.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error:", fm);
+			return "/sequences/importScaffolds.xhtml";
 		} catch (IOException e) {
-			e.printStackTrace();
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error:", fm);
+			return "/sequences/importScaffolds.xhtml";
 		}
-		return null;
+		return "/sequences/importScaffolds.xhtml";
 	}
-	
+
 	public String importSequences() {
-//		if ( version.equals("")) {
-//			FacesMessage fm = new FacesMessage("Version cannot be empty");
-//            FacesContext.getCurrentInstance().addMessage("Error saving pseudomolecules:", fm);
-//			return "/sequences/importByChromosome.xhtml";
-//		}
-//		try {
-//			Chromosome chromosome = chromosomeRepo.get(chromosomeSelected, speciesSeleced);
-//			pseudomoleculeImporter.importPseudomolecule(chromosome.getId(), getSimpleFasta(), getVersion());
-//			cleanUp();
-//			return "/sequences/home.xhtml";
-//		} catch (DataIntegrityViolationException e) {
-//			FacesMessage fm = new FacesMessage(e.getMessage());
-//            FacesContext.getCurrentInstance().addMessage("Error saving pseudomolecules:", fm);
-//			return "/sequences/importByChromosome.xhtml";
-//		} catch (PseudomoleculeImporterException e) {
-//			FacesMessage fm = new FacesMessage(e.getMessage());
-//            FacesContext.getCurrentInstance().addMessage("Error saving pseudomolecules:", fm);
-//			return "/sequences/importByChromosome.xhtml";
-//		}
-		return "";
+		importScaffolds();
+		return "/sequences/home.xhtml";
 	}
-	
+
+	public String clear() {
+		cleanUp();
+		return "/sequences/importScaffolds.xhtml";
+	}
+
 	public String cancel() {
 		cleanUp();
 		return "/sequences/home.xhtml";
 	}
-	
+
 	private void cleanUp() {
-		scaffoldsInfo = new ArrayList<ScaffoldInfo>();
+		setFile(null);
+		scaffoldsInfo = new ArrayList<ExtendedScaffoldInfo>();
 		fastas = new ArrayList<SimpleFasta>();
 	}
 }
