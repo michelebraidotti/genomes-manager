@@ -1,0 +1,58 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<f:view>
+			<h:form enctype="multipart/form-data">
+				<h1>Scaffolds Import</h1>
+				<h:panelGrid columns="2">
+					<h:outputText value="Scaffolds to import:" />
+					<h:outputText value="#{importScaffolds.scaffoldsImporter.countScaffolds()}" />  
+				
+					<h:outputText value="Errors:" /> 
+					<h:outputText value="No errors found" rendered="#{empty importScaffolds.scaffoldsImporter.wrongLines}"/> 
+					<h:dataTable value="#{importScaffolds.scaffoldsImporter.wrongLines}"
+						rendered="#{not empty importScaffolds.scaffoldsImporter.wrongLines}"
+						var="w">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header"></f:facet>
+							<!-- row record -->
+		    				#{w}
+		    			</h:column>
+					</h:dataTable>
+					
+					<h:outputText value="Warnings:" />
+					<h:outputText value="No warnings found" rendered="#{empty importScaffolds.scaffoldsImporter.warningLines}"/>  
+					<h:dataTable value="#{importScaffolds.scaffoldsImporter.warningLines}"
+						rendered="#{not empty importScaffolds.scaffoldsImporter.warningLines}"
+						var="w">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header"></f:facet>
+							<!-- row record -->
+		    				#{w}
+		    			</h:column>
+					</h:dataTable>
+						
+					<h:outputText value="" />
+					<h:messages /> 
+					
+					<h:commandButton type="submit" value="Save" rendered="#{empty importScaffolds.scaffoldsImporter.wrongLines}"
+						action="#{importScaffolds.save}" />
+					<h:commandButton type="submit" value="Cancel" rendered="#{empty importScaffolds.scaffoldsImporter.wrongLines}"
+						action="#{importScaffolds.cancel}" />
+					
+				</h:panelGrid>
+				<h:commandButton type="submit" value="Back" action="#{importScaffolds.home}" />
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

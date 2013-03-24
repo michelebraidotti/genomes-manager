@@ -1,0 +1,73 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<f:view>
+			<h:form enctype="multipart/form-data">
+				<h1>Export Sequences</h1>
+				<h:panelGrid columns="2">
+					<h:outputText value="Available Species:" />
+					<h:selectOneMenu value="#{browseSequences.speciesDefinition}"
+						onchange="submit()"
+						valueChangeListener="#{browseSequences.speciesChanged}">
+						<f:selectItems value="#{speciesBrowser.species}" var="s"
+							itemLabel="#{s.toString()}" itemValue="#{s}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="Available Chromosomes:" />
+					<h:selectOneMenu value="#{browseSequences.chromosomeSelected}"
+						rendered="#{not empty browseSequences.chromosomes}"
+						onchange="submit()">
+						<f:selectItems value="#{browseSequences.chromosomes}" var="c"
+							itemLabel="#{c.number}" itemValue="#{c.number}" />
+					</h:selectOneMenu>
+					<h:outputText value="No chromosomes found."
+						rendered="#{empty browseSequences.chromosomes}" />
+
+					<h:outputText value="" />
+					<h:messages /> 
+					
+					<h:commandButton type="submit" value="Search" action="#{browseSequences.search}" />
+					<h:commandButton type="submit" value="Export" action="#{browseSequences.export}" />
+				</h:panelGrid>
+				
+				<tr:table width="70%" emptyText="No data available." value="#{browseSequences.sequences}" var="row"
+                	verticalGridVisible="false" horizontalGridVisible="false"
+                	rows="20">
+		            <tr:column >
+		                <f:facet name="header">
+		                    <tr:outputText value="Id"/>
+		                </f:facet>
+		                <tr:outputText value="#{row.id}"/>
+		            </tr:column>
+		            <tr:column>
+		                <f:facet name="header">
+		                    <tr:outputText value="Name"/>
+		                </f:facet>
+		                <tr:outputText value="#{row.humanName()}"/>
+		            </tr:column>
+		            <tr:column>
+		                <f:facet name="header">
+		                    <tr:outputText value="Chromosome"/>
+		                </f:facet>
+		                <tr:outputText value="#{row.chromosome.number}"/>
+		            </tr:column>
+		            <tr:column>
+		                <f:facet name="header">
+		                    <tr:outputText value="Length"/>
+		                </f:facet>
+		                <tr:outputText value="#{row.length}"/>
+		            </tr:column>
+		        </tr:table>
+		        
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

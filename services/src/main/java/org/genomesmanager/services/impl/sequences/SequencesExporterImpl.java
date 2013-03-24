@@ -27,7 +27,7 @@ public class SequencesExporterImpl implements SequencesExporter {
 		List<String> out = new ArrayList<String>();
 		for (Sequence seq:sequencesList.getAllByChromosome(chr.getId())) {
 			out.add(seq.getFastaHeader());
-			out.add(seq.getSequence());
+			out.add(seq.getSequenceText());
 		}
 		return out;
     }

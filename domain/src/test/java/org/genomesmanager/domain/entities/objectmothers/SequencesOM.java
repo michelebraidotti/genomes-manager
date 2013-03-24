@@ -16,7 +16,7 @@ public class SequencesOM {
 			Sequence seq = new Sequence();
 			seq.setChromosome(chr);
 			String seqText = GenerateSequeceString();
-			seq.setSequence(seqText);
+			seq.setSequenceText(seqText);
 			seq.setLength(seqText.length());
 			sequences.add(seq);
 		}
@@ -46,7 +46,7 @@ public class SequencesOM {
 			Pseudomolecule seq = new Pseudomolecule();
 			seq.setChromosome(chr);
 			String seqText = GenerateSequeceString();
-			seq.setSequence(seqText);
+			seq.setSequenceText(seqText);
 			seq.setLength(seqText.length());
 			seq.setVersion("Version" + i);
 			seq.setName("PseudomolName" + i);
@@ -63,7 +63,7 @@ public class SequencesOM {
 			Scaffold seq = new Scaffold();
 			seq.setChromosome(chr);
 			String seqText = GenerateSequeceString();
-			seq.setSequence(seqText);
+			seq.setSequenceText(seqText);
 			seq.setLength(seqText.length());
 			seq.setName("ScaffoldName" + i);
 			seq.setScaffVersion("V" + i);

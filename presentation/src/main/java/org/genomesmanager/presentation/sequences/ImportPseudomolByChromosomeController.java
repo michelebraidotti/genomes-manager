@@ -19,26 +19,22 @@ import org.genomesmanager.common.parsers.FastaLinesToSimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.presentation.FileUpload;
-import org.genomesmanager.repositories.sequences.ChromosomeList;
 import org.genomesmanager.repositories.sequences.ChromosomeRepo;
 import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.sequences.PseudomoleculeImporter;
 import org.genomesmanager.services.sequences.PseudomoleculeImporterException;
-import org.genomesmanager.services.sequences.ScaffoldsImporter;
 import org.genomesmanager.services.species.SpeciesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
-@Component("importByChromosome")
+@Component("importPseudomolByChromosome")
 @Scope("session")
-public class ImportByChromosomeController extends FileUpload {
+public class ImportPseudomolByChromosomeController extends FileUpload {
 	@Autowired
 	private PseudomoleculeImporter pseudomoleculeImporter;
-	@Autowired
-	private ScaffoldsImporter scaffoldsImporter;
 	@Autowired
 	private SpeciesManager speciesManager;
 	@Autowired
@@ -49,7 +45,7 @@ public class ImportByChromosomeController extends FileUpload {
 	private List<SimpleFasta> simpleFasta =  new ArrayList<SimpleFasta>();
 	private String version = "";
 
-	public ImportByChromosomeController() {
+	public ImportPseudomolByChromosomeController() {
 	}
 
 	public String getSpeciesDefinition() {
@@ -118,14 +114,14 @@ public class ImportByChromosomeController extends FileUpload {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "/sequences/importByChromosome.xhtml";
+		return "/sequences/importPseudomolByChromosome.xhtml";
 	}
 	
 	public String importSequences() {
 		if ( version.equals("")) {
 			FacesMessage fm = new FacesMessage("Version cannot be empty");
             FacesContext.getCurrentInstance().addMessage("Error saving pseudomolecules:", fm);
-			return "/sequences/importByChromosome.xhtml";
+			return "/sequences/importPseudomolByChromosome.xhtml";
 		}
 		try {
 			Chromosome chromosome = chromosomeRepo.get(chromosomeSelected, speciesSeleced);
@@ -135,11 +131,11 @@ public class ImportByChromosomeController extends FileUpload {
 		} catch (DataIntegrityViolationException e) {
 			FacesMessage fm = new FacesMessage(e.getMessage());
             FacesContext.getCurrentInstance().addMessage("Error saving pseudomolecules:", fm);
-			return "/sequences/importByChromosome.xhtml";
+			return "/sequences/importPseudomolByChromosome.xhtml";
 		} catch (PseudomoleculeImporterException e) {
 			FacesMessage fm = new FacesMessage(e.getMessage());
             FacesContext.getCurrentInstance().addMessage("Error saving pseudomolecules:", fm);
-			return "/sequences/importByChromosome.xhtml";
+			return "/sequences/importPseudomolByChromosome.xhtml";
 		}
 	}
 	

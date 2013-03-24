@@ -18,23 +18,20 @@ import org.genomesmanager.common.formats.ScaffoldInfo;
 import org.genomesmanager.common.formats.ScaffoldInfoException;
 import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.common.parsers.FastaLinesToSimpleFasta;
-import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.presentation.FileUpload;
 import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
-import org.genomesmanager.services.sequences.PseudomoleculeImporterException;
 import org.genomesmanager.services.sequences.ScaffoldsImporter;
 import org.genomesmanager.services.sequences.ScaffoldsImporterException;
 import org.genomesmanager.services.species.SpeciesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component("importScaffolds")
 @Scope("session")
-public class importScaffoldsController extends FileUpload {
+public class importScaffoldsController {
+	private UploadedFile _file;
 	@Autowired
 	private ScaffoldsImporter scaffoldsImporter;
 	@Autowired
@@ -43,6 +40,14 @@ public class importScaffoldsController extends FileUpload {
 	private Species speciesSeleced;
 	private List<ExtendedScaffoldInfo> scaffoldsInfo = new ArrayList<ExtendedScaffoldInfo>();
 	private List<SimpleFasta> fastas = new ArrayList<SimpleFasta>();
+
+	public UploadedFile getFile() {
+		return _file;
+	}
+
+	public void setFile(UploadedFile file) {
+		_file = file;
+	}
 
 	public String getSpeciesDefinition() {
 		return speciesDefinition;
@@ -76,6 +81,10 @@ public class importScaffoldsController extends FileUpload {
 		this.fastas = fastas;
 	}
 
+	public ScaffoldsImporter getScaffoldsImporter() {
+		return scaffoldsImporter;
+	}
+
 	public void speciesChanged(ValueChangeEvent e) throws SpeciesNotFound,
 			SpeciesRepoException {
 		speciesDefinition = e.getNewValue().toString();
@@ -98,45 +107,62 @@ public class importScaffoldsController extends FileUpload {
 		}
 	}
 
-	@Override
-	public String doUpload() {
-		BufferedReader br = null;
+	public String uploadManifest() {
 		try {
 			UploadedFile file = getFile();
 			FileInputStream fstream = new FileInputStream(file.getFilename());
 			DataInputStream in = new DataInputStream(fstream);
-			br = new BufferedReader(new InputStreamReader(in));
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			if (scaffoldsInfo.size() == 0) {
-				// load manifest and reset fasta
+				// reset GUI and load manifest
+				cleanUp();
 				String line;
 				while ((line = br.readLine()) != null) {
-					try {
-						ExtendedScaffoldInfo esi = new ExtendedScaffoldInfo(
-								line);
-						int chrId = Integer.parseInt(esi.getChr());
-						String chrDescr = speciesSeleced + ", chromosome "
-								+ speciesSeleced.getChromosome(chrId);
-						esi.setChrDescr(chrDescr);
-						scaffoldsInfo.add(esi);
-					} catch (ScaffoldInfoException e) {
-						FacesMessage fm = new FacesMessage(e.getMessage());
-						FacesContext.getCurrentInstance().addMessage(
-								"Error parsing scaffod info:", fm);
-						return "/sequences/importScaffolds.xhtml";
-					}
+					ExtendedScaffoldInfo esi = new ExtendedScaffoldInfo(
+							line);
+					int chrId = Integer.parseInt(esi.getChr());
+					String chrDescr = speciesSeleced + ", chromosome "
+							+ speciesSeleced.getChromosome(chrId);
+					esi.setChrDescr(chrDescr);
+					scaffoldsInfo.add(esi);
 				}
-				fastas = new ArrayList<SimpleFasta>();
-			} else if (fastas.size() == 0) {
-				List<String> lines = new ArrayList<String>();
-				String line;
-				while ((line = br.readLine()) != null)
-					lines.add(line);
-				in.close();
-
-				fastas = FastaLinesToSimpleFasta.GetSimpleFastas(lines);
-			} else {
-				// do nothing, should be unreachable
 			}
+			in.close();
+		} catch (ScaffoldInfoException e) {
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error parsing scaffod info:", fm);
+			return "/sequences/importScaffolds.xhtml";
+		} catch (FileNotFoundException e) {
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error:", fm);
+			return "/sequences/importScaffolds.xhtml";
+		} catch (IOException e) {
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error:", fm);
+			return "/sequences/importScaffolds.xhtml";
+		} catch (Exception e) {
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error:", fm);
+			return "/sequences/importScaffolds.xhtml";
+		}
+		return "/sequences/importScaffolds.xhtml";
+	}
+
+	public String uploadFasta() {
+		try {
+			UploadedFile file = getFile();
+			FileInputStream fstream = new FileInputStream(file.getFilename());
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			setFile(null);
+			fastas = new ArrayList<SimpleFasta>();
+			List<String> lines = new ArrayList<String>();
+			String line;
+			while ((line = br.readLine()) != null)
+				lines.add(line);
+			in.close();
+
+			fastas = FastaLinesToSimpleFasta.GetSimpleFastas(lines);
 			in.close();
 		} catch (FileNotFoundException e) {
 			FacesMessage fm = new FacesMessage(e.getMessage());
@@ -146,12 +172,28 @@ public class importScaffoldsController extends FileUpload {
 			FacesMessage fm = new FacesMessage(e.getMessage());
 			FacesContext.getCurrentInstance().addMessage("Error:", fm);
 			return "/sequences/importScaffolds.xhtml";
+		} catch (Exception e) {
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error:", fm);
+			return "/sequences/importScaffolds.xhtml";
 		}
 		return "/sequences/importScaffolds.xhtml";
 	}
 
-	public String importSequences() {
-		importScaffolds();
+	public String save() {
+		// save
+		try {
+			scaffoldsImporter.save();
+		} catch (ScaffoldsImporterException e) {
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error saving scaffolds:", fm);
+			return "/sequences/validateScaffolds.xhtml";
+		} catch (Exception e) {
+			FacesMessage fm = new FacesMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("Error saving scaffolds:", fm);
+			return "/sequences/validateScaffolds.xhtml";
+		}
+		cleanUp();
 		return "/sequences/home.xhtml";
 	}
 
@@ -159,10 +201,20 @@ public class importScaffoldsController extends FileUpload {
 		cleanUp();
 		return "/sequences/importScaffolds.xhtml";
 	}
+	
+	public String home() {
+		return "/sequences/importScaffolds.xhtml";
+	}
 
 	public String cancel() {
+		scaffoldsImporter.reset();
 		cleanUp();
 		return "/sequences/home.xhtml";
+	}
+
+	public String validate() {
+		importScaffolds();
+		return "/sequences/validateScaffolds.xhtml";
 	}
 
 	private void cleanUp() {

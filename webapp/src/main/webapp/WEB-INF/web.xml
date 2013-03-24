@@ -4,21 +4,34 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>org.genomesmanager.webapp.server.GreetingServiceImpl</servlet-class>
-  </servlet>
 
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/webapp/greet</url-pattern>
-  </servlet-mapping>
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>greetServlet</servlet-name>
+		<servlet-class>org.genomesmanager.webapp.server.GreetingServiceImpl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
+		<servlet-class>org.spring4gwt.server.SpringGwtRemoteServiceServlet</servlet-class>
+	</servlet>
 
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>webapp.html</welcome-file>
-  </welcome-file-list>
+
+	<servlet-mapping>
+		<servlet-name>greetServlet</servlet-name>
+		<url-pattern>/webapp/greet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
+		<url-pattern>/gwtspring/springGwtServices/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>webapp.html</welcome-file>
+	</welcome-file-list>
 
 </web-app>

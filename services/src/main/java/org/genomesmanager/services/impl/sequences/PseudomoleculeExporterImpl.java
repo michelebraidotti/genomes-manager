@@ -30,7 +30,7 @@ public class PseudomoleculeExporterImpl implements PseudomoleculeExporter {
     		else {
     			seq = pseudomoleculeRepo.getFromChromosome(p.getChromosome().getId(), masked);
     		}
-    		p.setSequence(seq.toString());
+    		p.setSequenceText(seq.toString());
     		p.setLength(seq.length());
     	}
     	return p;

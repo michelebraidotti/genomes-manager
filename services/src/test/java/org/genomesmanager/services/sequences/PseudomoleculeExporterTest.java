@@ -83,7 +83,7 @@ public class PseudomoleculeExporterTest {
 		when(pseudomoleculeRepo.getFromChromosome(chr.getId(), masked)).thenReturn(seq);
 		Pseudomolecule p = pseudomoleculeExporter.get(pseudomol.getId(), masked);
 		
-		assertEquals(seq.toString(),p.getSequence());
+		assertEquals(seq.toString(),p.getSequenceText());
 		for (Scaffold scaffold:p.getScaffolds()) {
 			for (Scaffold scaffoldOrig:scaffolds) {
 				if ( scaffoldOrig.getId() == scaffold.getId() )

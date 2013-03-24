@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SequenceName;
+import org.genomesmanager.domain.entities.SpeciesPK;
 import org.genomesmanager.repositories.sequences.SequencesList;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +44,16 @@ public class SequencesListJpa implements SequencesList {
 		}
 		Collections.sort(seqNames);
 		return seqNames;
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+	public List<Sequence> getAllBySpecies(SpeciesPK id) {
+		q = em.createNamedQuery("Sequence.findAllBySpecies");
+		q.setParameter("genus", id.getGenus());
+		q.setParameter("species", id.getSpecies());
+		q.setParameter("subspecies", id.getSubspecies());
+		return q.getResultList();
     }
 
 }

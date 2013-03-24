@@ -52,7 +52,7 @@ public class ScaffoldsExporterImpl implements ScaffoldsExporter {
 				f = new SimpleFasta(s.getName() + "_masked.fa", s.getFastaHeader(), s.getMaskedSequence());
 			}
 			else {
-				f = new SimpleFasta(s.getName() + ".fa", s.getFastaHeader(), s.getSequence());
+				f = new SimpleFasta(s.getName() + ".fa", s.getFastaHeader(), s.getSequenceText());
 			}
 			fastas.add(f);
 		}

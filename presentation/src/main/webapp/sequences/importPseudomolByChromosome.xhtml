@@ -13,34 +13,34 @@
 				<h1>Import By Chromosome</h1>
 				<h:panelGrid columns="2">
 					<h:outputText value="Available Species:" />
-					<h:selectOneMenu value="#{importByChromosome.speciesDefinition}"
+					<h:selectOneMenu value="#{importPseudomolByChromosome.speciesDefinition}"
 						onchange="submit()"
-						valueChangeListener="#{importByChromosome.speciesChanged}">
+						valueChangeListener="#{importPseudomolByChromosome.speciesChanged}">
 						<f:selectItems value="#{speciesBrowser.species}" var="s"
 							itemLabel="#{s.toString()}" itemValue="#{s}" />
 					</h:selectOneMenu>
 
 					<h:outputText value="Available Chromosomes:" />
-					<h:selectOneMenu value="#{importByChromosome.chromosomeSelected}"
-						rendered="#{not empty importByChromosome.chromosomes}"
+					<h:selectOneMenu value="#{importPseudomolByChromosome.chromosomeSelected}"
+						rendered="#{not empty importPseudomolByChromosome.chromosomes}"
 						onchange="submit()">
-						<f:selectItems value="#{importByChromosome.chromosomes}" var="c"
+						<f:selectItems value="#{importPseudomolByChromosome.chromosomes}" var="c"
 							itemLabel="#{c.number}" itemValue="#{c.number}" />
 					</h:selectOneMenu>
 					<h:outputText value="No chromosomes found."
-						rendered="#{empty importByChromosome.chromosomes}" />
+						rendered="#{empty importPseudomolByChromosome.chromosomes}" />
 
-					<h:outputText rendered="#{importByChromosome.chromosomeSelected != ''}" value="Upload FASTA file:" />
+					<h:outputText rendered="#{importPseudomolByChromosome.chromosomeSelected != ''}" value="Upload FASTA file:" />
 					<h:panelGrid columns="1"
-						rendered="#{importByChromosome.chromosomeSelected != ''}">
-						<tr:inputFile value="#{importByChromosome.file}" />
+						rendered="#{importPseudomolByChromosome.chromosomeSelected != ''}">
+						<tr:inputFile value="#{importPseudomolByChromosome.file}" />
 						<tr:commandButton text="Upload"
-							action="#{importByChromosome.doUpload}" />
+							action="#{importPseudomolByChromosome.doUpload}" />
 					</h:panelGrid>
 					
 					<p></p>
-					<h:dataTable value="#{importByChromosome.simpleFasta}"
-						rendered="#{not empty importByChromosome.simpleFasta}"
+					<h:dataTable value="#{importPseudomolByChromosome.simpleFasta}"
+						rendered="#{not empty importPseudomolByChromosome.simpleFasta}"
 						var="f">
 
 						<h:column>
@@ -58,16 +58,16 @@
     					</h:column>		
 					</h:dataTable>
 					
-					<h:outputText rendered="#{not empty importByChromosome.simpleFasta}" value="Sequence version:" />
-					<h:inputText rendered="#{not empty importByChromosome.simpleFasta}" value="#{importByChromosome.version}" />
+					<h:outputText rendered="#{not empty importPseudomolByChromosome.simpleFasta}" value="Sequence version:" />
+					<h:inputText rendered="#{not empty importPseudomolByChromosome.simpleFasta}" value="#{importPseudomolByChromosome.version}" />
 					
 					<h:outputText value="" />
 					<h:messages /> 
 					
-					<h:commandButton type="submit" value="Save" rendered="#{not empty importByChromosome.simpleFasta}"
-						action="#{importByChromosome.importSequences}" />
-					<h:commandButton type="submit" value="Cancel" rendered="#{not empty importByChromosome.simpleFasta}"
-						action="#{importByChromosome.cancel}" />
+					<h:commandButton type="submit" value="Save" rendered="#{not empty importPseudomolByChromosome.simpleFasta}"
+						action="#{importPseudomolByChromosome.importSequences}" />
+					<h:commandButton type="submit" value="Cancel" rendered="#{not empty importPseudomolByChromosome.simpleFasta}"
+						action="#{importPseudomolByChromosome.cancel}" />
 				</h:panelGrid>
 			</h:form>
 		</f:view>

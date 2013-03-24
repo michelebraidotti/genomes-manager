@@ -37,7 +37,7 @@ public class PseudomoleculeRepoJpa implements PseudomoleculeRepo {
 				out.append(scaf.getMaskedSequence());
 			}
 			else {
-				out.append(scaf.getSequence());
+				out.append(scaf.getSequenceText());
 			}
 			out.append(Pseudomolecule.SCAFFOLDS_SPACER());
 		}
@@ -60,7 +60,7 @@ public class PseudomoleculeRepoJpa implements PseudomoleculeRepo {
 				out.append(scaf.getMaskedSequence());
 			}
 			else {
-				out.append(scaf.getSequence());
+				out.append(scaf.getSequenceText());
 			}
 			out.append(Pseudomolecule.SCAFFOLDS_SPACER());
 		}

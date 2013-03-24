@@ -54,7 +54,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
 		chromosomeRepo.insert(chr);
 		Sequence seq = SequencesOM.Generate(1, chr).get(0);
-		seq.setSequence(SequencesOM.GenererateSequence(1000).toString());
+		seq.setSequenceText(SequencesOM.GenererateSequence(1000).toString());
 		seq.setLength(1000);
 		sequenceRepo.insert(seq);
 		String [] repClassDefinitions = {

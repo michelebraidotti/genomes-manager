@@ -51,7 +51,7 @@ public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
 					e.getMessage());
 		}
 		String sequence = sequenceBulilder.toString();
-    	pm.setSequence(sequence);
+    	pm.setSequenceText(sequence);
     	pm.setLength(sequence.length());
     	pm.setName(name);
     	pm.setVersion(version);

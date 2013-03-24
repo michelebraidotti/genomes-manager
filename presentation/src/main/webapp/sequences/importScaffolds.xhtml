@@ -21,12 +21,11 @@
 					</h:selectOneMenu>
 				
 				
-					<h:outputText rendered="#{empty importScaffolds.scaffoldsInfo}" value="Upload manifest file:" />
-					<h:panelGrid columns="1"
-						rendered="#{empty importScaffolds.scaffoldsInfo}">
+					<h:outputText value="Upload manifest file:" />
+					<h:panelGrid columns="1">
 						<tr:inputFile value="#{importScaffolds.file}" />
 						<tr:commandButton text="Upload"
-							action="#{importScaffolds.doUpload}" />
+							action="#{importScaffolds.uploadManifest}" />
 					</h:panelGrid>
 				
 					<h:outputText rendered="#{not empty importScaffolds.scaffoldsInfo}" value="" />
@@ -59,26 +58,18 @@
     						#{s.chrDescr}
     					</h:column>	
     								
-					</h:dataTable>
+					</h:dataTable>	
 					
-					<h:outputText rendered="#{not empty importScaffolds.scaffoldsInfo}" value="" />
-					<h:commandButton type="submit" value="Remove uploaded info" rendered="#{not empty importScaffolds.scaffoldsInfo}"
-						action="#{importScaffolds.clear}" />
-				
-					
-					<h:outputText rendered="#{empty importScaffolds.fastas}" value="Upload scaffolds file:" />
-					<h:panelGrid columns="1"
-						rendered="#{empty importScaffolds.fastas}">
+					<h:outputText value="Upload scaffolds file:" />
+					<h:panelGrid columns="1">
 						<tr:inputFile value="#{importScaffolds.file}" />
 						<tr:commandButton text="Upload"
-							action="#{importScaffolds.doUpload}" />
+							action="#{importScaffolds.uploadFasta}" />
 					</h:panelGrid>
 				
 				
 					<h:outputText rendered="#{not empty importScaffolds.fastas}" value="" />
-					<h:dataTable value="#{importScaffolds.fastas}"
-						rendered="#{not empty importScaffolds.fastas}"
-						var="f">
+					<h:dataTable value="#{importScaffolds.fastas}" var="f">
 
 						<h:column>
 							<!-- column header -->
@@ -94,15 +85,12 @@
     					</h:column>		
 					</h:dataTable>
 					
-					<h:outputText rendered="#{not empty importScaffolds.fastas}" value="" />
-					<h:commandButton type="submit" value="Remove uploaded info" rendered="#{not empty importScaffolds.fastas}"
-						action="#{importScaffolds.clear}" />
 					
 					<h:outputText value="" />
 					<h:messages /> 
 					
-					<h:commandButton type="submit" value="Save" rendered="#{not empty importScaffolds.fastas}"
-						action="#{importScaffolds.importSequences}" />
+					<h:commandButton type="submit" value="Next" rendered="#{not empty importScaffolds.fastas}"
+						action="#{importScaffolds.validate}" />
 					<h:commandButton type="submit" value="Cancel" rendered="#{not empty importScaffolds.fastas}"
 						action="#{importScaffolds.cancel}" />
 				

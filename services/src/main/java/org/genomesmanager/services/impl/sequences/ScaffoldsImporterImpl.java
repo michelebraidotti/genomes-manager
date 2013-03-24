@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.genomesmanager.common.formats.ScaffoldInfo;
+import org.genomesmanager.common.formats.ScaffoldInfoException;
 import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.common.parsers.FastaLinesToSimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
@@ -19,9 +20,11 @@ import org.genomesmanager.services.sequences.ScaffoldsImporterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("ScaffoldsImporter")
 @Scope("prototype")
+@Transactional
 public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	@Autowired
 	private ChromosomeRepo chromosomeRepo;
@@ -37,6 +40,7 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	@Override
 	public void importScaffoldsWithInfo(List<ScaffoldInfo> scaffoldsinfo, List<SimpleFasta> fastas, Species sp)
 			throws ScaffoldsImporterException {
+		reset();
 		HashMap<String, ScaffoldInfo> scaffsPosition = new HashMap<String, ScaffoldInfo>();
 		for (ScaffoldInfo info : scaffoldsinfo) 
 			scaffsPosition.put(info.getName(), info);
@@ -51,7 +55,7 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 					continue;
 				}
 				s.setName(info.getName());
-				s.setSequence(fasta.getSequence());
+				s.setSequenceText(fasta.getSequence());
 				s.setLength(fasta.getSequence().length());
 				s.setOrder(info.getOrder());
 				if (info.getOrder() == 0) {
@@ -89,8 +93,13 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 			Species sp) throws ScaffoldsImporterException {
 		List<SimpleFasta> fastas = FastaLinesToSimpleFasta.GetSimpleFastas(fastaLines);
 		List<ScaffoldInfo> infos = new ArrayList<ScaffoldInfo>();
-		for (String line : manifest) 
-			infos.add(new ScaffoldInfo(line));
+		for (String line : manifest) {
+			try {
+				infos.add(new ScaffoldInfo(line));
+			} catch (ScaffoldInfoException e) {
+				// swallow it
+			}
+		}
 		importScaffoldsWithInfo(infos, fastas, sp);
 	}
 
@@ -229,7 +238,7 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 			}
 		}
 		String name = splitId[0].replace(">", "");
-		scaf.setSequence(sequence);
+		scaf.setSequenceText(sequence);
 		scaf.setLength(sequence.length());
 		scaf.setName(name);
 		scaf.setOrder(order);

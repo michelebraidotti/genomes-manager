@@ -64,7 +64,7 @@ public class RepeatsImporterTest {
 		int seqLength = 150;
 		seq = SequencesOM.Generate(1, chr).get(0);
 		seq.setId(generator.nextInt());
-		seq.setSequence(SequencesOM.GenererateSequence(seqLength).toString());
+		seq.setSequenceText(SequencesOM.GenererateSequence(seqLength).toString());
 		seq.setLength(seqLength);
 		
 		String repClassDefinition = "I, I, LTR, test, test";		

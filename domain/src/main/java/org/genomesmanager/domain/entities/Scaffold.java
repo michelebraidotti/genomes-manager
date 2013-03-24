@@ -180,7 +180,7 @@ public class Scaffold extends Sequence implements Serializable {
 	public String toAGPLine() {
 		String out = "";
 		Pattern p = Pattern.compile("N{6,}+");
-		Matcher m = p.matcher(this.getSequence());
+		Matcher m = p.matcher(this.getSequenceText());
 		while ( m.find() ) {			
 			System.out.println("String: " + m.group());
 			System.out.println("Start: " + m.start());

@@ -47,7 +47,7 @@ public class PseudomoleculeRepoTest extends AbstractIntegrationTest {
 		
 		for (Pseudomolecule p:pseudomolecules) {
 			Pseudomolecule pPost = pseudomoleculeRepo.get(p.getId());
-			System.out.println("Name: " + p.getName() + ", Sequence: " + p.getSequence());
+			System.out.println("Name: " + p.getName() + ", Sequence: " + p.getSequenceText());
 			assertEquals(p, pPost);
 		}
 		

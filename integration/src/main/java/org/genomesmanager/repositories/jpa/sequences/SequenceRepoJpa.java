@@ -13,8 +13,10 @@ import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("SequenceRepo")
+@Transactional
 public class SequenceRepoJpa implements SequenceRepo {
 	@PersistenceContext
 	private EntityManager em;
@@ -193,7 +195,7 @@ public class SequenceRepoJpa implements SequenceRepo {
 	 */
 	@Override
 	public void update(Sequence seq) {
-		em.merge(seq);	
+		seq = em.merge(seq);	
 	}
 
 	/* (non-Javadoc)

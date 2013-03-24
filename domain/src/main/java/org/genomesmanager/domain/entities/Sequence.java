@@ -33,6 +33,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.biojava3.core.sequence.DNASequence;
+import org.hibernate.annotations.Type;
 
 
 /**
@@ -46,14 +47,17 @@ import org.biojava3.core.sequence.DNASequence;
 @NamedQueries({
 	@NamedQuery(name = "Sequence.findAll", query = "SELECT s FROM Sequence s"),
 	@NamedQuery(name = "Sequence.findAllByChr", query = "SELECT s FROM Sequence s " +
-			"WHERE chromosome.id = :chrId")
+			"WHERE chromosome.id = :chrId"),
+	@NamedQuery(name = "Sequence.findAllBySpecies", 
+			query = "SELECT s FROM Sequence s JOIN s.chromosome c JOIN c.species sp " +
+					"WHERE sp.id.genus = :genus and sp.id.species = :species and sp.id.subspecies = :subspecies")
 })
 public class Sequence implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private Calendar dateCreated;
 	private Calendar dateModified;
-	private String sequence;
+	private String sequenceText;
 	private int length;
 	private Chromosome chromosome;
 	private Sequence supersededBy;
@@ -104,12 +108,14 @@ public class Sequence implements Serializable {
 
     @Lob
     @Basic(fetch=FetchType.LAZY)
-	public String getSequence() {
-		return this.sequence;
+    @Column(name="sequence_text")
+    @Type(type = "org.hibernate.type.TextType")
+	public String getSequenceText() {
+		return this.sequenceText;
 	}
 
-	public void setSequence(String sequence) {
-		this.sequence = sequence;
+	public void setSequenceText(String sequenceText) {
+		this.sequenceText = sequenceText;
 	}
 
 
@@ -244,12 +250,12 @@ public class Sequence implements Serializable {
 	
 	@Transient
 	public String getMaskedSequence() throws SequenceSliceException {
-		StringBuffer maskedSeq = new StringBuffer(sequence);
+		StringBuffer maskedSeq = new StringBuffer(sequenceText);
 		for (Repeat r:this.getRepeats()) {
-			if ( r.getY() <= 0 || r.getY() > sequence.length() ) {
+			if ( r.getY() <= 0 || r.getY() > sequenceText.length() ) {
 				throw new SequenceSliceException("Repeat end (" + r.getY() + ") out of sequence bounds");
 			}
-			if ( r.getX() <= 0 || r.getX() > sequence.length() ) {
+			if ( r.getX() <= 0 || r.getX() > sequenceText.length() ) {
 				throw new SequenceSliceException("Repeat start (" + r.getX() + ") out of sequence bounds");
 			}
 			StringBuffer ens = new StringBuffer();
@@ -279,8 +285,7 @@ public class Sequence implements Serializable {
 		if ( end > this.length ) {
 			throw new SequenceSliceException(" End " + end + " > " + this.length);
 		}
-		//System.out.println("Start: " + start + " End: " + end + " Len: " + length);
-    	return sequence.substring(start -1 , end);
+    	return sequenceText.substring(start -1 , end);
     }
 	
 	@Transient

@@ -2,6 +2,8 @@ package org.genomesmanager.repositories.jpa.sequences;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
@@ -30,7 +32,7 @@ public class SequencesListTest extends AbstractIntegrationTest {
 	private SequencesList sequencesList;
 	
 	@Test
-	public void test() throws SpeciesRepoException, ChromosomeRepoException, SequenceRepoException {
+	public void testByChr() throws SpeciesRepoException, ChromosomeRepoException, SequenceRepoException {
 		int nOfNewSequences = 7;
 		Species sp = SpeciesOM.Generate(1).get(0);
 		speciesRepo.insert(sp);
@@ -41,6 +43,21 @@ public class SequencesListTest extends AbstractIntegrationTest {
 		}
 		assertEquals( nOfNewSequences, sequencesList.getAllByChromosome(chr.getId()).size() );
 		assertEquals( nOfNewSequences, sequencesList.getAllNamesByChromosome(chr.getId()).size() );
+	}
+	
+	@Test
+	public void testBySpecies() throws SpeciesRepoException, ChromosomeRepoException, SequenceRepoException {
+		int nOfNewSequences = 7;
+		Species sp = SpeciesOM.Generate(1).get(0);
+		speciesRepo.insert(sp);
+		List<Chromosome> chrs = ChromosomesOM.Generate(3, sp);
+		for (Chromosome chr:chrs) {
+			chromosomeRepo.insert(chr);
+			for ( Sequence seq:SequencesOM.Generate(nOfNewSequences, chr) ) {
+				sequenceRepo.insert(seq);
+			}
+		}
+		assertEquals( nOfNewSequences * chrs.size(), sequencesList.getAllBySpecies(sp.getId()).size() );
 	}
 	
 }
