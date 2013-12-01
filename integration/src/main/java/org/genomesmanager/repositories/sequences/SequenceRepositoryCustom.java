@@ -2,9 +2,9 @@ package org.genomesmanager.repositories.sequences;
 
 import java.util.List;
 
+import org.genomesmanager.domain.dtos.SequenceName;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.domain.entities.SequenceName;
 import org.genomesmanager.domain.entities.Species;
 
 public interface SequenceRepositoryCustom {

@@ -3,74 +3,64 @@
  */
 package org.genomesmanager.domain.entities;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
+import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
+import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * @author michele
- *
+ * 
  */
 public class SequenceTest {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+	private Sequence seq;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		Species sp = SpeciesOM.Generate(1).get(0);
+		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		seq = SequencesOM.Generate(1, chr).get(0);
 	}
 
 	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#getType()}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#getType()}.
 	 */
 	@Test
 	public void testGetType() {
-		fail("Not yet implemented");
+		assertEquals("", seq.getType());
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#getFastaHeader()}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#getFastaHeader()}.
 	 */
 	@Test
 	public void testGetFastaHeader() {
-		fail("Not yet implemented");
+		String fastaHeader = ">" + seq.getId();
+		assertEquals(fastaHeader, seq.getFastaHeader());
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#toString()}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#toString()}.
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		assertEquals(seq.descr(), seq.toString());
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#setCreateDefaults()}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#setCreateDefaults()}.
 	 */
 	@Test
 	public void testSetCreateDefaults() {
@@ -78,7 +68,8 @@ public class SequenceTest {
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#setUpdateDefaults()}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#setUpdateDefaults()}.
 	 */
 	@Test
 	public void testSetUpdateDefaults() {
@@ -86,7 +77,8 @@ public class SequenceTest {
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#getMaskedSequence()}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#getMaskedSequence()}.
 	 */
 	@Test
 	public void testGetMaskedSequence() {
@@ -94,7 +86,8 @@ public class SequenceTest {
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#getSlice(int, int)}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#getSlice(int, int)}.
 	 */
 	@Test
 	public void testGetSlice() {
@@ -102,7 +95,9 @@ public class SequenceTest {
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#getReverseComplementSlice(int, int)}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#getReverseComplementSlice(int, int)}
+	 * .
 	 */
 	@Test
 	public void testGetReverseComplementSlice() {
@@ -110,7 +105,8 @@ public class SequenceTest {
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#descr()}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#descr()}.
 	 */
 	@Test
 	public void testDescr() {
@@ -118,7 +114,8 @@ public class SequenceTest {
 	}
 
 	/**
-	 * Test method for {@link org.genomesmanager.domain.entities.Sequence#humanName()}.
+	 * Test method for
+	 * {@link org.genomesmanager.domain.entities.Sequence#humanName()}.
 	 */
 	@Test
 	public void testHumanName() {

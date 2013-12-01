@@ -24,27 +24,23 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.genomesmanager.common.formats.Gff3Line;
-
 
 /**
  * The persistent class for the genes database table.
  * 
  */
 @Entity
-@Table(name="genes", schema="annotation")
+@Table(name = "genes", schema = "annotation")
 @NamedQueries({
-	@NamedQuery(name = "Gene.findByName", 
-    		query = "SELECT g FROM Gene g " +
-    				"WHERE g.name = :name"),
-	@NamedQuery(name = "Gene.findAllBySpecies", 
-    		query = "SELECT g FROM Gene g JOIN g.sequence s JOIN s.chromosome c " +
-    				"JOIN c.species sp " +
-    				"WHERE sp.id = :speciesId "),
-	@NamedQuery(name = "Gene.findAllByChromosome", 
-    		query = "SELECT g FROM Gene g JOIN g.sequence s JOIN s.chromosome c " +
-    				"WHERE c.id = :chrId")
-})
+		@NamedQuery(name = "Gene.findByName", query = "SELECT g FROM Gene g "
+				+ "WHERE g.name = :name"),
+		@NamedQuery(name = "Gene.findAllBySpecies", query = "SELECT g FROM Gene g JOIN g.sequence s JOIN s.chromosome c "
+				+ "JOIN c.species sp " + "WHERE sp.id = :speciesId "),
+		@NamedQuery(name = "Gene.findAllByChromosome", query = "SELECT g FROM Gene g JOIN g.sequence s JOIN s.chromosome c "
+				+ "WHERE c.id = :chrId") })
 public class Gene extends IntervalFeature implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -59,13 +55,13 @@ public class Gene extends IntervalFeature implements Serializable {
 	private int y;
 	private List<Mrna> mrnas = new ArrayList<Mrna>();
 
-    public Gene() {
-    }
+	public Gene() {
+	}
 
-    @Id
-	@SequenceGenerator(name="GENES_ID_GENERATOR", sequenceName="annotation.genes_id_seq", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="GENES_ID_GENERATOR")
-	@Column(insertable=false, updatable=false)
+	@Id
+	@SequenceGenerator(name = "GENES_ID_GENERATOR", sequenceName = "annotation.genes_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GENES_ID_GENERATOR")
+	@Column(insertable = false, updatable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -74,9 +70,8 @@ public class Gene extends IntervalFeature implements Serializable {
 		this.id = id;
 	}
 
-
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="date_created")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_created")
 	public Calendar getDateCreated() {
 		return this.dateCreated;
 	}
@@ -85,9 +80,8 @@ public class Gene extends IntervalFeature implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="date_modified")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_modified")
 	public Calendar getDateModified() {
 		return this.dateModified;
 	}
@@ -96,8 +90,7 @@ public class Gene extends IntervalFeature implements Serializable {
 		this.dateModified = dateModified;
 	}
 
-
-	@Column(name="gc_content")
+	@Column(name = "gc_content")
 	public BigDecimal getGcContent() {
 		return this.gcContent;
 	}
@@ -105,7 +98,6 @@ public class Gene extends IntervalFeature implements Serializable {
 	public void setGcContent(BigDecimal gcContent) {
 		this.gcContent = gcContent;
 	}
-
 
 	public String getName() {
 		return this.name;
@@ -115,9 +107,8 @@ public class Gene extends IntervalFeature implements Serializable {
 		this.name = name;
 	}
 
-	
-	//bi-directional many-to-one association to Chromosome
-    @ManyToOne
+	// bi-directional many-to-one association to Chromosome
+	@ManyToOne
 	public Sequence getSequence() {
 		return this.sequence;
 	}
@@ -125,7 +116,6 @@ public class Gene extends IntervalFeature implements Serializable {
 	public void setSequence(Sequence sequence) {
 		this.sequence = sequence;
 	}
-
 
 	@Column(name = "strandness", columnDefinition = "bpchar(1)")
 	public String getStrandness() {
@@ -136,7 +126,6 @@ public class Gene extends IntervalFeature implements Serializable {
 		this.strandness = strandness;
 	}
 
-
 	public String getType() {
 		return this.type;
 	}
@@ -144,7 +133,6 @@ public class Gene extends IntervalFeature implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-
 
 	public int getX() {
 		return this.x;
@@ -154,7 +142,6 @@ public class Gene extends IntervalFeature implements Serializable {
 		this.x = x;
 	}
 
-
 	public int getY() {
 		return this.y;
 	}
@@ -163,9 +150,9 @@ public class Gene extends IntervalFeature implements Serializable {
 		this.y = y;
 	}
 
-
-	//bi-directional many-to-one association to Exon
-	@OneToMany(mappedBy="gene", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
+	// bi-directional many-to-one association to Exon
+	@OneToMany(mappedBy = "gene", cascade = { CascadeType.PERSIST,
+			CascadeType.MERGE }, orphanRemoval = true)
 	public List<Mrna> getMrnas() {
 		return this.mrnas;
 	}
@@ -173,19 +160,19 @@ public class Gene extends IntervalFeature implements Serializable {
 	public void setMrnas(List<Mrna> mrnas) {
 		this.mrnas = mrnas;
 	}
-	
+
 	@Transient
 	public String toGff3Line() {
 		return this.buildGff3Annotation().toString();
 	}
-	
+
 	@Transient
 	public String toGff3WithPseudomolCoordinatesLine(String chrName, Long offset) {
 		Gff3Line gff3 = buildGff3Annotation();
 		gff3.toPseudomolCoords(chrName, Integer.parseInt(offset + ""));
 		return gff3.toString();
 	}
-	
+
 	private Gff3Line buildGff3Annotation() {
 		Gff3Line gff3 = new Gff3Line();
 		gff3.setSeqId(sequence.humanName());
@@ -199,25 +186,42 @@ public class Gene extends IntervalFeature implements Serializable {
 		gff3.setAttribId(name + "");
 		return gff3;
 	}
-	
+
 	@Transient
 	public String extraAnnot() {
 		String annot = "";
 		return annot;
 	}
-	
-	
+
 	@PrePersist
 	public void setCreateDefaults() {
-		if ( this.dateCreated == null ) {
+		if (this.dateCreated == null) {
 			this.dateCreated = Calendar.getInstance();
 			this.dateModified = Calendar.getInstance();
 		}
 	}
-	
+
 	@PreUpdate
 	public void setUpdateDefaults() {
 		this.dateModified = Calendar.getInstance();
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Gene == false) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+		Gene other = (Gene) obj;
+		return new EqualsBuilder().append(this.getName(), other.getName())
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.getName()).hashCode();
+	}
 }

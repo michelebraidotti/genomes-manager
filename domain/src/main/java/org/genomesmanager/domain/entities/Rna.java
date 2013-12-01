@@ -23,25 +23,22 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * The persistent class for the rnas database table.
  * 
  */
 @Entity
-@Table(name="rnas", schema="annotation")
+@Table(name = "rnas", schema = "annotation")
 @NamedQueries({
-	@NamedQuery(name = "Rna.findByName", 
-    		query = "SELECT r FROM Rna r " +
-    				"WHERE r.name = :name"),
-	@NamedQuery(name = "Rna.findAllBySpecies", 
-    		query = "SELECT r FROM Rna r JOIN r.sequence s JOIN s.chromosome c " +
-    				"JOIN c.species sp " +
-    				"WHERE sp.id = :speciesId "),
-	@NamedQuery(name = "Rna.findAllByChromosome", 
-    		query = "SELECT r FROM Rna r JOIN r.sequence s JOIN s.chromosome c " +
-    				"WHERE c.id = :chrId")  
-})
+		@NamedQuery(name = "Rna.findByName", query = "SELECT r FROM Rna r "
+				+ "WHERE r.name = :name"),
+		@NamedQuery(name = "Rna.findAllBySpecies", query = "SELECT r FROM Rna r JOIN r.sequence s JOIN s.chromosome c "
+				+ "JOIN c.species sp " + "WHERE sp.id = :speciesId "),
+		@NamedQuery(name = "Rna.findAllByChromosome", query = "SELECT r FROM Rna r JOIN r.sequence s JOIN s.chromosome c "
+				+ "WHERE c.id = :chrId") })
 public class Rna extends IntervalFeature implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -58,12 +55,13 @@ public class Rna extends IntervalFeature implements Serializable {
 	private Rna parent;
 	private List<Rna> children;
 
-    public Rna() { }
+	public Rna() {
+	}
 
 	@Id
-	@SequenceGenerator(name="RNAS_ID_GENERATOR", sequenceName="annotation.rnas_id_seq", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RNAS_ID_GENERATOR")
-	@Column(insertable=false, updatable=false)
+	@SequenceGenerator(name = "RNAS_ID_GENERATOR", sequenceName = "annotation.rnas_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RNAS_ID_GENERATOR")
+	@Column(insertable = false, updatable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -72,9 +70,8 @@ public class Rna extends IntervalFeature implements Serializable {
 		this.id = id;
 	}
 
-
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="date_created")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_created")
 	public Calendar getDateCreated() {
 		return this.dateCreated;
 	}
@@ -83,9 +80,8 @@ public class Rna extends IntervalFeature implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="date_modified")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_modified")
 	public Calendar getDateModified() {
 		return this.dateModified;
 	}
@@ -94,8 +90,7 @@ public class Rna extends IntervalFeature implements Serializable {
 		this.dateModified = dateModified;
 	}
 
-
-	@Column(name="gc_content")
+	@Column(name = "gc_content")
 	public BigDecimal getGcContent() {
 		return this.gcContent;
 	}
@@ -103,7 +98,6 @@ public class Rna extends IntervalFeature implements Serializable {
 	public void setGcContent(BigDecimal gcContent) {
 		this.gcContent = gcContent;
 	}
-
 
 	public String getName() {
 		return this.name;
@@ -113,8 +107,7 @@ public class Rna extends IntervalFeature implements Serializable {
 		this.name = name;
 	}
 
-
-	@Column(name="rna_name")
+	@Column(name = "rna_name")
 	public String getRnaName() {
 		return this.rnaName;
 	}
@@ -123,7 +116,6 @@ public class Rna extends IntervalFeature implements Serializable {
 		this.rnaName = rnaName;
 	}
 
-	
 	@Column(name = "strandness", columnDefinition = "bpchar(1)")
 	public String getStrandness() {
 		return this.strandness;
@@ -133,7 +125,6 @@ public class Rna extends IntervalFeature implements Serializable {
 		this.strandness = strandness;
 	}
 
-
 	public String getType() {
 		return this.type;
 	}
@@ -141,7 +132,6 @@ public class Rna extends IntervalFeature implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-
 
 	public int getX() {
 		return this.x;
@@ -151,7 +141,6 @@ public class Rna extends IntervalFeature implements Serializable {
 		this.x = x;
 	}
 
-
 	public int getY() {
 		return this.y;
 	}
@@ -159,7 +148,7 @@ public class Rna extends IntervalFeature implements Serializable {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
 	@ManyToOne
 	public Sequence getSequence() {
 		return this.sequence;
@@ -168,9 +157,9 @@ public class Rna extends IntervalFeature implements Serializable {
 	public void setSequence(Sequence sequence) {
 		this.sequence = sequence;
 	}
-	
+
 	@ManyToOne
-	@JoinColumn(name="parent_rna_id")
+	@JoinColumn(name = "parent_rna_id")
 	public Rna getParent() {
 		return this.parent;
 	}
@@ -178,8 +167,8 @@ public class Rna extends IntervalFeature implements Serializable {
 	public void setParent(Rna parent) {
 		this.parent = parent;
 	}
-	
-	@OneToMany(mappedBy="parent")
+
+	@OneToMany(mappedBy = "parent")
 	public List<Rna> getChildren() {
 		return this.children;
 	}
@@ -187,7 +176,7 @@ public class Rna extends IntervalFeature implements Serializable {
 	public void setChildren(List<Rna> children) {
 		this.children = children;
 	}
-	
+
 	@Transient
 	public String toGff3Line() {
 		String line = sequence.humanName() + "\t";
@@ -199,15 +188,15 @@ public class Rna extends IntervalFeature implements Serializable {
 		line += strandness + "\t";
 		line += ".\t";
 		line += "ID=" + name;
-		if ( rnaName != null ) {
+		if (rnaName != null) {
 			line += ";Name=" + rnaName;
 		}
-		if ( parent != null ) {
+		if (parent != null) {
 			line += ";Parent=" + parent.getName();
 		}
 		return line;
 	}
-	
+
 	@Transient
 	public String toGff3WithPseudomolCoordinatesLine(String chrName, Long offset) {
 		Long newX = offset + x;
@@ -221,32 +210,50 @@ public class Rna extends IntervalFeature implements Serializable {
 		line += strandness + "\t";
 		line += ".\t";
 		line += "ID=" + name;
-		if ( rnaName != null ) {
+		if (rnaName != null) {
 			line += ";Name=" + rnaName;
 		}
-		if ( parent != null ) {
+		if (parent != null) {
 			line += ";Parent=" + parent.getName();
 		}
 		return line;
 	}
-	
+
 	@Transient
 	public String extraAnnot() {
 		String annot = "";
 		return annot;
 	}
-	
+
 	@PrePersist
 	public void setCreateDefaults() {
-		if ( this.dateCreated == null ) {
+		if (this.dateCreated == null) {
 			this.dateCreated = Calendar.getInstance();
 			this.dateModified = Calendar.getInstance();
 		}
 	}
-	
+
 	@PreUpdate
 	public void setUpdateDefaults() {
 		this.dateModified = Calendar.getInstance();
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Rna == false) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+		Rna other = (Rna) obj;
+		return new EqualsBuilder().append(this.getName(), other.getName())
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.getName()).hashCode();
+	}
 }

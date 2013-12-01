@@ -19,20 +19,18 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.genomesmanager.common.formats.Gff3Line;
-
 
 /**
  * The persistent class for the exons database table.
  * 
  */
 @Entity
-@Table(name="exons", schema="annotation")
-@NamedQueries({
-	@NamedQuery(name = "Exon.findByName", 
-    		query = "SELECT e FROM Exon e " +
-    				"WHERE e.name = :name")
-})
+@Table(name = "exons", schema = "annotation")
+@NamedQueries({ @NamedQuery(name = "Exon.findByName", query = "SELECT e FROM Exon e "
+		+ "WHERE e.name = :name") })
 public class Exon extends IntervalFeature implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -44,14 +42,13 @@ public class Exon extends IntervalFeature implements Serializable {
 	private Calendar dateCreated;
 	private Calendar dateModified;
 
-    public Exon() {
-    }
+	public Exon() {
+	}
 
-
-    @Id
-	@SequenceGenerator(name="EXONS_ID_GENERATOR", sequenceName="annotation.exons_id_seq", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EXONS_ID_GENERATOR")
-	@Column(insertable=false, updatable=false)
+	@Id
+	@SequenceGenerator(name = "EXONS_ID_GENERATOR", sequenceName = "annotation.exons_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EXONS_ID_GENERATOR")
+	@Column(insertable = false, updatable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -60,9 +57,8 @@ public class Exon extends IntervalFeature implements Serializable {
 		this.id = id;
 	}
 
-
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="date_created")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_created")
 	public Calendar getDateCreated() {
 		return this.dateCreated;
 	}
@@ -71,9 +67,8 @@ public class Exon extends IntervalFeature implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="date_modified")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_modified")
 	public Calendar getDateModified() {
 		return this.dateModified;
 	}
@@ -81,7 +76,6 @@ public class Exon extends IntervalFeature implements Serializable {
 	public void setDateModified(Calendar dateModified) {
 		this.dateModified = dateModified;
 	}
-
 
 	public String getName() {
 		return this.name;
@@ -91,7 +85,7 @@ public class Exon extends IntervalFeature implements Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "strandness", columnDefinition = "bpchar(1)")		
+	@Column(name = "strandness", columnDefinition = "bpchar(1)")
 	public String getStrandness() {
 		return this.strandness;
 	}
@@ -99,7 +93,6 @@ public class Exon extends IntervalFeature implements Serializable {
 	public void setStrandness(String strandness) {
 		this.strandness = strandness;
 	}
-
 
 	public int getX() {
 		return this.x;
@@ -109,7 +102,6 @@ public class Exon extends IntervalFeature implements Serializable {
 		this.x = x;
 	}
 
-
 	public int getY() {
 		return this.y;
 	}
@@ -118,9 +110,8 @@ public class Exon extends IntervalFeature implements Serializable {
 		this.y = y;
 	}
 
-	
-	//bi-directional many-to-one association to Mrna
-    @ManyToOne
+	// bi-directional many-to-one association to Mrna
+	@ManyToOne
 	public Mrna getMrna() {
 		return this.mrna;
 	}
@@ -128,19 +119,19 @@ public class Exon extends IntervalFeature implements Serializable {
 	public void setMrna(Mrna mrna) {
 		this.mrna = mrna;
 	}
-	
+
 	@Transient
 	public String toGff3Line() {
 		return this.buildGff3Annotation().toString();
 	}
-	
+
 	@Transient
 	public String toGff3WithPseudomolCoordinatesLine(String chrName, Long offset) {
 		Gff3Line gff3 = buildGff3Annotation();
 		gff3.toPseudomolCoords(chrName, Integer.parseInt(offset + ""));
 		return gff3.toString();
 	}
-	
+
 	private Gff3Line buildGff3Annotation() {
 		Gff3Line gff3 = new Gff3Line();
 		gff3.setSeqId(mrna.getGene().getSequence().humanName());
@@ -155,24 +146,43 @@ public class Exon extends IntervalFeature implements Serializable {
 		gff3.setAttribParent(mrna.getName());
 		return gff3;
 	}
-	
+
 	@Transient
 	public String extraAnnot() {
 		String annot = "";
 		return annot;
 	}
-	
+
 	@PrePersist
 	public void setCreateDefaults() {
-		if ( this.dateCreated == null ) {
+		if (this.dateCreated == null) {
 			this.dateCreated = Calendar.getInstance();
 			this.dateModified = Calendar.getInstance();
 		}
 	}
-	
+
 	@PreUpdate
 	public void setUpdateDefaults() {
 		this.dateModified = Calendar.getInstance();
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Exon == false) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+		Exon other = (Exon) obj;
+		return new EqualsBuilder().append(this.getName(), other.getName())
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.getName()).hashCode();
+	}
+
 }

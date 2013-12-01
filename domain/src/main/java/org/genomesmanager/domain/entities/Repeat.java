@@ -36,6 +36,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.genomesmanager.common.formats.Gff3Line;
 import org.hibernate.annotations.Type;
 
@@ -409,6 +411,31 @@ public class Repeat extends IntervalFeature implements Serializable {
 	@PreUpdate
 	public void setUpdateDefaults() {
 		this.dateModified = Calendar.getInstance();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Repeat == false) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+		Repeat other = (Repeat) obj;
+		return new EqualsBuilder()
+				.append(this.getX(), other.getX())
+				.append(this.getY(), other.getY())
+				.append(this.getSequence(), other.getSequence())
+				.append(this.getRepeatsClassification(),
+						other.getRepeatsClassification()).isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.getX()).append(this.getY())
+				.append(this.getSequence())
+				.append(this.getRepeatsClassification()).hashCode();
 	}
 
 }

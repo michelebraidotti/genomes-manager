@@ -8,9 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.genomesmanager.domain.dtos.SequenceName;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.domain.entities.SequenceName;
 import org.genomesmanager.domain.entities.Species;
 
 public class SequenceRepositoryImpl implements SequenceRepositoryCustom {

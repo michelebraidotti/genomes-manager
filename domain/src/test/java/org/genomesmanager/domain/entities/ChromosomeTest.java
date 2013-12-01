@@ -1,6 +1,8 @@
 package org.genomesmanager.domain.entities;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
@@ -38,4 +40,13 @@ public class ChromosomeTest {
 		assertEquals(descr, chr.descString());
 	}
 
+	@Test
+	public void testEquals() {
+		Chromosome otherChr = ChromosomesOM.Generate(1, sp).get(0);
+		otherChr.setNumber("somethingelse");
+		assertFalse(chr.equals(otherChr));
+		otherChr.setNumber(chr.getNumber());
+		otherChr.setSpecies(chr.getSpecies());
+		assertTrue(chr.equals(otherChr));
+	}
 }

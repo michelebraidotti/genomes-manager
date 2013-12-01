@@ -1,6 +1,8 @@
 package org.genomesmanager.domain.entities;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Properties;
 
@@ -183,6 +185,19 @@ public class RepeatTest {
 					repeat.getY());
 		}
 		assertEquals(seqText, repeat.getSequenceText());
+	}
+
+	@Test
+	public void testEquals() throws IntervalFeatureException {
+		Repeat otherRepeat = RepeatsOM.Generate(1, repClass, seq).get(0);
+		otherRepeat.setX(repeat.getX() + 1);
+		otherRepeat.setY(repeat.getY() - 1);
+		assertFalse(repeat.equals(otherRepeat));
+		otherRepeat.setX(repeat.getX());
+		otherRepeat.setY(repeat.getY());
+		otherRepeat.setSequence(repeat.getSequence());
+		otherRepeat.setRepeatsClassification(repeat.getRepeatsClassification());
+		assertTrue(repeat.equals(otherRepeat));
 	}
 
 }

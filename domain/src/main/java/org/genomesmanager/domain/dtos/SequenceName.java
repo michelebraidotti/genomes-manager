@@ -1,6 +1,8 @@
-package org.genomesmanager.domain.entities;
+package org.genomesmanager.domain.dtos;
 
 import java.io.Serializable;
+
+import org.genomesmanager.domain.entities.Sequence;
 
 
 public class SequenceName implements Serializable, Comparable<SequenceName> {
