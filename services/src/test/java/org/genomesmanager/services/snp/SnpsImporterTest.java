@@ -24,9 +24,9 @@ import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.domain.entities.objectmothers.VarietiesOM;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.snps.SnpRepo;
-import org.genomesmanager.repositories.species.IndividualRepo;
-import org.genomesmanager.repositories.species.VarietyRepo;
+import org.genomesmanager.repositories.snps.SnpRepository;
+import org.genomesmanager.repositories.species.IndividualRepository;
+import org.genomesmanager.repositories.species.VarietyRepository;
 import org.genomesmanager.repositories.species.VarietyRepoException;
 import org.genomesmanager.services.impl.snps.SnpsImporterImpl;
 import org.junit.Test;
@@ -38,13 +38,13 @@ import org.mockito.stubbing.Answer;
 
 public class SnpsImporterTest {
 	@Mock
-	private VarietyRepo varietyRepo;
+	private VarietyRepository varietyRepo;
 	@Mock
 	private SequenceRepo sequenceRepo;
 	@Mock
-	private IndividualRepo indRepo;
+	private IndividualRepository indRepo;
 	@Mock
-	private SnpRepo snpRepo;
+	private SnpRepository snpRepo;
 	@InjectMocks
 	private SnpsImporter snpsImporter = new SnpsImporterImpl();
 	private List<Variety> varieties;

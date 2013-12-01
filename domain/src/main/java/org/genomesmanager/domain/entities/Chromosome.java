@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -67,11 +66,7 @@ public class Chromosome implements Serializable {
 
 	//bi-directional many-to-one association to Species
     @ManyToOne
-	@JoinColumns({
-		@JoinColumn(name="species_genus", referencedColumnName="genus"),
-		@JoinColumn(name="species_species", referencedColumnName="species"),
-		@JoinColumn(name="species_subspecies", referencedColumnName="subspecies"),
-	})
+	@JoinColumn(name="species_id")
 	public Species getSpecies() {
 		return this.species;
 	}
@@ -92,16 +87,15 @@ public class Chromosome implements Serializable {
 	
 	@Transient
 	public String descString() {
-		SpeciesPK spk = species.getId();
-		String abbrGenus = spk.getGenus().substring(0, 1);
+		String abbrGenus = species.getGenus().substring(0, 1);
 		abbrGenus = abbrGenus.toUpperCase() + ".";
-		String abbrSpecies = spk.getSpecies();
+		String abbrSpecies = species.getSpecies();
 		if ( abbrSpecies.length() > 4 ) {
-			abbrSpecies = spk.getSpecies().substring(0, 4) + ".";
+			abbrSpecies = species.getSpecies().substring(0, 4) + ".";
 		}
-		String abbrSubsp = spk.getSubspecies();
+		String abbrSubsp = species.getSubspecies();
 		if ( abbrSubsp.length() > 4 ) {
-			abbrSubsp = spk.getSubspecies().substring(0, 4) + ".";
+			abbrSubsp = species.getSubspecies().substring(0, 4) + ".";
 		}
 		String res =  abbrGenus + " " +  abbrSpecies + " "  + abbrSubsp + 
 			" Chr" + number;
@@ -110,8 +104,7 @@ public class Chromosome implements Serializable {
 	
 	@Transient
 	public String speciesString() {
-		SpeciesPK spk = species.getId();
-		return spk.getGenus() + " " + spk.getSpecies() + " " + spk.getSubspecies();
+		return getSpecies().toString();
 	}
 	
 	@Override

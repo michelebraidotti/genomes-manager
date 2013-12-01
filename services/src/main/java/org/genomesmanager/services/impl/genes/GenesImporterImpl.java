@@ -9,7 +9,7 @@ import org.genomesmanager.domain.entities.Exon;
 import org.genomesmanager.domain.entities.Gene;
 import org.genomesmanager.domain.entities.Mrna;
 import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.repositories.genes.GeneRepo;
+import org.genomesmanager.repositories.genes.GeneRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.genes.GenesImporter;
@@ -26,7 +26,7 @@ public class GenesImporterImpl implements GenesImporter {
 	@Autowired
 	private SequenceRepo sequenceRepo;
 	@Autowired
-	private GeneRepo geneRepo;
+	private GeneRepository geneRepo;
 
 	public GenesImporterImpl() {
 	}

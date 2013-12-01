@@ -9,7 +9,7 @@ import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
 import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationException;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepo;
+import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationsList;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class RepeatsClassificationsListTest extends AbstractIntegrationTest {
 	@Autowired
 	private RepeatsClassificationsList repeatsClassificationsList;
 	@Autowired
-	private RepeatsClassificationRepo repeatsClassificationRepo;
+	private RepeatsClassificationRepository repeatsClassificationRepo;
 	private String lineClass;
 	private String helClass;
 	private String miteClass;

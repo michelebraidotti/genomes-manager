@@ -20,15 +20,6 @@ import javax.persistence.Transient;
 @DiscriminatorValue(value="SCAFF")
 @PrimaryKeyJoinColumn(name = "sequence_id")
 @NamedQueries({
-	@NamedQuery(name = "Scaffold.findByNameOrdByDate", query = "SELECT s FROM Scaffold s " +
-		"WHERE name = :name ORDER BY s.dateCreated DESC"),
-	@NamedQuery(name = "Scaffold.findByNameVersion", query = "SELECT s FROM Scaffold s " +
-		"WHERE name = :name AND scaffVersion = :scaffVersion"),
-	@NamedQuery(name = "Scaffold.findAllBySpecies", query = "SELECT s FROM " +
-		"Scaffold s JOIN s.chromosome c JOIN c.species sp " +
-		"WHERE sp.id.genus = :genus AND sp.id.species = :species AND sp.id.subspecies = :subspecies"),
-	@NamedQuery(name = "Scaffold.findAllByChromosome", query = "SELECT s FROM " +
-		"Scaffold s JOIN s.chromosome c WHERE c.id = :chrId ORDER BY s.order "),
 	@NamedQuery(name = "Scaffold.findAllPlacedByChromosome", query = "SELECT s FROM " +
 		"Scaffold s JOIN s.chromosome c WHERE c.id = :chrId AND s.isUnplaced = false " +
 		"ORDER BY s.order "),
@@ -38,16 +29,14 @@ import javax.persistence.Transient;
 	@NamedQuery(name = "Scaffold.getPlacedOffset", query = "SELECT SUM(s.length + 100) FROM " +
 		"Scaffold s JOIN s.chromosome c WHERE c.id = :chrId " +
 		"AND s.isUnplaced = false AND s.order < :scaffOrder " +
-		"AND s.scaffVersion = :scaffVersion"),
+		"AND s.version = :scaffVersion"),
 	@NamedQuery(name = "Scaffold.getUnplacedOffset", query = "SELECT SUM(s.length + 100) FROM " +
 		"Scaffold s JOIN s.chromosome c WHERE c.id = :chrId " +
 		"AND s.isUnplaced = true AND s.order < :scaffOrder " +
-		"AND s.scaffVersion = :scaffVersion")
+		"AND s.version = :scaffVersion")
 })
 public class Scaffold extends Sequence implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private String scaffVersion;
 	private int order;
 	private Long pseudomolOffset;
 	private Pseudomolecule pseudomolecule;
@@ -56,23 +45,6 @@ public class Scaffold extends Sequence implements Serializable {
     public Scaffold() {
     }
         
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(name="scaff_version")
-	public String getScaffVersion() {
-		return scaffVersion;
-	}
-
-	public void setScaffVersion(String scaffVersion) {
-		this.scaffVersion = scaffVersion;
-	}
-
 	@Column(name="scaff_order")
 	public int getOrder() {
 		return this.order;
@@ -101,38 +73,6 @@ public class Scaffold extends Sequence implements Serializable {
 		this.pseudomolecule = pseudomolecule;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((scaffVersion == null) ? 0 : scaffVersion.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		//TODO test me!!!!
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Scaffold other = (Scaffold) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (scaffVersion == null) {
-			if (other.scaffVersion != null)
-				return false;
-		} else if (!scaffVersion.equals(other.scaffVersion))
-			return false;
-		return true;
-	}
 
 	@Transient
 	public String getType() {
@@ -140,13 +80,8 @@ public class Scaffold extends Sequence implements Serializable {
 	}
 	
 	@Transient
-	public String descr() {
-		return name + Sequence.NAME_SEPARATOR + scaffVersion;
-	}
-	
-	@Transient
 	public boolean isUnplaced() {
-		if ( name.contains("unplaced")) {
+		if ( getName().contains("unplaced")) {
 			return true;
 		}
 		else {
@@ -156,14 +91,8 @@ public class Scaffold extends Sequence implements Serializable {
 	
 	@Transient
 	@Override
-	public String humanName() {
-		return name;
-	}
-	
-	@Transient
-	@Override
 	public String getFastaHeader() {
-		return super.getFastaHeader() + "|Scaffold|" + name + "|version " + scaffVersion ;
+		return super.getFastaHeader() + "|Scaffold|" + getName() + "|version " + getVersion();
 	}
 	
 	@Transient

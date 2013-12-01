@@ -9,9 +9,9 @@ import org.genomesmanager.domain.entities.Snp;
 import org.genomesmanager.domain.entities.Variety;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.snps.SnpRepo;
-import org.genomesmanager.repositories.species.IndividualRepo;
-import org.genomesmanager.repositories.species.VarietyRepo;
+import org.genomesmanager.repositories.snps.SnpRepository;
+import org.genomesmanager.repositories.species.IndividualRepository;
+import org.genomesmanager.repositories.species.VarietyRepository;
 import org.genomesmanager.repositories.species.VarietyRepoException;
 import org.genomesmanager.services.snp.SnpsImporter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +26,13 @@ public class SnpsImporterImpl implements SnpsImporter {
 	private List<String> errors = new ArrayList<String>();
 	private List<String> warnings = new ArrayList<String>();
 	@Autowired
-	private VarietyRepo varietyRepo;
+	private VarietyRepository varietyRepo;
 	@Autowired
 	private SequenceRepo seqRepo;
 	@Autowired
-	private IndividualRepo indRepo;
+	private IndividualRepository indRepo;
 	@Autowired
-	private SnpRepo snpRepo;
+	private SnpRepository snpRepo;
 	
 	public SnpsImporterImpl() {
     }

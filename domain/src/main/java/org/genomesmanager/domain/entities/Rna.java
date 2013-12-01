@@ -37,9 +37,7 @@ import javax.persistence.Transient;
 	@NamedQuery(name = "Rna.findAllBySpecies", 
     		query = "SELECT r FROM Rna r JOIN r.sequence s JOIN s.chromosome c " +
     				"JOIN c.species sp " +
-    				"WHERE sp.id.species = :species " +
-    				"AND sp.id.subspecies = :subspecies " +
-    				"AND sp.id.genus = :genus "),
+    				"WHERE sp.id = :speciesId "),
 	@NamedQuery(name = "Rna.findAllByChromosome", 
     		query = "SELECT r FROM Rna r JOIN r.sequence s JOIN s.chromosome c " +
     				"WHERE c.id = :chrId")  

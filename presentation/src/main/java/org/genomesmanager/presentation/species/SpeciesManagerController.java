@@ -22,9 +22,9 @@ public class SpeciesManagerController {
 	@Autowired
 	private SpeciesManager speciesManager;
 	private List<String> selectedChromosomes = new ArrayList<String>();
+	private String speciesDefinition;
 	private String newChromosome;
 	private Species species;
-	private String speciesDefinition;
 	private boolean editMode = false;
 
 	public SpeciesManagerController() {

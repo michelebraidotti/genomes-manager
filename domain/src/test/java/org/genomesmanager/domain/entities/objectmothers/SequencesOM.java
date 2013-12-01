@@ -18,6 +18,8 @@ public class SequencesOM {
 			String seqText = GenerateSequeceString();
 			seq.setSequenceText(seqText);
 			seq.setLength(seqText.length());
+			seq.setVersion("Version" + i);
+			seq.setName("SequenceName" + i);
 			sequences.add(seq);
 		}
 		return sequences;
@@ -66,7 +68,7 @@ public class SequencesOM {
 			seq.setSequenceText(seqText);
 			seq.setLength(seqText.length());
 			seq.setName("ScaffoldName" + i);
-			seq.setScaffVersion("V" + i);
+			seq.setVersion("V" + i);
 			seq.setOrder(i);
 			seq.setPseudomolOffset((long) (1000 * i));
 			seq.setIsUnplaced(false);

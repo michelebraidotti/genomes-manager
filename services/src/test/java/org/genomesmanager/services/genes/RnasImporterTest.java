@@ -18,7 +18,7 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.genes.RnaRepo;
+import org.genomesmanager.repositories.genes.RnaRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.impl.genes.RnasImporterImpl;
@@ -33,7 +33,7 @@ public class RnasImporterTest {
 	@Mock
 	private SequenceRepo sequenceRepo;
 	@Mock
-	private RnaRepo rnaRepo;
+	private RnaRepository rnaRepo;
 	@InjectMocks
 	private RnasImporter rnasImporter = new RnasImporterImpl();
 	private Random generator;

@@ -11,7 +11,7 @@ import org.genomesmanager.common.parsers.FastaLinesToSimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.repositories.sequences.ChromosomeRepo;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.ChromosomeRepoException;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	@Autowired
-	private ChromosomeRepo chromosomeRepo;
+	private ChromosomeRepository chromosomeRepo;
 	@Autowired
 	private SequenceRepo sequenceRepo;
 	private List<Scaffold> scaffolds = new ArrayList<Scaffold>();

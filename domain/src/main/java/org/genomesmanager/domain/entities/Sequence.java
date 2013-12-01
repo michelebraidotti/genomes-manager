@@ -46,17 +46,26 @@ import org.hibernate.annotations.Type;
 @DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING,length=15)
 @NamedQueries({
 	@NamedQuery(name = "Sequence.findAll", query = "SELECT s FROM Sequence s"),
-	@NamedQuery(name = "Sequence.findAllByChr", query = "SELECT s FROM Sequence s " +
-			"WHERE chromosome.id = :chrId"),
+	@NamedQuery(name = "Sequence.findAllByChr", 
+			query = "SELECT s FROM Sequence s " +
+					"WHERE chromosome.id = :chrId"),
 	@NamedQuery(name = "Sequence.findAllBySpecies", 
 			query = "SELECT s FROM Sequence s JOIN s.chromosome c JOIN c.species sp " +
-					"WHERE sp.id.genus = :genus and sp.id.species = :species and sp.id.subspecies = :subspecies")
+					"WHERE sp.id = :speciesId"),
+	@NamedQuery(name = "Sequence.findByNameOrdByDate", 
+			query = "SELECT s FROM Sequence s " +
+					"WHERE name = :name ORDER BY s.dateCreated DESC"),
+	@NamedQuery(name = "Sequence.findByNameVersion", 
+			query = "SELECT s FROM Sequence s " +
+					"WHERE name = :name AND version = :version")
 })
 public class Sequence implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private Calendar dateCreated;
 	private Calendar dateModified;
+	private String name = "";
+	private String version = "";
 	private String sequenceText;
 	private int length;
 	private Chromosome chromosome;
@@ -82,9 +91,28 @@ public class Sequence implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@Column(name="name")
+    public String getName() {
+		return name;
+	}
+
+    public void setName(String name) {
+		this.name = name;
+	}
 
 
-    @Temporal( TemporalType.TIMESTAMP)
+    @Column(name="version")
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+
+	@Temporal( TemporalType.TIMESTAMP)
 	@Column(name="date_created")
 	public Calendar getDateCreated() {
 		return this.dateCreated;
@@ -193,12 +221,6 @@ public class Sequence implements Serializable {
 		return "";
 	}
 	
-
-	@Transient
-	public String descr() {
-		return "";
-	}
-	
 	@Transient
 	public String getFastaHeader() {
 		return ">" + id;
@@ -207,10 +229,6 @@ public class Sequence implements Serializable {
 	@Override
 	public String toString() {
 		return descr();
-	}
-	
-	public String humanName() {
-		return "";
 	}
 	
 	@PrePersist
@@ -224,28 +242,6 @@ public class Sequence implements Serializable {
 	@PreUpdate
 	public void setUpdateDefaults() {
 		this.dateModified = Calendar.getInstance();
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Sequence other = (Sequence) obj;
-		if (id != other.id)
-			return false;
-		return true;
 	}
 	
 	@Transient
@@ -294,5 +290,53 @@ public class Sequence implements Serializable {
 		DNASequence complReverse = (DNASequence) sequence.getReverseComplement();
 		return complReverse.getSequenceAsString();
     }
+	
+	@Transient
+	public String descr() {
+		return name + Sequence.NAME_SEPARATOR + version;
+	}
+	
+	@Transient
+	public String humanName() {
+		return name;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();		
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Sequence other = (Sequence) obj;
+		if (id != 0 ) {
+			if ( other.id == id )
+				return true;
+			else 
+				return false;
+		}
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (version == null) {
+			if (other.version != null)
+				return false;
+		} else if (!version.equals(other.version))
+			return false;
+		return true;
+	}
 	
 }

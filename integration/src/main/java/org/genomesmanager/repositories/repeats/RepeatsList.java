@@ -6,7 +6,7 @@ import org.genomesmanager.domain.entities.LtrRepeat;
 import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsOrder;
-import org.genomesmanager.domain.entities.SpeciesPK;
+import org.genomesmanager.domain.entities.Species;
 
 public interface RepeatsList {
 
@@ -31,7 +31,7 @@ public interface RepeatsList {
 	public abstract List<Repeat> getAllBySequence(int seqId,
 			RepeatsOrder repType, String superFamily);
 
-	public abstract List<Repeat> getAllBySpecies(SpeciesPK id);
+	public abstract List<Repeat> getAllBySpecies(Species sp);
 
 	public abstract List<Repeat> getAllByChromosome(int chrId);
 

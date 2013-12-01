@@ -11,7 +11,7 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.repositories.genes.RnasList;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.genes.RnasExporter;
 import org.genomesmanager.services.genes.RnasExporterException;
@@ -27,7 +27,7 @@ public class RnasExporterImpl implements RnasExporter  {
     @Autowired
     private RnasList rnasList;	
     @Autowired
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepositoryCustom speciesRepo;
     @Autowired
 	private SequenceRepo seqRepo;
     

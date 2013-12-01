@@ -8,12 +8,15 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -32,7 +35,10 @@ import javax.persistence.Transient;
 })
 public class Species implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private SpeciesPK id;
+	private Integer id;
+	private String genus;
+	private String species;
+	private String subspecies;
 	private String commonName;
 	private String genomeType;
 	private List<Chromosome> chromosomes = new ArrayList<Chromosome>();
@@ -40,16 +46,42 @@ public class Species implements Serializable {
 
     public Species() {
     }
-
-	@EmbeddedId
-	public SpeciesPK getId() {
-		return this.id;
+    
+	@Id
+	@SequenceGenerator(name="SPECIES_ID_GENERATOR", sequenceName="species_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SPECIES_ID_GENERATOR")
+	@Column(insertable=false, updatable=false)
+    public Integer getId() {
+		return id;
 	}
 
-	public void setId(SpeciesPK id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
+	public String getGenus() {
+		return genus;
+	}
+
+	public void setGenus(String genus) {
+		this.genus = genus;
+	}
+
+	public String getSpecies() {
+		return species;
+	}
+
+	public void setSpecies(String species) {
+		this.species = species;
+	}
+
+	public String getSubspecies() {
+		return subspecies;
+	}
+
+	public void setSubspecies(String subspecies) {
+		this.subspecies = subspecies;
+	}
 
 	@Column(name="common_name")
 	public String getCommonName() {
@@ -94,13 +126,13 @@ public class Species implements Serializable {
 	
 	@Override
 	public String toString() {
-		return  id.getGenus() + " " +  id.getSpecies() + " "  + id.getSubspecies();
+		return  getGenus() + " " +  getSpecies() + " "  + getSubspecies();
 	}
 	
 	@Transient
 	public String toString(String separator) {
-		String out =  id.getGenus() + separator +  id.getSpecies();
-		if ( ! id.getSubspecies().equals("") ) out += separator + id.getSubspecies();
+		String out =  getGenus() + separator +  getSpecies();
+		if ( ! getSubspecies().equals("") ) out += separator + getSubspecies();
 		return out;
 	}
 
@@ -130,36 +162,38 @@ public class Species implements Serializable {
 		return null;
 	}
 	
-	public class ChromosomesComparable implements Comparator<Chromosome>{
+	// TODO is this the right place for this one?
+	public class ChromosomesComparable implements Comparator<Chromosome> {
 		 
 	    @Override
 	    public int compare(Chromosome c1, Chromosome c2) {
 	    	return (c1.getId()<c2.getId() ? -1 : (c1.getId()==c2.getId() ? 0 : 1));
 	    }
 	}
+	
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof Species)) {
+			return false;
+		}
+		Species castOther = (Species)other;
+		return 
+			this.getGenus().equals(castOther.getGenus())
+			&& this.getSpecies().equals(castOther.getSpecies())
+			&& this.getSubspecies().equals(castOther.getSubspecies());
 
-	@Override
+    }
+    
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Species other = (Species) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+		int hash = 17;
+		hash = hash * prime + this.getGenus().hashCode();
+		hash = hash * prime + this.getSpecies().hashCode();
+		hash = hash * prime + this.getSubspecies().hashCode();
+		
+		return hash;
+    }
+	
 }

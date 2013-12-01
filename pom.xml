@@ -75,6 +75,7 @@
 
 		<javax.inject.version>1</javax.inject.version>
 		<trinidad.version>2.0.1</trinidad.version>
+ 		<spring.data.version>1.3.0.RELEASE</spring.data.version>
 	</properties>
 
 
@@ -302,7 +303,14 @@
 				<artifactId>spring-orm</artifactId>
 				<version>${org.springframework.version}</version>
 			</dependency>
-
+			
+			<!-- Sping data -->
+			<dependency>
+ 				<groupId>org.springframework.data</groupId>
+ 				<artifactId>spring-data-jpa</artifactId>
+ 				<version>${spring.data.version}</version>
+			</dependency>
+			
 			<!-- Object-to-XML Mapping (OXM) abstraction and integration with JAXB, 
 				JiBX, Castor, XStream, and XML Beans -->
 			<dependency>

@@ -18,7 +18,7 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.genes.GeneRepo;
+import org.genomesmanager.repositories.genes.GeneRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.impl.genes.GenesImporterImpl;
@@ -33,7 +33,7 @@ public class GenesImporterTest {
 	@Mock
 	private SequenceRepo sequenceRepo;
 	@Mock
-	private GeneRepo geneRepo;
+	private GeneRepository geneRepo;
 	@InjectMocks
 	private GenesImporter genesImporter = new GenesImporterImpl();
 	private Random generator;

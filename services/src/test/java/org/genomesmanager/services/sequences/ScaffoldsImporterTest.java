@@ -15,7 +15,7 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.sequences.ChromosomeRepo;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.impl.sequences.ScaffoldsImporterImpl;
@@ -27,7 +27,7 @@ import org.mockito.MockitoAnnotations;
 
 public class ScaffoldsImporterTest {
 	@Mock
-	private ChromosomeRepo chromosomeRepo;
+	private ChromosomeRepository chromosomeRepo;
 	@Mock
 	private SequenceRepo sequenceRepo;
 	@InjectMocks

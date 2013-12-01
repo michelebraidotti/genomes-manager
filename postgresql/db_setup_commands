@@ -10,7 +10,7 @@ In psql console:
 ALTER USER genomes SET search_path = sequence,annotation,aux,public;
 
 Change /etc/postgresql/9.1/main/pg_hba.conf
-add this line:
+add this line before any line referring to 'local' 'all' 'all' 'peer' or 'md5':
 
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 local   all          	genomes                          	trust

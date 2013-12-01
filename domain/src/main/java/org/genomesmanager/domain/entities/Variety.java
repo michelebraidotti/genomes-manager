@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Table(name="varieties", schema="sequence")
 public class Variety implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private Integer id;
 	private String name;
 	private String alias;
 	private Species species;
@@ -21,9 +22,19 @@ public class Variety implements Serializable {
 
     public Variety() {
     }
-
-
+     
 	@Id
+	@SequenceGenerator(name="VARIETIES_ID_GENERATOR", sequenceName="varieties_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="VARIETIES_ID_GENERATOR")
+	@Column(insertable=false, updatable=false)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return this.name;
 	}
@@ -41,12 +52,8 @@ public class Variety implements Serializable {
 		this.alias = alias;
 	}
 
-    @ManyToOne	
-    @JoinColumns({
-		@JoinColumn(name="genus", referencedColumnName="genus"),
-		@JoinColumn(name="species", referencedColumnName="species"),
-		@JoinColumn(name="subspecies", referencedColumnName="subspecies")
-    })
+    @ManyToOne
+    @JoinColumn(name="species_id")
 	public Species getSpecies() {
 		return this.species;
 	}

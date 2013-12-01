@@ -19,7 +19,7 @@ import org.genomesmanager.common.parsers.FastaLinesToSimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.presentation.FileUpload;
-import org.genomesmanager.repositories.sequences.ChromosomeRepo;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.sequences.PseudomoleculeImporter;
@@ -38,7 +38,7 @@ public class ImportPseudomolByChromosomeController extends FileUpload {
 	@Autowired
 	private SpeciesManager speciesManager;
 	@Autowired
-	private ChromosomeRepo chromosomeRepo;
+	private ChromosomeRepository chromosomeRepo;
 	private String speciesDefinition = "";
 	private String chromosomeSelected = "";
 	private Species speciesSeleced;

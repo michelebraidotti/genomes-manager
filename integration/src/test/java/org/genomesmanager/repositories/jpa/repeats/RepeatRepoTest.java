@@ -20,59 +20,56 @@ import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
 import org.genomesmanager.repositories.repeats.RepeatRepo;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepo;
-import org.genomesmanager.repositories.sequences.ChromosomeRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
+import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class RepeatRepoTest extends AbstractIntegrationTest {
 	@Autowired
-	private RepeatsClassificationRepo repeatsClassificationRepo;
+	private RepeatsClassificationRepository repeatsClassificationRepo;
 	@Autowired
 	private RepeatRepo repeatRepo;
 	@Autowired
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepository speciesRepository;
 	@Autowired
-	private ChromosomeRepo chromosomeRepo;
+	private ChromosomeRepository chromosomeRepository;
 	@Autowired
-	private SequenceRepo sequenceRepo;
-	
+	private SequenceRepository sequenceRepository;
 
 	@Test
 	public void test() throws Exception {
 		Species sp = SpeciesOM.Generate(1).get(0);
-		speciesRepo.insert(sp);
+		speciesRepository.save(sp);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		chromosomeRepo.insert(chr);
+		chromosomeRepository.save(chr);
 		Sequence seq = SequencesOM.Generate(1, chr).get(0);
-		sequenceRepo.insert(seq);
-		String [] repClassDefinitions = {
-				 "I, I, LINE, test, test",
-				 "II, II, Helitron, test, test",
-				 "II, III, MITE, test, test",
-				 "II, I, DNA_TE, test, test",
-				 "I, I, LTR, test, test",
-				 "UNKNOWN, UNKNOWN, UNKNOWN, test, test",
-				 "I, I, SINE, test, test"
-		};
+		sequenceRepository.save(seq);
+		String[] repClassDefinitions = { "I, I, LINE, test, test",
+				"II, II, Helitron, test, test", "II, III, MITE, test, test",
+				"II, I, DNA_TE, test, test", "I, I, LTR, test, test",
+				"UNKNOWN, UNKNOWN, UNKNOWN, test, test",
+				"I, I, SINE, test, test" };
 		/* 1. LINE */
 		String repClassDefinition = repClassDefinitions[0];
-		RepeatsClassification repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		RepeatsClassification repClass = RepeatsClassificationOM
+				.Generate(repClassDefinition);
 		repeatsClassificationRepo.insert(repClass);
 		LineRepeat line = RepeatsOM.GenerateLines(1, repClass, seq).get(0);
 		repeatRepo.insert(line);
 		LineRepeat postLine = repeatRepo.getLine(line.getId());
-		assertEquals(line,postLine);
+		assertEquals(line, postLine);
 		/* 2. Helitron */
 		repClassDefinition = repClassDefinitions[1];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
 		repeatsClassificationRepo.insert(repClass);
-		HelitronRepeat hel = RepeatsOM.GenerateHelitrons(1, repClass, seq).get(0);
+		HelitronRepeat hel = RepeatsOM.GenerateHelitrons(1, repClass, seq).get(
+				0);
 		repeatRepo.insert(hel);
 		HelitronRepeat postHel = repeatRepo.getHelitron(hel.getId());
-		assertEquals(hel,postHel);
+		assertEquals(hel, postHel);
 		/* 3. Mite */
 		repClassDefinition = repClassDefinitions[2];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
@@ -80,7 +77,7 @@ public class RepeatRepoTest extends AbstractIntegrationTest {
 		MiteRepeat mite = RepeatsOM.GenerateMites(1, repClass, seq).get(0);
 		repeatRepo.insert(mite);
 		MiteRepeat postMite = repeatRepo.getMite(mite.getId());
-		assertEquals(mite,postMite);
+		assertEquals(mite, postMite);
 		/* 3. DNATE */
 		repClassDefinition = repClassDefinitions[3];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
@@ -88,7 +85,7 @@ public class RepeatRepoTest extends AbstractIntegrationTest {
 		DnaTeRepeat dnate = RepeatsOM.GenerateDnaTes(1, repClass, seq).get(0);
 		repeatRepo.insert(dnate);
 		DnaTeRepeat postDnate = repeatRepo.getDnaTe(dnate.getId());
-		assertEquals(dnate,postDnate);
+		assertEquals(dnate, postDnate);
 		/* 4. LTR */
 		repClassDefinition = repClassDefinitions[4];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
@@ -96,12 +93,13 @@ public class RepeatRepoTest extends AbstractIntegrationTest {
 		LtrRepeat ltr = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
 		repeatRepo.insert(ltr);
 		LtrRepeat postLtr = repeatRepo.getLtr(ltr.getId());
-		assertEquals(ltr,postLtr);
+		assertEquals(ltr, postLtr);
 		/* 5. UNKN */
 		repClassDefinition = repClassDefinitions[5];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
 		repeatsClassificationRepo.insert(repClass);
-		UnknownRepeat unkn = RepeatsOM.GenerateUnknowns(1, repClass, seq).get(0);
+		UnknownRepeat unkn = RepeatsOM.GenerateUnknowns(1, repClass, seq)
+				.get(0);
 		repeatRepo.insert(unkn);
 		UnknownRepeat postUnkn = repeatRepo.getUnkn(unkn.getId());
 		assertEquals(unkn, postUnkn);

@@ -53,7 +53,7 @@ public class Individual implements Serializable {
 	}
 
 	@ManyToOne	
-	@JoinColumn(name="variety_name")
+	@JoinColumn(name="variety_id")
 	public Variety getVariety() {
 		return this.variety;
 	}

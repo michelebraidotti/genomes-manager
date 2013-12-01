@@ -15,35 +15,35 @@ import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
 import org.genomesmanager.repositories.repeats.RepeatRepo;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepo;
-import org.genomesmanager.repositories.sequences.ChromosomeRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
+import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class RepeatsBatchUpdaterTest extends AbstractIntegrationTest {
 	@Autowired
-	private RepeatsClassificationRepo repeatsClassificationRepo;
+	private RepeatsClassificationRepository repeatsClassificationRepo;
 	@Autowired
 	private RepeatRepo repeatRepo;
 	@Autowired
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepository speciesRepo;
 	@Autowired
-	private ChromosomeRepo chromosomeRepo;
+	private ChromosomeRepository chromosomeRepo;
 	@Autowired
-	private SequenceRepo sequenceRepo;
+	private SequenceRepository sequenceRepo;
 	@Autowired
 	private RepeatsBatchUpdater repeatsBatchUpdater;
 	
 	@Test
 	public void test() throws Exception {
 		Species sp = SpeciesOM.Generate(1).get(0);
-		speciesRepo.insert(sp);
+		sp = speciesRepo.save(sp);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		chromosomeRepo.insert(chr);
+		chr = chromosomeRepo.save(chr);
 		Sequence seq = SequencesOM.Generate(1, chr).get(0);
-		sequenceRepo.insert(seq);
+		seq = sequenceRepo.save(seq);
 		RepeatsClassification repClass = RepeatsClassificationOM.Generate("I, I, LTR, test, test");
 		repeatsClassificationRepo.insert(repClass);
 		LtrRepeat parentLtr = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);

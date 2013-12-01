@@ -18,33 +18,31 @@ import org.genomesmanager.domain.entities.SineRepeat;
 import org.genomesmanager.domain.entities.UnknownRepeat;
 
 public class RepeatsOM {
-	public static List<Repeat> Generate(int amount, RepeatsClassification repClass, Sequence sequence) {
-		List<Repeat> repeats = new ArrayList<Repeat>();
-		for (int i = 0; i < amount ; i++) {
-			repeats.add(GenerateRepeat(new Repeat(), i, repClass, sequence));
-		}
-		return repeats;
-	}
-	
-	private static <T extends Repeat> T GenerateRepeat(T rep, int i, RepeatsClassification repClass, Sequence sequence) {
+	// Generate new (Specific) Repeat, the index 'i' is used to generate all
+	// sorts of info in the repeat, useful when generating a list of repeats
+	// in a loop
+	private static <T extends Repeat> T GenerateRepeat(T rep, int i,
+			RepeatsClassification repClass, Sequence sequence) {
 		Random generator = new Random();
 		rep.setSequence(sequence);
 		rep.setRepeatsClassification(repClass);
 		rep.setContainedElementsCount(i);
 		rep.setGcContent(new BigDecimal(10 * i));
-		String strandness = ( generator.nextInt()%2 ==0 ? "+" : "-");
+		String strandness = (generator.nextInt() % 2 == 0 ? "+" : "-");
 		try {
 			rep.setStrandness(strandness);
 			int x = generator.nextInt(sequence.getLength());
-			if ( x== 0) x++;
+			if (x == 0)
+				x++;
 			rep.setX(x);
 			int offset = sequence.getLength() - rep.getX();
 			int length = generator.nextInt(offset);
-			if ( length <= 1 ) length = 2;
+			if (length <= 1)
+				length = 2;
 			int y = rep.getX() + length - 1;
-			if ( y == rep.getX() ) 
-				rep.setY(y+1);
-			else 
+			if (y == rep.getX())
+				rep.setY(y + 1);
+			else
 				rep.setY(y);
 		} catch (IntervalFeatureException e) {
 			e.printStackTrace();
@@ -52,11 +50,22 @@ public class RepeatsOM {
 		rep.setNotes("genreatedRepeat" + i);
 		return rep;
 	}
-	
-	public static List<DnaTeRepeat> GenerateDnaTes(int amount, RepeatsClassification repClass, Sequence sequence) {
+
+	public static List<Repeat> Generate(int amount,
+			RepeatsClassification repClass, Sequence sequence) {
+		List<Repeat> repeats = new ArrayList<Repeat>();
+		for (int i = 0; i < amount; i++) {
+			repeats.add(GenerateRepeat(new Repeat(), i, repClass, sequence));
+		}
+		return repeats;
+	}
+
+	public static List<DnaTeRepeat> GenerateDnaTes(int amount,
+			RepeatsClassification repClass, Sequence sequence) {
 		List<DnaTeRepeat> repeats = new ArrayList<DnaTeRepeat>();
-		for (int i = 0; i < amount ; i++) {
-			DnaTeRepeat dnaTe = GenerateRepeat(new DnaTeRepeat(), i, repClass, sequence);
+		for (int i = 0; i < amount; i++) {
+			DnaTeRepeat dnaTe = GenerateRepeat(new DnaTeRepeat(), i, repClass,
+					sequence);
 			dnaTe.setTirX(dnaTe.getX() + 1);
 			dnaTe.setTirY(dnaTe.getY() - 1);
 			dnaTe.setTransPresence(true);
@@ -66,11 +75,13 @@ public class RepeatsOM {
 		}
 		return repeats;
 	}
-	
-	public static List<HelitronRepeat> GenerateHelitrons(int amount, RepeatsClassification repClass, Sequence sequence) {
+
+	public static List<HelitronRepeat> GenerateHelitrons(int amount,
+			RepeatsClassification repClass, Sequence sequence) {
 		List<HelitronRepeat> repeats = new ArrayList<HelitronRepeat>();
-		for (int i = 0; i < amount ; i++) {
-			HelitronRepeat helitron = GenerateRepeat(new HelitronRepeat(), i, repClass, sequence);
+		for (int i = 0; i < amount; i++) {
+			HelitronRepeat helitron = GenerateRepeat(new HelitronRepeat(), i,
+					repClass, sequence);
 			helitron.setIsAutonomus(true);
 			helitron.setPotentialCdsCount(i);
 			helitron.setOrfGreaterThan50aa(i + 1);
@@ -81,11 +92,13 @@ public class RepeatsOM {
 		}
 		return repeats;
 	}
-	
-	public static List<LineRepeat> GenerateLines(int amount, RepeatsClassification repClass, Sequence sequence) {
+
+	public static List<LineRepeat> GenerateLines(int amount,
+			RepeatsClassification repClass, Sequence sequence) {
 		List<LineRepeat> repeats = new ArrayList<LineRepeat>();
-		for (int i = 0; i < amount ; i++) {
-			LineRepeat line = GenerateRepeat(new LineRepeat(), i, repClass, sequence);
+		for (int i = 0; i < amount; i++) {
+			LineRepeat line = GenerateRepeat(new LineRepeat(), i, repClass,
+					sequence);
 			line.setOverallStructureDesc("OverallStructureDesc" + i);
 			line.setPolyA(true);
 			line.setRtPresence(true);
@@ -94,11 +107,13 @@ public class RepeatsOM {
 		}
 		return repeats;
 	}
-	
-	public static List<LtrRepeat> GenerateLtrs(int amount, RepeatsClassification repClass, Sequence sequence) {
+
+	public static List<LtrRepeat> GenerateLtrs(int amount,
+			RepeatsClassification repClass, Sequence sequence) {
 		List<LtrRepeat> repeats = new ArrayList<LtrRepeat>();
-		for (int i = 0; i < amount ; i++) {
-			LtrRepeat ltr = GenerateRepeat(new LtrRepeat(), i, repClass, sequence);
+		for (int i = 0; i < amount; i++) {
+			LtrRepeat ltr = GenerateRepeat(new LtrRepeat(), i, repClass,
+					sequence);
 			ltr.setGcContent3(new BigDecimal(i));
 			ltr.setGcContent5(new BigDecimal(i));
 			ltr.setIntPresence(true);
@@ -127,12 +142,14 @@ public class RepeatsOM {
 			repeats.add(ltr);
 		}
 		return repeats;
-	}	
-	
-	public static List<MiteRepeat> GenerateMites(int amount, RepeatsClassification repClass, Sequence sequence) {
+	}
+
+	public static List<MiteRepeat> GenerateMites(int amount,
+			RepeatsClassification repClass, Sequence sequence) {
 		List<MiteRepeat> repeats = new ArrayList<MiteRepeat>();
-		for (int i = 0; i < amount ; i++) {
-			MiteRepeat mite = GenerateRepeat(new MiteRepeat(), i, repClass, sequence);
+		for (int i = 0; i < amount; i++) {
+			MiteRepeat mite = GenerateRepeat(new MiteRepeat(), i, repClass,
+					sequence);
 			mite.setTirX(mite.getX() + 1);
 			mite.setTirY(mite.getY() - 1);
 			mite.setTsdSeq("TAG");
@@ -140,21 +157,25 @@ public class RepeatsOM {
 		}
 		return repeats;
 	}
-	
-	public static List<SineRepeat> GenerateSines(int amount, RepeatsClassification repClass, Sequence sequence) {
+
+	public static List<SineRepeat> GenerateSines(int amount,
+			RepeatsClassification repClass, Sequence sequence) {
 		List<SineRepeat> repeats = new ArrayList<SineRepeat>();
-		for (int i = 0; i < amount ; i++) {
-			SineRepeat sine = GenerateRepeat(new SineRepeat(), i, repClass, sequence);
+		for (int i = 0; i < amount; i++) {
+			SineRepeat sine = GenerateRepeat(new SineRepeat(), i, repClass,
+					sequence);
 			sine.setOverallStructureDesc("AACCCTAGGAGAATTT");
 			repeats.add(sine);
 		}
 		return repeats;
 	}
 
-	public static List<UnknownRepeat> GenerateUnknowns(int amount, RepeatsClassification repClass, Sequence sequence) {
+	public static List<UnknownRepeat> GenerateUnknowns(int amount,
+			RepeatsClassification repClass, Sequence sequence) {
 		List<UnknownRepeat> repeats = new ArrayList<UnknownRepeat>();
-		for (int i = 0; i < amount ; i++) {
-			UnknownRepeat unkn = GenerateRepeat(new UnknownRepeat(), i, repClass, sequence);
+		for (int i = 0; i < amount; i++) {
+			UnknownRepeat unkn = GenerateRepeat(new UnknownRepeat(), i,
+					repClass, sequence);
 			unkn.setDescription("description" + i);
 			repeats.add(unkn);
 		}

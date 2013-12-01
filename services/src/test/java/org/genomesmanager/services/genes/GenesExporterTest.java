@@ -22,7 +22,7 @@ import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.genes.GenesList;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.impl.genes.GenesExporterImpl;
 import org.junit.Before;
@@ -35,7 +35,7 @@ public class GenesExporterTest {
 	@Mock
 	private GenesList genesList;
 	@Mock
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepositoryCustom speciesRepo;
 	@Mock
 	private SequenceRepo seqRepo;
 	@InjectMocks

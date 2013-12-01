@@ -15,7 +15,7 @@ import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.repositories.repeats.RepeatRepo;
 import org.genomesmanager.repositories.repeats.RepeatRepoException;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepo;
+import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationException;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
@@ -34,7 +34,7 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	@Autowired
 	private RepeatRepo repeatRepo;
 	@Autowired
-	private RepeatsClassificationRepo repeatsClassRepo;
+	private RepeatsClassificationRepository repeatsClassRepo;
 	@Autowired
 	private SequenceRepo sequenceRepo;
 

@@ -28,7 +28,7 @@ import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.repeats.RepeatRepo;
 import org.genomesmanager.repositories.repeats.RepeatRepoException;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationException;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepo;
+import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.impl.repeats.RepeatsImporterImpl;
@@ -44,7 +44,7 @@ public class RepeatsImporterTest {
 	@Mock
 	private RepeatRepo repeatRepo;
 	@Mock
-	private RepeatsClassificationRepo repeatsClassRepo;
+	private RepeatsClassificationRepository repeatsClassRepo;
 	@Mock
 	private SequenceRepo sequenceRepo;
 	@InjectMocks

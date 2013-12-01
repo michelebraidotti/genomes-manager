@@ -5,7 +5,7 @@ import java.util.List;
 import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Pseudomolecule;
-import org.genomesmanager.repositories.sequences.ChromosomeRepo;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.ChromosomeRepoException;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.services.sequences.PseudomoleculeImporter;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
 	@Autowired
-	private ChromosomeRepo chrRepo;
+	private ChromosomeRepository chrRepo;
 	@Autowired
 	private SequenceRepo seqRepo;
 	

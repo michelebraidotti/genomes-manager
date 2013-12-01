@@ -17,7 +17,7 @@ import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.genes.RnasList;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.impl.genes.RnasExporterImpl;
 import org.junit.Before;
@@ -30,7 +30,7 @@ public class RnasExporterTest {
 	@Mock
 	private RnasList rnasList;
 	@Mock
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepositoryCustom speciesRepo;
 	@Mock
 	private SequenceRepo seqRepo;
 	@InjectMocks

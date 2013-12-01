@@ -24,9 +24,7 @@ import javax.persistence.Table;
 	@NamedQuery(name = "Snp.findAllBySpecies", 
     		query = "SELECT s FROM Snp s JOIN s.sequence seq JOIN seq.chromosome c " +
     				"JOIN c.species sp " +
-    				"WHERE sp.id.species = :species " +
-    				"AND sp.id.subspecies = :subspecies " +
-    				"AND sp.id.genus = :genus "),
+    				"WHERE sp.id.species = :speciesId "),
 	@NamedQuery(name = "Snp.findAllByChromosome", 
     		query = "SELECT s FROM Snp s JOIN s.sequence seq JOIN seq.chromosome c " +
     				"WHERE c.id = :chrId")

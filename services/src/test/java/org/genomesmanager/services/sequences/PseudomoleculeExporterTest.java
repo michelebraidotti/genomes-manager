@@ -15,7 +15,7 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.sequences.PseudomoleculeRepo;
+import org.genomesmanager.repositories.sequences.PseudomoleculeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.impl.sequences.PseudomoleculeExporterImpl;
 import org.junit.Before;
@@ -26,7 +26,7 @@ import org.mockito.MockitoAnnotations;
 
 public class PseudomoleculeExporterTest {
 	@Mock
-	private PseudomoleculeRepo pseudomoleculeRepo;
+	private PseudomoleculeRepository pseudomoleculeRepo;
 	@InjectMocks
 	private PseudomoleculeExporter pseudomoleculeExporter = new PseudomoleculeExporterImpl();
 	private Random generator;

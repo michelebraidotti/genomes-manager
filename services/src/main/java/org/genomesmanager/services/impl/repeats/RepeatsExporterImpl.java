@@ -17,7 +17,7 @@ import org.genomesmanager.repositories.repeats.RepeatRepoException;
 import org.genomesmanager.repositories.repeats.RepeatsList;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.repeats.RepeatsExporter;
 import org.genomesmanager.services.repeats.RepeatsExporterException;
@@ -38,7 +38,7 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	@Autowired
 	private RepeatRepo repeatRepo;
 	@Autowired
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepositoryCustom speciesRepo;
 	@Autowired
 	private SequenceRepo seqRepo;
 	

@@ -13,7 +13,7 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.repositories.genes.GenesList;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.genes.GenesExporter;
 import org.genomesmanager.services.genes.GenesExporterException;
@@ -27,7 +27,7 @@ public class GenesExporterImpl implements GenesExporter {
 	@Autowired
 	private GenesList genesList;
 	@Autowired
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepositoryCustom speciesRepo;
 	@Autowired
 	private SequenceRepo seqRepo;
     private Boolean greedyLoad = true;

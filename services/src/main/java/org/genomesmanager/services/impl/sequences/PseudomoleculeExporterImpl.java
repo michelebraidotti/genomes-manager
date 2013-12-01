@@ -2,7 +2,7 @@ package org.genomesmanager.services.impl.sequences;
 
 import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.domain.entities.SequenceSliceException;
-import org.genomesmanager.repositories.sequences.PseudomoleculeRepo;
+import org.genomesmanager.repositories.sequences.PseudomoleculeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.sequences.PseudomoleculeExporter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service("PseudomoleculeExporter")
 public class PseudomoleculeExporterImpl implements PseudomoleculeExporter {
 	@Autowired
-	private PseudomoleculeRepo pseudomoleculeRepo;
+	private PseudomoleculeRepository pseudomoleculeRepo;
 	
     public PseudomoleculeExporterImpl() {
     }

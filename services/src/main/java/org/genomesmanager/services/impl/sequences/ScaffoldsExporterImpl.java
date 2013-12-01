@@ -8,7 +8,7 @@ import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.SequenceSliceException;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.repositories.sequences.ScaffoldsList;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.sequences.ScaffoldsExporter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service("ScaffoldsExporter")
 public class ScaffoldsExporterImpl implements ScaffoldsExporter {
 	@Autowired
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepositoryCustom speciesRepo;
 	@Autowired
 	private ScaffoldsList scaffoldsList;
 	

@@ -7,7 +7,7 @@ import org.genomesmanager.common.parsers.Gff3LineParser;
 import org.genomesmanager.common.parsers.Gff3LineParserException;
 import org.genomesmanager.domain.entities.Rna;
 import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.repositories.genes.RnaRepo;
+import org.genomesmanager.repositories.genes.RnaRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.services.genes.RnasImporter;
@@ -22,7 +22,7 @@ public class RnasImporterImpl implements RnasImporter {
 	private List<String> errors = new ArrayList<String>();
 	private List<String> warnings = new ArrayList<String>();
 	@Autowired
-	private RnaRepo rnaRepo;
+	private RnaRepository rnaRepo;
 	@Autowired
 	private SequenceRepo sequenceRepo;
 	

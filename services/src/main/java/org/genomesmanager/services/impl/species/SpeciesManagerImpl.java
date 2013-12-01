@@ -3,11 +3,7 @@ package org.genomesmanager.services.impl.species;
 import java.io.Serializable;
 
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.SpeciesPK;
-import org.genomesmanager.repositories.species.SpeciesList;
-import org.genomesmanager.repositories.species.SpeciesNotFound;
-import org.genomesmanager.repositories.species.SpeciesRepo;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.genomesmanager.services.species.SpeciesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +12,7 @@ import org.springframework.stereotype.Service;
 public class SpeciesManagerImpl implements SpeciesManager, Serializable {
 	private static final long serialVersionUID = -6384957192110079568L;
 	@Autowired
-	private SpeciesList speciesList;
-	@Autowired
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepository speciesRepo;
 
 	/*
 	 * (non-Javadoc)
@@ -34,8 +28,10 @@ public class SpeciesManagerImpl implements SpeciesManager, Serializable {
 	
 
 	@Override
-	public void delete(String speciesDefinition) throws SpeciesNotFound, SpeciesRepoException  {
-		speciesRepo.delete(speciesDefinition);
+	public void delete(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
+		SpeciesDefinition sd = new SpeciesDefinition(speciesDefinition);
+		Species speciesEntity = speciesRepo.findByGenusAndSpeciesAndSubspecies(sd.genus, sd.species, sd.subspecies);
+		speciesRepo.delete(speciesEntity);
 	}
 
 
@@ -47,19 +43,9 @@ public class SpeciesManagerImpl implements SpeciesManager, Serializable {
 	 * .genomesmanager.domain.entities.SpeciesPK)
 	 */
 	@Override
-	public void deleteByKey(SpeciesPK spk) {
-		speciesRepo.deleteByKey(spk);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#get(org.
-	 * genomesmanager.domain.entities.SpeciesPK)
-	 */
-	@Override
-	public Species get(SpeciesPK spk) throws SpeciesNotFound {
-		return speciesRepo.get(spk);
+	public void delete(String genus, String species, String subspecies) {
+		Species speciesEntity = speciesRepo.findByGenusAndSpeciesAndSubspecies(genus, species, subspecies);
+		speciesRepo.delete(speciesEntity);
 	}
 
 	/*
@@ -70,9 +56,8 @@ public class SpeciesManagerImpl implements SpeciesManager, Serializable {
 	 * .String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Species get(String genus, String species, String subspecies)
-			throws SpeciesNotFound {
-		return speciesRepo.get(genus, species, subspecies);
+	public Species get(String genus, String species, String subspecies) {
+		return speciesRepo.findByGenusAndSpeciesAndSubspecies(genus, species, subspecies);
 	}
 
 	/*
@@ -83,8 +68,9 @@ public class SpeciesManagerImpl implements SpeciesManager, Serializable {
 	 * .String)
 	 */
 	@Override
-	public Species get(String speciesDefinition) throws SpeciesRepoException, SpeciesNotFound {
-		return speciesRepo.get(speciesDefinition);
+	public Species get(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
+		SpeciesDefinition sd = new SpeciesDefinition(speciesDefinition);
+		return speciesRepo.findByGenusAndSpeciesAndSubspecies(sd.genus, sd.species, sd.subspecies);
 	}
 
 	/*
@@ -94,28 +80,8 @@ public class SpeciesManagerImpl implements SpeciesManager, Serializable {
 	 * genomesmanager.domain.entities.Species)
 	 */
 	@Override
-	public void insert(Species sp) {
-		speciesRepo.insert(sp);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#update(org.
-	 * genomesmanager.domain.entities.Species)
-	 */
-	@Override
-	public void update(Species sp) {
-		speciesRepo.update(sp);
-	}
-
-
-	@Override
-	public void update(Species oldSpecies, Species newSpecies) {
-		if (! oldSpecies.getId().equals(newSpecies.getId()) ) {
-			speciesRepo.updateId(oldSpecies, newSpecies.getId());
-		}
-		update(newSpecies);
+	public void save(Species sp) {
+		speciesRepo.save(sp);
 	}
 	
 }

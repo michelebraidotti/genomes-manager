@@ -12,10 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.repositories.sequences.ChromosomeRepo;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequencesList;
 import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.services.species.SpeciesBrowser;
 import org.genomesmanager.services.species.SpeciesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -26,16 +27,18 @@ import org.springframework.stereotype.Component;
 public class BrowseSequencesController {
 	private static String NO_SELECTION = "--";
 	@Autowired
+	private SpeciesBrowser speciesBrowser;
+	@Autowired
 	private SpeciesManager speciesManager;
 	@Autowired
-	private ChromosomeRepo chromosomeRepo;
-	@Autowired
-	private SequencesList sequencesList;
+	private ChromosomeRepository chromosomeRepo;
 	private String speciesDefinition = "";
 	private String chromosomeSelected = "";
 	private Species speciesSeleced = null;
 	@SuppressWarnings("unused")
 	private List<Chromosome> chromosomes = new ArrayList<Chromosome>();
+	@Autowired
+	private SequencesList sequencesList;
 	private List<Sequence> sequences = new ArrayList<Sequence>();
 
 	public String getSpeciesDefinition() {

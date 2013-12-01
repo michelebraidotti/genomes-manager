@@ -40,9 +40,7 @@ import org.genomesmanager.common.formats.Gff3Line;
 	@NamedQuery(name = "Gene.findAllBySpecies", 
     		query = "SELECT g FROM Gene g JOIN g.sequence s JOIN s.chromosome c " +
     				"JOIN c.species sp " +
-    				"WHERE sp.id.species = :species " +
-    				"AND sp.id.subspecies = :subspecies " +
-    				"AND sp.id.genus = :genus "),
+    				"WHERE sp.id = :speciesId "),
 	@NamedQuery(name = "Gene.findAllByChromosome", 
     		query = "SELECT g FROM Gene g JOIN g.sequence s JOIN s.chromosome c " +
     				"WHERE c.id = :chrId")

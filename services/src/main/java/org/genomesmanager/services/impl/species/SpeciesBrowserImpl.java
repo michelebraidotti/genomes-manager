@@ -1,14 +1,12 @@
 package org.genomesmanager.services.impl.species;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.SpeciesPK;
-import org.genomesmanager.repositories.species.SpeciesList;
-import org.genomesmanager.repositories.species.SpeciesRepo;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.genomesmanager.services.species.SpeciesBrowser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +15,7 @@ import org.springframework.stereotype.Service;
 public class SpeciesBrowserImpl implements SpeciesBrowser, Serializable {
 	private static final long serialVersionUID = -6384957192110079568L;
 	@Autowired
-	private SpeciesList speciesList;
-	@Autowired
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepository speciesRepo;
 
 	/*
 	 * (non-Javadoc)
@@ -28,12 +24,19 @@ public class SpeciesBrowserImpl implements SpeciesBrowser, Serializable {
 	 */
 	@Override
 	public List<Species> getAll() {
-		return speciesList.getAll();
+		return speciesRepo.findAll();
 	}
 
 	@Override
 	public List<Species> getAll(boolean greedy) {
-		return speciesList.getAll(greedy);
+		List<Species> sps = getAll();
+		if (! greedy) 
+			return sps;
+		for (Species s:sps) {
+			s.getChromosomes().size();
+			s.getVarieties().size();
+		}
+		return sps;
 	}
 
 	/*
@@ -43,7 +46,12 @@ public class SpeciesBrowserImpl implements SpeciesBrowser, Serializable {
 	 */
 	@Override
 	public List<Species> getRice() {
-		return speciesList.getRice();
+		List<Species> rice = new ArrayList<Species>(); 
+		for (Species s:	getAll()) {
+			if ( s.getGenus().equals("Oryza") )
+					rice.add(s);
+		}
+		return rice;
 	}
 
 	/*
@@ -54,9 +62,9 @@ public class SpeciesBrowserImpl implements SpeciesBrowser, Serializable {
 	 * (org.genomesmanager.domain.entities.SpeciesPK)
 	 */
 	@Override
-	public List<Chromosome> getChromosomes(SpeciesPK spk)
-			throws SpeciesRepoException {
-		return speciesRepo.getChromosomes(spk);
+	public List<Chromosome> getChromosomes(String genus, String species, String subspecies) {
+		Species speciesEntity = speciesRepo.findByGenusAndSpeciesAndSubspecies(genus, species, subspecies);
+		return speciesEntity.getChromosomes();
 	}
 
 }

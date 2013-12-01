@@ -21,7 +21,7 @@ import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.sequences.ScaffoldsList;
-import org.genomesmanager.repositories.species.SpeciesRepo;
+import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.impl.sequences.ScaffoldsExporterImpl;
 import org.junit.Before;
@@ -35,7 +35,7 @@ public class ScaffoldsExporterTest {
 	private ScaffoldsList scaffoldsList;
 	// Species s = speciesRepo.get(speciesDefinition);
 	@Mock
-	private SpeciesRepo speciesRepo;
+	private SpeciesRepositoryCustom speciesRepo;
 	@InjectMocks
 	private ScaffoldsExporter scaffoldsExporter = new ScaffoldsExporterImpl();	
 	private Random generator;
