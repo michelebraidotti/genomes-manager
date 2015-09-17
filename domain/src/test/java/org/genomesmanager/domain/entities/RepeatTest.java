@@ -200,4 +200,57 @@ public class RepeatTest {
 		assertTrue(repeat.equals(otherRepeat));
 	}
 
+	@Test
+	public  void testGetNew() throws Exception {
+		String[] repClassDefinitions = {
+				"I, I, LINE, test, test",
+				"II, II, Helitron, test, test", "II, III, MITE, test, test",
+				"II, I, DNA_TE, test, test", "I, I, LTR, test, test",
+				"UNKNOWN, UNKNOWN, UNKNOWN, test, test",
+				"I, I, SINE, test, test" };
+		/* 1. LINE */
+		String repClassDefinition = repClassDefinitions[0];
+		RepeatsClassification repClass = RepeatsClassificationOM
+				.Generate(repClassDefinition);
+		LineRepeat lineRepeat = (LineRepeat) Repeat.getNew(repClass);
+		assertEquals(repClass, lineRepeat.getRepeatsClassification());
+
+		/* 2. Helitron */
+		repClassDefinition = repClassDefinitions[1];
+		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		HelitronRepeat helitronRepeat = (HelitronRepeat) Repeat.getNew(repClass);
+		assertEquals(repClass, helitronRepeat.getRepeatsClassification());
+
+		/* 3. Mite */
+		repClassDefinition = repClassDefinitions[2];
+		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		MiteRepeat miteRepeat = (MiteRepeat) Repeat.getNew(repClass);
+		assertEquals(repClass, miteRepeat.getRepeatsClassification());
+
+		/* 3. DNATE */
+		repClassDefinition = repClassDefinitions[3];
+		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		DnaTeRepeat dnaTeRepeat = (DnaTeRepeat) Repeat.getNew(repClass);
+		assertEquals(repClass, dnaTeRepeat.getRepeatsClassification());
+
+		/* 4. LTR */
+		repClassDefinition = repClassDefinitions[4];
+		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		LtrRepeat ltrRepeat = (LtrRepeat) Repeat.getNew(repClass);
+		assertEquals(repClass, ltrRepeat.getRepeatsClassification());
+
+		/* 5. UNKN */
+		repClassDefinition = repClassDefinitions[5];
+		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		UnknownRepeat unknownRepeat = (UnknownRepeat) Repeat.getNew(repClass);
+		assertEquals(repClass, unknownRepeat.getRepeatsClassification());
+
+		/* 6. Sine */
+		repClassDefinition = repClassDefinitions[6];
+		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		SineRepeat sineRepeat = (SineRepeat) Repeat.getNew(repClass);
+		assertEquals(repClass, sineRepeat.getRepeatsClassification());
+
+	}
+
 }

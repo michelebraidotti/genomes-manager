@@ -5,7 +5,7 @@ import java.util.List;
 import org.genomesmanager.domain.dtos.LtrRepeatsPresenceInSativaStats;
 import org.genomesmanager.domain.dtos.RepeatsStatsByClassification;
 
-public interface RepeatsStatsRepo {
+public interface RepeatsStatsRepository {
 
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.repeats.RepeatsStats#countRepeatsBasesByChromosome(int)

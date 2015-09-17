@@ -210,7 +210,7 @@ public class RepeatsBrowserImpl implements RepeatsBrowser {
 	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllBySpecies(org.genomesmanager.domain.entities.SpeciesPK)
 	 */
 	@Override
-	public List<Repeat> getAllBySpecies(SpeciesPK id) {
+	public List<Repeat> getAllBySpecies(int id) {
 		return repeatsList.getAllBySpecies(id);
 	}
 	/* (non-Javadoc)

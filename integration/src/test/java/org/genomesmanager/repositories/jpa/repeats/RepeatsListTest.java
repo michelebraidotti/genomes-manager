@@ -49,7 +49,7 @@ public class RepeatsListTest extends AbstractIntegrationTest {
 
 		RepeatsClassification repClass = RepeatsClassificationOM
 				.Generate(repClassDefinition);
-		repeatsClassificationRepo.insert(repClass);
+		repeatsClassificationRepo.save(repClass);
 
 		for (LtrRepeat ltr : RepeatsOM.GenerateLtrs(nOfRepeats, repClass, seq)) {
 			repeatRepo.insert(ltr);

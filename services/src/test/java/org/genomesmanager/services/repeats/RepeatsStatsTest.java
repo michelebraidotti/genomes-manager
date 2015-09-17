@@ -7,7 +7,7 @@ public class RepeatsStatsTest {
 
 	@Test
 	public void nothingToTestHere() {
-		// All methods in RepeatsStats are delegated to RepeatsStatsRepo
+		// All methods in RepeatsStats are delegated to RepeatsStatsRepository
 		assertTrue(true);
 	}
 }

@@ -1,4 +1,4 @@
-package org.genomesmanager.repositories.jpa.repeats;
+package org.genomesmanager.repositories.repeats;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -10,17 +10,17 @@ import javax.persistence.Query;
 
 import org.genomesmanager.domain.dtos.LtrRepeatsPresenceInSativaStats;
 import org.genomesmanager.domain.dtos.RepeatsStatsByClassification;
-import org.genomesmanager.repositories.repeats.RepeatsStatsRepo;
+import org.genomesmanager.repositories.repeats.RepeatsStatsRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("RepeatsStatsRepo")
-public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
+@Repository("RepeatsStatsRepository")
+public class RepeatsStatsRepositoryImpl implements RepeatsStatsRepository {
 	@PersistenceContext
 	private EntityManager em;
 	private Query q;
 	
     /* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countRepeatsBasesByChromosome(int)
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countRepeatsBasesByChromosome(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -38,7 +38,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
     }
     
     /* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countRepeatsAndBases()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countRepeatsAndBases()
 	 */
     @SuppressWarnings("unchecked")
 	@Override
@@ -56,7 +56,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
     }
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllLtrs()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllLtrs()
 	 */
 	@Override
 	public Long countAllLtrs() {
@@ -65,7 +65,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllLtrNucleotides()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllLtrNucleotides()
 	 */
 	@Override
 	public Long countAllLtrNucleotides() {
@@ -74,7 +74,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countCompleteLtrs()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countCompleteLtrs()
 	 */
 	@Override
 	public Long countCompleteLtrs() {
@@ -83,7 +83,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countSoloLtrs()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countSoloLtrs()
 	 */
 	@Override
 	public Long countSoloLtrs() {
@@ -92,7 +92,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countTruncatedLtrs()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countTruncatedLtrs()
 	 */
 	@Override
 	public Long countTruncatedLtrs() {
@@ -101,7 +101,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#presenceInSativaStatsCompleteLtrs()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#presenceInSativaStatsCompleteLtrs()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -117,7 +117,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#presenceInSativaStatsSoloLtrs()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#presenceInSativaStatsSoloLtrs()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -136,7 +136,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	 * @see org.genomesmanager.services.impl.repeats.RepeatsStats#countAllDnaTes()
 	 */
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllDnaTes()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllDnaTes()
 	 */
 	@Override
 	public Long countAllDnaTes() {
@@ -145,7 +145,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllDnaTeNucleotides()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllDnaTeNucleotides()
 	 */
 	@Override
 	public Long countAllDnaTeNucleotides() {
@@ -154,7 +154,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllCompleteHelitrons()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllCompleteHelitrons()
 	 */
 	@Override
 	public Long countAllCompleteHelitrons() {
@@ -174,7 +174,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllCompleteHelitronsNucleotides()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllCompleteHelitronsNucleotides()
 	 */
 	@Override
 	public Long countAllCompleteHelitronsNucleotides() {
@@ -194,7 +194,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllPartialHelitrons()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllPartialHelitrons()
 	 */
 	@Override
 	public Long countAllPartialHelitrons() {
@@ -214,7 +214,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllPartialHelitronsNucleotides()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllPartialHelitronsNucleotides()
 	 */
 	@Override
 	public Long countAllPartialHelitronsNucleotides() {
@@ -234,7 +234,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countPotAutonHelitrons()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countPotAutonHelitrons()
 	 */
 	@Override
 	public Long countPotAutonHelitrons() {
@@ -243,7 +243,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countPotCdsCountHelitrons()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countPotCdsCountHelitrons()
 	 */
 	@Override
 	public Long countPotCdsCountHelitrons() {
@@ -252,7 +252,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countOrfCountHelitrons()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countOrfCountHelitrons()
 	 */
 	@Override
 	public Long countOrfCountHelitrons() {
@@ -261,7 +261,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllLines()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllLines()
 	 */
 	@Override
 	public Long countAllLines() {
@@ -270,7 +270,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
     }
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllLinesNucleotides()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllLinesNucleotides()
 	 */
 	@Override
 	public Long countAllLinesNucleotides() {
@@ -279,7 +279,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllMites()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllMites()
 	 */
 	@Override
 	public Long countAllMites() {
@@ -288,7 +288,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllMitesNucleotides()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllMitesNucleotides()
 	 */
 	@Override
 	public Long countAllMitesNucleotides() {
@@ -297,7 +297,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllSines()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllSines()
 	 */
 	@Override
 	public Long countAllSines() {
@@ -306,7 +306,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllSinesNucleotides()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllSinesNucleotides()
 	 */
 	@Override
 	public Long countAllSinesNucleotides() {
@@ -315,7 +315,7 @@ public class RepeatsStatsRepoJpa implements RepeatsStatsRepo {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepo#countAllUnkns()
+	 * @see org.genomesmanager.repositories.jpa.repeats.RepeatsStatsRepository#countAllUnkns()
 	 */
 	@Override
 	public Long countAllUnkns() {

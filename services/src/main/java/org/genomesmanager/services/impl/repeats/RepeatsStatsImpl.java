@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.genomesmanager.domain.dtos.LtrRepeatsPresenceInSativaStats;
 import org.genomesmanager.domain.dtos.RepeatsStatsByClassification;
-import org.genomesmanager.repositories.repeats.RepeatsStatsRepo;
+import org.genomesmanager.repositories.repeats.RepeatsStatsRepository;
 import org.genomesmanager.services.repeats.RepeatsStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service("RepeatsStats")
 public class RepeatsStatsImpl implements RepeatsStats {
 	@Autowired
-	private RepeatsStatsRepo repeatsStatsRepo;
+	private RepeatsStatsRepository repeatsStatsRepo;
 
 	@Override
 	public List<RepeatsStatsByClassification> countRepeatsBasesByChromosome(

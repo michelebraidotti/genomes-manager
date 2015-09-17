@@ -438,4 +438,48 @@ public class Repeat extends IntervalFeature implements Serializable {
 				.append(this.getRepeatsClassification()).hashCode();
 	}
 
+	public static Repeat getNew(RepeatsClassification repClass)
+			throws RepeatException {
+		Repeat rep = new Repeat();
+		if (repClass == null || repClass == null) {
+			throw new RepeatException(
+					"Repeat classification null on repeat creation");
+		}
+		String repOrder = repClass.getOrder();
+		if (repOrder == null) {
+			throw new RepeatException(
+					"Repeat classification order null on repeat creation");
+		}
+		if (repOrder.equals(RepeatsOrder.LTR.getLabel())) {
+			LtrRepeat ltr = new LtrRepeat();
+			rep = ltr;
+		} else if (repOrder.equals(RepeatsOrder.LINE.getLabel())) {
+			LineRepeat line = new LineRepeat();
+			rep = line;
+		} else if (repOrder.equals(RepeatsOrder.SINE.getLabel())) {
+			SineRepeat sine = new SineRepeat();
+			rep = sine;
+		} else if (repOrder.equals(RepeatsOrder.HEL.getLabel())) {
+			HelitronRepeat hel = new HelitronRepeat();
+			rep = hel;
+		} else if (repOrder.equals(RepeatsOrder.MITE.getLabel())) {
+			MiteRepeat mite = new MiteRepeat();
+			rep = mite;
+		} else if (repOrder.equals(RepeatsOrder.DNATE.getLabel())) {
+			DnaTeRepeat dnate = new DnaTeRepeat();
+			rep = dnate;
+		} else if (repOrder.equals(RepeatsOrder.SINE.getLabel())) {
+			SineRepeat sine = new SineRepeat();
+			rep = sine;
+		} else if (repOrder.equals(RepeatsOrder.UNKN.getLabel())) {
+			UnknownRepeat unkn = new UnknownRepeat();
+			rep = unkn;
+		} else {
+			throw new RepeatException("Repeat order " + repOrder
+					+ " not available");
+		}
+		rep.setRepeatsClassification(repClass);
+		return rep;
+	}
+
 }

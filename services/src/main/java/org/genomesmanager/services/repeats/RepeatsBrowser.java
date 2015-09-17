@@ -78,7 +78,7 @@ public interface RepeatsBrowser {
 	public abstract List<Repeat> getAllBySequence(int seqId,
 			RepeatsOrder repType, String superFamily);
 
-	public abstract List<Repeat> getAllBySpecies(SpeciesPK id);
+	public abstract List<Repeat> getAllBySpecies(int id);
 
 	public abstract List<Repeat> getAllByChromosome(int chrId);
 

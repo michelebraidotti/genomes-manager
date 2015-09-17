@@ -4,6 +4,9 @@
 target/
 /dbbackups/
 
+# Idea #
+.idea/
+*.iml
  
 # OS Files #
 .DS_Store
