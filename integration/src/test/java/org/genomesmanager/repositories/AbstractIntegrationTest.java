@@ -1,4 +1,4 @@
-package org.genomesmanager.repositories.jpa;
+package org.genomesmanager.repositories;
 
 import org.junit.Ignore;
 import org.junit.runner.RunWith;

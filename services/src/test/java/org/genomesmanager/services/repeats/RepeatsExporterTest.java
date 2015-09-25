@@ -21,8 +21,6 @@ import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
 import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.repeats.RepeatRepo;
-import org.genomesmanager.repositories.repeats.RepeatsList;
 import org.genomesmanager.repositories.sequences.SequenceRepo;
 import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
 import org.genomesmanager.repositories.species.SpeciesRepoException;

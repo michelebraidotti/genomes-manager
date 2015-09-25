@@ -6,59 +6,53 @@ import java.util.List;
 import org.genomesmanager.domain.entities.*;
 
 public interface RepeatRepositoryCustom {
-	public abstract DnaTeRepeat getDnaTe(int dnaTeId)
-			throws RepeatRepoException;
+	public abstract DnaTeRepeat getDnaTe(int dnaTeId);
 
-	public abstract HelitronRepeat getHelitron(int helitronId)
-			throws RepeatRepoException;
+	public abstract HelitronRepeat getHelitron(int helitronId);
 
-	public abstract LineRepeat getLine(int lineId) throws RepeatRepoException;
+	public abstract LineRepeat findLineRepeat(int lineId);
 
-	public abstract LtrRepeat getLtr(int lrtId) throws RepeatRepoException;
+	public abstract LtrRepeat findLtrRepeat(int lrtId);
 
-	public abstract MiteRepeat getMite(int miteId) throws RepeatRepoException;
+	public abstract MiteRepeat findMiteRepeat(int miteId);
 
-	public abstract SineRepeat getSine(int sineId) throws RepeatRepoException;
+	public abstract SineRepeat findSineRepeat(int sineId);
 
-	public abstract UnknownRepeat getUnkn(int unknId)
-			throws RepeatRepoException;
+	public abstract UnknownRepeat findUnknRepeat(int unknId);
 
-	public abstract List<Repeat> getAllBySequence(int seqId);
+	public abstract List<Repeat> findAllRepeatsBySequence(int seqId);
 
-	public abstract List<Repeat> getAllBySequence(int seqId,
-			RepeatsOrder repOrder);
+	public abstract List<Repeat> findAllRepeatsBySequence(int seqId, RepeatsOrder repOrder);
 
-	public abstract List<Repeat> getAllByChromosome(int chrId,
-			RepeatsOrder repOrder);
+	public abstract List<Repeat> findAllRepeatsByChromosome(int chrId, RepeatsOrder repOrder);
 
-	public abstract List<Repeat> getAllBySequence(int seqId,
-			RepeatsClassification repClass);
+	public abstract List<Repeat> findAllRepeatsBySequence(int seqId, RepeatsClassification repClass);
 
-	public abstract List<Repeat> getAllInRange(int seqId, int start, int end);
+	public abstract List<Repeat> findAllRepeatsInRange(int seqId, int start, int end);
 
-	public abstract List<LtrRepeat> getAllLtr(int seqId);
+	public abstract List<LtrRepeat> findAllLtrRepeats(int seqId);
 
-	public abstract List<LtrRepeat> getAllLtrInRange(int seqId, int start,
-			int end);
+	public abstract List<LtrRepeat> findAllLtrRepeatsInRange(int seqId, int start, int end);
 
-	public abstract List<Repeat> getAllBySequence(int seqId,
-			RepeatsOrder repType, String superFamily);
+	public abstract List<Repeat> findAllRepeatsBySequence(int seqId, RepeatsOrder repType, String superFamily);
 
-	public abstract List<Repeat> getAllBySpecies(Species sp);
+	public abstract List<Repeat> findAllRepeatsBySpecies(Species sp);
 
-	public abstract List<Repeat> getAllByChromosome(int chrId);
+	public abstract List<Repeat> findAllRepeatsByChromosome(int chrId);
 
-	public abstract List<Repeat> getAllByChromosome(int chrId,
-			RepeatsClassification repClass);
+	public abstract List<Repeat> findAllRepeatsByChromosome(int chrId, RepeatsClassification repClass);
 
-	public abstract List<Repeat> getAllByChromosome(int chrId,
-			RepeatsOrder repOrd, String superFamily);
+	public abstract List<Repeat> findAllRepeatsByChromosome(int chrId, RepeatsOrder repOrd, String superFamily);
 
-	public Long countChildren(int repId) throws RepeatRepoException;
+	public abstract List<Object[]> findAllRepeatsWithParents();
+
+	public Long countChildren(int repId);
 
 	public Repeat getParent(int repId);
 
-	public void validatePosition(Repeat repeat) throws RepeatRepoException;
+	public void validatePosition(Repeat repeat) throws RepeatException;
 
-	public void validateUpdate(Repeat rep) throws RepeatRepoException;
+	public void validateUpdate(Repeat rep) throws RepeatException;
+
+	public void updateContainedElementsCount(Repeat repeat);
 }

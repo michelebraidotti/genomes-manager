@@ -21,11 +21,11 @@ public class RepeatsClassificationTest {
 		classificationElitronVerify.setSuperfamily("Helitron");
 		classificationElitronVerify.setFamily("NA");
 		RepeatsClassification classificationElitron = RepeatsClassification
-				.GENERATE(name, "");
+				.generate(name, "");
 		assertEquals(classificationElitronVerify, classificationElitron);
 		classificationElitronVerify.setSuperfamily("testSuperFamily");
 		classificationElitronVerify.setFamily("TESTFAMILY");
-		classificationElitron = RepeatsClassification.GENERATE(name,
+		classificationElitron = RepeatsClassification.generate(name,
 				familyDetails);
 		assertEquals(classificationElitronVerify, classificationElitron);
 
@@ -37,7 +37,7 @@ public class RepeatsClassificationTest {
 		classificationSoloVerify.setSuperfamily("testSuperFamily");
 		classificationSoloVerify.setFamily("TESTFAMILY");
 		RepeatsClassification classificationSolo = RepeatsClassification
-				.GENERATE(name, familyDetails);
+				.generate(name, familyDetails);
 		assertEquals(classificationSoloVerify, classificationSolo);
 
 		name = "LTR";
@@ -48,7 +48,7 @@ public class RepeatsClassificationTest {
 		classificationLtrVerify.setSuperfamily("testSuperFamily");
 		classificationLtrVerify.setFamily("TESTFAMILY");
 		RepeatsClassification classificationLtr = RepeatsClassification
-				.GENERATE(name, familyDetails);
+				.generate(name, familyDetails);
 		assertEquals(classificationLtrVerify, classificationLtr);
 
 		name = "LINE";
@@ -59,12 +59,12 @@ public class RepeatsClassificationTest {
 		classificationLineVerify.setSuperfamily("NA");
 		classificationLineVerify.setFamily("NA");
 		RepeatsClassification classificationLine = RepeatsClassification
-				.GENERATE(name, "");
+				.generate(name, "");
 		assertEquals(classificationLineVerify, classificationLine);
 		classificationLineVerify.setSuperfamily("testSuperFamily");
 		classificationLineVerify.setFamily("TESTFAMILY");
 		classificationLine = RepeatsClassification
-				.GENERATE(name, familyDetails);
+				.generate(name, familyDetails);
 		assertEquals(classificationLineVerify, classificationLine);
 
 		String[] dnaTeNames = { "DNATE", "DNA_TE",
@@ -77,7 +77,7 @@ public class RepeatsClassificationTest {
 			classificationDnaTeVerify.setSuperfamily("testSuperFamily");
 			classificationDnaTeVerify.setFamily("TESTFAMILY");
 			RepeatsClassification classificationDnaTe = RepeatsClassification
-					.GENERATE(dnaTeName, familyDetails);
+					.generate(dnaTeName, familyDetails);
 			assertEquals(classificationDnaTeVerify, classificationDnaTe);
 		}
 
@@ -89,12 +89,12 @@ public class RepeatsClassificationTest {
 		classificationSineVerify.setSuperfamily("NA");
 		classificationSineVerify.setFamily("NA");
 		RepeatsClassification classificationSine = RepeatsClassification
-				.GENERATE(name, "");
+				.generate(name, "");
 		assertEquals(classificationSineVerify, classificationSine);
 		classificationSineVerify.setSuperfamily("testSuperFamily");
 		classificationSineVerify.setFamily("TESTFAMILY");
 		classificationSine = RepeatsClassification
-				.GENERATE(name, familyDetails);
+				.generate(name, familyDetails);
 		assertEquals(classificationSineVerify, classificationSine);
 
 		name = "MITE";
@@ -105,12 +105,12 @@ public class RepeatsClassificationTest {
 		classificationMiteVerify.setSuperfamily("NA");
 		classificationMiteVerify.setFamily("NA");
 		RepeatsClassification classificationMite = RepeatsClassification
-				.GENERATE(name, "");
+				.generate(name, "");
 		assertEquals(classificationMiteVerify, classificationMite);
 		classificationMiteVerify.setSuperfamily("testSuperFamily");
 		classificationMiteVerify.setFamily("TESTFAMILY");
 		classificationMite = RepeatsClassification
-				.GENERATE(name, familyDetails);
+				.generate(name, familyDetails);
 		assertEquals(classificationMiteVerify, classificationMite);
 
 		String[] unknNames = { "U", "unclassified", "unknown",
@@ -123,7 +123,7 @@ public class RepeatsClassificationTest {
 			classificationUnkVerify.setSuperfamily("UNKNOWN");
 			classificationUnkVerify.setFamily("UNKNOWN");
 			RepeatsClassification classificationUnk = RepeatsClassification
-					.GENERATE(unknName, "");
+					.generate(unknName, "");
 			assertEquals(classificationUnkVerify, classificationUnk);
 		}
 

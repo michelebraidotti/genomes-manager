@@ -13,9 +13,6 @@ import org.genomesmanager.domain.entities.RepeatsOrder;
 import org.genomesmanager.domain.entities.SineRepeat;
 import org.genomesmanager.domain.entities.SpeciesPK;
 import org.genomesmanager.domain.entities.UnknownRepeat;
-import org.genomesmanager.repositories.repeats.RepeatRepo;
-import org.genomesmanager.repositories.repeats.RepeatRepoException;
-import org.genomesmanager.repositories.repeats.RepeatsList;
 import org.genomesmanager.services.repeats.RepeatsBrowser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,35 +61,35 @@ public class RepeatsBrowserImpl implements RepeatsBrowser {
 		return repeatRepo.getHelitron(helitronId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getLine(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findLineRepeat(int)
 	 */
 	@Override
 	public LineRepeat getLine(int lineId) throws RepeatRepoException {
 		return repeatRepo.getLine(lineId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getLtr(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findLtrRepeat(int)
 	 */
 	@Override
 	public LtrRepeat getLtr(int lrtId) throws RepeatRepoException {
 		return repeatRepo.getLtr(lrtId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getMite(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findMiteRepeat(int)
 	 */
 	@Override
 	public MiteRepeat getMite(int miteId) throws RepeatRepoException {
 		return repeatRepo.getMite(miteId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getSine(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findSineRepeat(int)
 	 */
 	@Override
 	public SineRepeat getSine(int sineId) throws RepeatRepoException {
 		return repeatRepo.getSine(sineId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getUnkn(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findUnknRepeat(int)
 	 */
 	@Override
 	public UnknownRepeat getUnkn(int unknId) throws RepeatRepoException {
@@ -149,28 +146,28 @@ public class RepeatsBrowserImpl implements RepeatsBrowser {
 		return repeatRepo.getParent(repId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllBySequence(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsBySequence(int)
 	 */
 	@Override
 	public List<Repeat> getAllBySequence(int seqId) {
 		return repeatsList.getAllBySequence(seqId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllBySequence(int, org.genomesmanager.domain.entities.RepeatsOrder)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsBySequence(int, org.genomesmanager.domain.entities.RepeatsOrder)
 	 */
 	@Override
 	public List<Repeat> getAllBySequence(int seqId, RepeatsOrder repOrder) {
 		return repeatsList.getAllBySequence(seqId, repOrder);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllByChromosome(int, org.genomesmanager.domain.entities.RepeatsOrder)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsByChromosome(int, org.genomesmanager.domain.entities.RepeatsOrder)
 	 */
 	@Override
 	public List<Repeat> getAllByChromosome(int chrId, RepeatsOrder repOrder) {
 		return repeatsList.getAllByChromosome(chrId, repOrder);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllBySequence(int, org.genomesmanager.domain.entities.RepeatsClassification)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsBySequence(int, org.genomesmanager.domain.entities.RepeatsClassification)
 	 */
 	@Override
 	public List<Repeat> getAllBySequence(int seqId,
@@ -178,28 +175,28 @@ public class RepeatsBrowserImpl implements RepeatsBrowser {
 		return repeatsList.getAllBySequence(seqId, repClass);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllInRange(int, int, int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsInRange(int, int, int)
 	 */
 	@Override
 	public List<Repeat> getAllInRange(int seqId, int start, int end) {
 		return repeatsList.getAllInRange(seqId, start, end);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllLtr(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllLtrRepeats(int)
 	 */
 	@Override
 	public List<LtrRepeat> getAllLtr(int seqId) {
 		return repeatsList.getAllLtr(seqId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllLtrInRange(int, int, int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllLtrRepeatsInRange(int, int, int)
 	 */
 	@Override
 	public List<LtrRepeat> getAllLtrInRange(int seqId, int start, int end) {
 		return repeatsList.getAllLtrInRange(seqId, start, end);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllBySequence(int, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsBySequence(int, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
 	 */
 	@Override
 	public List<Repeat> getAllBySequence(int seqId, RepeatsOrder repType,
@@ -207,21 +204,21 @@ public class RepeatsBrowserImpl implements RepeatsBrowser {
 		return repeatsList.getAllBySequence(seqId, repType, superFamily);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllBySpecies(org.genomesmanager.domain.entities.SpeciesPK)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsBySpecies(org.genomesmanager.domain.entities.SpeciesPK)
 	 */
 	@Override
 	public List<Repeat> getAllBySpecies(int id) {
 		return repeatsList.getAllBySpecies(id);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllByChromosome(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsByChromosome(int)
 	 */
 	@Override
 	public List<Repeat> getAllByChromosome(int chrId) {
 		return repeatsList.getAllByChromosome(chrId);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllByChromosome(int, org.genomesmanager.domain.entities.RepeatsClassification)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsByChromosome(int, org.genomesmanager.domain.entities.RepeatsClassification)
 	 */
 	@Override
 	public List<Repeat> getAllByChromosome(int chrId,
@@ -229,7 +226,7 @@ public class RepeatsBrowserImpl implements RepeatsBrowser {
 		return repeatsList.getAllByChromosome(chrId, repClass);
 	}
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#getAllByChromosome(int, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsBrowser#findAllRepeatsByChromosome(int, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
 	 */
 	@Override
 	public List<Repeat> getAllByChromosome(int chrId, RepeatsOrder repOrd,

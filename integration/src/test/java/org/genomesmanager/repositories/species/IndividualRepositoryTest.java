@@ -8,10 +8,7 @@ import org.genomesmanager.domain.entities.Variety;
 import org.genomesmanager.domain.entities.objectmothers.IndividualsOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.domain.entities.objectmothers.VarietiesOM;
-import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
-import org.genomesmanager.repositories.species.IndividualRepository;
-import org.genomesmanager.repositories.species.SpeciesRepository;
-import org.genomesmanager.repositories.species.VarietyRepository;
+import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

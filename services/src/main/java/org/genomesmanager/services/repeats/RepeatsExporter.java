@@ -8,7 +8,6 @@ import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsOrder;
 import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.repositories.repeats.RepeatRepoException;
 import org.genomesmanager.repositories.sequences.SequenceRepoException;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 

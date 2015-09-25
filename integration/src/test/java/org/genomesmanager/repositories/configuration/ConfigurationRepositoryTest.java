@@ -2,8 +2,7 @@ package org.genomesmanager.repositories.configuration;
 
 import static org.junit.Assert.assertEquals;
 
-import org.genomesmanager.repositories.configuration.ConfigurationRepository;
-import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
+import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

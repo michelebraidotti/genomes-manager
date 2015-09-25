@@ -2,7 +2,7 @@ package org.genomesmanager.repositories.repeats;
 
 import org.genomesmanager.domain.entities.*;
 import org.genomesmanager.domain.entities.objectmothers.*;
-import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
+import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.repositories.species.SpeciesRepository;
@@ -47,7 +47,7 @@ public class RepeatRepositoryTest extends AbstractIntegrationTest {
         repeatsClassificationRepo.save(repClass);
         LineRepeat line = RepeatsOM.GenerateLines(1, repClass, seq).get(0);
         repeatRepo.save(line);
-        LineRepeat postLine = repeatRepo.getLine(line.getId());
+        LineRepeat postLine = repeatRepo.findLineRepeat(line.getId());
         assertEquals(line, postLine);
 		/* 2. Helitron */
         repClassDefinition = repClassDefinitions[1];
@@ -63,7 +63,7 @@ public class RepeatRepositoryTest extends AbstractIntegrationTest {
         repeatsClassificationRepo.save(repClass);
         MiteRepeat mite = RepeatsOM.GenerateMites(1, repClass, seq).get(0);
         repeatRepo.save(mite);
-        MiteRepeat postMite = repeatRepo.getMite(mite.getId());
+        MiteRepeat postMite = repeatRepo.findMiteRepeat(mite.getId());
         assertEquals(mite, postMite);
 		/* 3. DNATE */
         repClassDefinition = repClassDefinitions[3];
@@ -79,7 +79,7 @@ public class RepeatRepositoryTest extends AbstractIntegrationTest {
         repeatsClassificationRepo.save(repClass);
         LtrRepeat ltr = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
         repeatRepo.save(ltr);
-        LtrRepeat postLtr = repeatRepo.getLtr(ltr.getId());
+        LtrRepeat postLtr = repeatRepo.findLtrRepeat(ltr.getId());
         assertEquals(ltr, postLtr);
 		/* 5. UNKN */
         repClassDefinition = repClassDefinitions[5];
@@ -88,7 +88,7 @@ public class RepeatRepositoryTest extends AbstractIntegrationTest {
         UnknownRepeat unkn = RepeatsOM.GenerateUnknowns(1, repClass, seq)
                 .get(0);
         repeatRepo.save(unkn);
-        UnknownRepeat postUnkn = repeatRepo.getUnkn(unkn.getId());
+        UnknownRepeat postUnkn = repeatRepo.findUnknRepeat(unkn.getId());
         assertEquals(unkn, postUnkn);
 		/* 6. Sine */
         repClassDefinition = repClassDefinitions[6];
@@ -96,7 +96,7 @@ public class RepeatRepositoryTest extends AbstractIntegrationTest {
         repeatsClassificationRepo.save(repClass);
         SineRepeat sine = RepeatsOM.GenerateSines(1, repClass, seq).get(0);
         repeatRepo.save(sine);
-        SineRepeat postSine = repeatRepo.getSine(sine.getId());
+        SineRepeat postSine = repeatRepo.findSineRepeat(sine.getId());
         assertEquals(sine, postSine);
     }
 }

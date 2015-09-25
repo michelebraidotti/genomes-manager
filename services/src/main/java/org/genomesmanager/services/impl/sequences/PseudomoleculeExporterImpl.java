@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service("PseudomoleculeExporter")
 public class PseudomoleculeExporterImpl implements PseudomoleculeExporter {
 	@Autowired
-	private PseudomoleculeRepository pseudomoleculeRepo;
+	private PseudomoleculeRepository pseudomoleculeRepository;
 	
     public PseudomoleculeExporterImpl() {
     }
@@ -21,14 +21,14 @@ public class PseudomoleculeExporterImpl implements PseudomoleculeExporter {
 	 */
     @Override
 	public Pseudomolecule get(int id, boolean masked) throws SequenceSliceException, SequenceRepoException {
-    	Pseudomolecule p = pseudomoleculeRepo.get(id);
+    	Pseudomolecule p = pseudomoleculeRepository.findOne(id);
     	if ( p.getIsScaffoldDerived() ) {
     		StringBuilder seq = new StringBuilder();
     		if ( p.getIsUnplaced() ) {
-    			seq = pseudomoleculeRepo.getFromChromosomeUnplaced(p.getChromosome().getId(), masked);
+    			seq = pseudomoleculeRepository.getFromChromosomeUnplaced(p.getChromosome().getId(), masked);
     		}
     		else {
-    			seq = pseudomoleculeRepo.getFromChromosome(p.getChromosome().getId(), masked);
+    			seq = pseudomoleculeRepository.getFromChromosome(p.getChromosome().getId(), masked);
     		}
     		p.setSequenceText(seq.toString());
     		p.setLength(seq.length());

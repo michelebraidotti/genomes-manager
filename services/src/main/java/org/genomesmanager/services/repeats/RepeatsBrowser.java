@@ -13,7 +13,6 @@ import org.genomesmanager.domain.entities.RepeatsOrder;
 import org.genomesmanager.domain.entities.SineRepeat;
 import org.genomesmanager.domain.entities.SpeciesPK;
 import org.genomesmanager.domain.entities.UnknownRepeat;
-import org.genomesmanager.repositories.repeats.RepeatRepoException;
 
 
 public interface RepeatsBrowser {

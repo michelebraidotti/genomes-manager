@@ -13,14 +13,12 @@ public interface RepeatsClassificationRepositoryCustom {
 	public List<String> getAllSuperfamilies(String classifDefinition)
 			throws RepeatsClassificationException;
 
-	public List<String> getAllSuperfamilies(String repClass, String subclass,
-			String order);
+	public List<String> getAllSuperfamilies(String repClass, String subclass, String order);
 
 	public List<String> getAllFamilies(String classifDefinition)
 			throws RepeatsClassificationException;
 
-	public List<String> getAllFamilies(String repClass, String subclass,
-			String order, String superfamily);
+	public List<String> getAllFamilies(String repClass, String subclass, String order, String superfamily);
 
 	public List<String> getAllClasses();
 

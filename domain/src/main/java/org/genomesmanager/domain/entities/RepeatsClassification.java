@@ -173,7 +173,7 @@ public class RepeatsClassification implements Serializable {
 		return null;
 	}
 
-	public static RepeatsClassification GENERATE(String name, String familyDetails)
+	public static RepeatsClassification generate(String name, String familyDetails)
 			throws RepeatsClassificationException {
 		RepeatsClassification rc = new RepeatsClassification();
 		String repClass = "";

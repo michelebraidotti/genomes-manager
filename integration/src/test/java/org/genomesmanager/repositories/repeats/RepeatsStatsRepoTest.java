@@ -1,4 +1,4 @@
-package org.genomesmanager.repositories.jpa.repeats;
+package org.genomesmanager.repositories.repeats;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,8 +23,8 @@ import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
 import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
-import org.genomesmanager.repositories.repeats.RepeatRepo;
+import org.genomesmanager.repositories.AbstractIntegrationTest;
+import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.repeats.RepeatsStatsRepository;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
@@ -37,7 +37,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 	@Autowired
 	private RepeatsClassificationRepository repeatsClassificationRepo;
 	@Autowired
-	private RepeatRepo repeatRepo;
+	private RepeatRepository repeatRepo;
 	@Autowired
 	private SpeciesRepository speciesRepository;
 	@Autowired
@@ -70,7 +70,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 				.Generate(repClassDefinition);
 		repeatsClassificationRepo.save(repClass);
 		for (LineRepeat l : RepeatsOM.GenerateLines(nOfRepeats, repClass, seq)) {
-			repeatRepo.insert(l);
+			repeatRepo.save(l);
 			repeats.add(l);
 		}
 
@@ -80,7 +80,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repeatsClassificationRepo.save(repClass);
 		for (HelitronRepeat h : RepeatsOM.GenerateHelitrons(nOfRepeats,
 				repClass, seq)) {
-			repeatRepo.insert(h);
+			repeatRepo.save(h);
 			repeats.add(h);
 		}
 
@@ -89,7 +89,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
 		repeatsClassificationRepo.save(repClass);
 		for (MiteRepeat m : RepeatsOM.GenerateMites(nOfRepeats, repClass, seq)) {
-			repeatRepo.insert(m);
+			repeatRepo.save(m);
 			repeats.add(m);
 		}
 
@@ -99,7 +99,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repeatsClassificationRepo.save(repClass);
 		for (DnaTeRepeat dnate : RepeatsOM.GenerateDnaTes(nOfRepeats, repClass,
 				seq)) {
-			repeatRepo.insert(dnate);
+			repeatRepo.save(dnate);
 			repeats.add(dnate);
 		}
 
@@ -108,7 +108,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
 		repeatsClassificationRepo.save(repClass);
 		for (LtrRepeat ltr : RepeatsOM.GenerateLtrs(nOfRepeats, repClass, seq)) {
-			repeatRepo.insert(ltr);
+			repeatRepo.save(ltr);
 			repeats.add(ltr);
 		}
 
@@ -118,7 +118,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repeatsClassificationRepo.save(repClass);
 		for (UnknownRepeat unkn : RepeatsOM.GenerateUnknowns(nOfRepeats,
 				repClass, seq)) {
-			repeatRepo.insert(unkn);
+			repeatRepo.save(unkn);
 			repeats.add(unkn);
 		}
 
@@ -128,7 +128,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repeatsClassificationRepo.save(repClass);
 		for (SineRepeat sine : RepeatsOM.GenerateSines(nOfRepeats, repClass,
 				seq)) {
-			repeatRepo.insert(sine);
+			repeatRepo.save(sine);
 			repeats.add(sine);
 		}
 

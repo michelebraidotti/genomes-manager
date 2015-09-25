@@ -1,8 +1,7 @@
-package org.genomesmanager.batch.jpa.repeats;
+package org.genomesmanager.repositories.repeats;
 
 import static org.junit.Assert.assertEquals;
 
-import org.genomesmanager.batch.repeats.RepeatsBatchUpdater;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.LtrRepeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
@@ -13,8 +12,8 @@ import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
 import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
-import org.genomesmanager.repositories.repeats.RepeatRepo;
+import org.genomesmanager.repositories.AbstractIntegrationTest;
+import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
@@ -22,42 +21,36 @@ import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class RepeatsBatchUpdaterTest extends AbstractIntegrationTest {
+public class RepeatsListTest extends AbstractIntegrationTest {
 	@Autowired
 	private RepeatsClassificationRepository repeatsClassificationRepo;
 	@Autowired
-	private RepeatRepo repeatRepo;
+	private RepeatRepository repeatRepo;
 	@Autowired
-	private SpeciesRepository speciesRepo;
+	private SpeciesRepository speciesRepository;
 	@Autowired
-	private ChromosomeRepository chromosomeRepo;
+	private ChromosomeRepository chromosomeRepository;
 	@Autowired
-	private SequenceRepository sequenceRepo;
-	@Autowired
-	private RepeatsBatchUpdater repeatsBatchUpdater;
-	
+	private SequenceRepository sequenceRepository;
+
 	@Test
 	public void test() throws Exception {
+		int nOfRepeats = 7;
 		Species sp = SpeciesOM.Generate(1).get(0);
-		sp = speciesRepo.save(sp);
+		speciesRepository.save(sp);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		chr = chromosomeRepo.save(chr);
+		chromosomeRepository.save(chr);
 		Sequence seq = SequencesOM.Generate(1, chr).get(0);
-		seq = sequenceRepo.save(seq);
-		RepeatsClassification repClass = RepeatsClassificationOM.Generate("I, I, LTR, test, test");
-		repeatsClassificationRepo.insert(repClass);
-		LtrRepeat parentLtr = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
-		repeatRepo.insert(parentLtr);
-		LtrRepeat nestedLtr = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
-		nestedLtr.setX(parentLtr.getX() + 1);
-		nestedLtr.setY(parentLtr.getY() - 1);
-		nestedLtr.setPbsX(nestedLtr.getX() + 1);
-		nestedLtr.setPbsY(nestedLtr.getY() - 1);
-		nestedLtr.setPptX(nestedLtr.getX() + 1);
-		nestedLtr.setPptY(nestedLtr.getY() - 1);
-		repeatRepo.insert(nestedLtr);
-		
-		repeatsBatchUpdater.updateRepatsParent();
-		assertEquals(nestedLtr.getParent(), parentLtr);
+		sequenceRepository.save(seq);
+		String repClassDefinition = "I, I, LTR, test, test";
+
+		RepeatsClassification repClass = RepeatsClassificationOM
+				.Generate(repClassDefinition);
+		repeatsClassificationRepo.save(repClass);
+
+		for (LtrRepeat ltr : RepeatsOM.GenerateLtrs(nOfRepeats, repClass, seq)) {
+			repeatRepo.save(ltr);
+		}
+		assertEquals(nOfRepeats, repeatRepo.findAllRepeatsBySequence(seq.getId()).size());
 	}
 }

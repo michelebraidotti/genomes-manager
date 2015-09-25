@@ -7,23 +7,18 @@ import java.util.Properties;
 
 import org.genomesmanager.common.parsers.Gff3LineParser;
 import org.genomesmanager.common.parsers.Gff3LineParserException;
-import org.genomesmanager.domain.entities.IntervalFeatureException;
-import org.genomesmanager.domain.entities.OutOfBoundsException;
-import org.genomesmanager.domain.entities.Repeat;
-import org.genomesmanager.domain.entities.RepeatException;
-import org.genomesmanager.domain.entities.RepeatsClassification;
-import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.repositories.repeats.RepeatRepo;
-import org.genomesmanager.repositories.repeats.RepeatRepoException;
+import org.genomesmanager.domain.entities.*;
+import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationException;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.repeats.RepeatsImporter;
 import org.genomesmanager.services.repeats.RepeatsImporterException;
+import org.genomesmanager.services.repeats.RepeatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.NoResultException;
 
 @Service("RepeatsImporter")
 @Scope("prototype")
@@ -32,19 +27,15 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	private List<String> wrongLines = new ArrayList<String>();
 	private List<String> warningLines = new ArrayList<String>();
 	@Autowired
-	private RepeatRepo repeatRepo;
+	private RepeatRepository repeatRepo;
 	@Autowired
 	private RepeatsClassificationRepository repeatsClassRepo;
 	@Autowired
-	private SequenceRepo sequenceRepo;
+	private SequenceRepository sequenceRepo;
+	@Autowired
+	private RepeatsService repeatsService;
 
 	
-
-    public RepeatsImporterImpl() {}
-    
-    /* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsImporter#parseAgiGff3(java.util.List)
-	 */
     @Override
 	public void parseAgiGff3(List<String> lines) {
     	int lineN = 0;
@@ -54,10 +45,10 @@ public class RepeatsImporterImpl implements RepeatsImporter {
     		lineN++;
     		try {
     			gff3.parse(line);
-	    		Repeat rep = new Repeat();
+	    		Repeat rep;
 	    		Properties props = gff3.getAttributes();			 
 	    		if ( gff3.getAttribId() != null && ! gff3.getAttribId().equals("0") ) {
-	    			rep = repeatRepo.get(Integer.parseInt(gff3.getAttribId()));
+	    			rep = repeatRepo.findOne(Integer.parseInt(gff3.getAttribId()));
 	    			if ( props.getProperty("family") != null && ! props.getProperty("family").equals("") ) {
 	    				warningLines.add(lineN + "\t" + line + "\t" + "Family attrib will be ignored");
 	    			}
@@ -69,11 +60,23 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	    			}
 	    		}
 	    		else {
-	    			RepeatsClassification repClass = repeatsClassRepo.generate(gff3.getType(), gff3.getAttributesString());
-					rep = repeatRepo.getNew(repClass);
+
+					RepeatsClassification repClass = null;
+					try {
+						repClass = RepeatsClassification.generate(gff3.getType(), gff3.getAttributesString());
+					} catch (RepeatsClassificationException e) {
+						e.printStackTrace();
+					}
+					rep = Repeat.getNew(repClass);
 				}
         		if ( seq == null || ! seq.humanName().equals(gff3.getSeqId()) ) {
-        			seq = sequenceRepo.getLatest(gff3.getSeqId());
+					try {
+						seq = sequenceRepo.findLatest(gff3.getSeqId());
+					}
+					catch (NoResultException e) {
+						wrongLines.add(lineN + "\t" + line + "\t" + "Error while looking for sequence " +
+								gff3.getSeqId() + ": No sequence found.");
+					}
         		}
 	    		rep.setSequence(seq);
 	    		rep.setX(gff3.getStart());
@@ -88,32 +91,10 @@ public class RepeatsImporterImpl implements RepeatsImporter {
     			}
 	    		repeats.add(rep);
     		}
-    		catch (Gff3LineParserException e) {
-    			wrongLines.add(lineN + "\t" + line + "\t" + "Gff3LineParserException: " + e.getMessage());
+    		catch ( Gff3LineParserException | RepeatException | NumberFormatException | OutOfBoundsException | IntervalFeatureException e) {
+    			wrongLines.add(lineN + "\t" + line + "\t" + e.getClass().getName() + ": " + e.getMessage());
 			}
-    		catch (RepeatRepoException e) {
-				wrongLines.add(lineN + "\t" + line + "\t" + "RepeatEAException: " + e.getMessage());
-			} 
-			catch (RepeatsClassificationException e) {
-				wrongLines.add(lineN + "\t" + line + "\t" + "RepeatsClassificationRepoException: " +e.getMessage());
-			}
-			catch (NumberFormatException e) {
-				wrongLines.add(lineN + "\t" + line + "\t" + "NumberFormatException: " + e.getMessage());
-			} 
-			catch (OutOfBoundsException e) {
-				wrongLines.add(lineN + "\t" + line + "\t" + "OutOfBoundsException: " + e.getMessage());	    				
-			}
-    		catch ( IntervalFeatureException ex ) {
-    			wrongLines.add(lineN + "\t" + line + "\t" + "IntervalFeatureException: " + ex.getMessage());
-    		}
-    		catch (RepeatException e) {
-				wrongLines.add(lineN + "\t" + line + "\t" + "RepeatException: " + e.getMessage());
-			} 
-    		catch (SequenceRepoException e) {
-				wrongLines.add(lineN + "\t" + line + "\t" + "Error while looking for sequence " + 
-						gff3.getSeqId() + ": " + e.getMessage() + " - " + e.getMessage());
-			}
-    	}
+		}
     }
 
 	/* (non-Javadoc)
@@ -164,28 +145,13 @@ public class RepeatsImporterImpl implements RepeatsImporter {
     @Override
 	public void saveList() throws RepeatsImporterException {  	
     	for ( Repeat rep:repeats ) {
-    		if ( rep.getId() != 0 ) {
-    			try {
-					repeatRepo.update(rep);
-				} 
-    			catch (RepeatRepoException e) {
-	    			throw new RepeatsImporterException("RepeatEAException " + e.getMessage());
-				}
-    		}
-    		else {
-	    		try {
-	    			repeatsClassRepo.insertIfNotExists(rep.getRepeatsClassification());
-	    			repeatRepo.insert(rep);
-	    		}
-	    		catch (RepeatRepoException e) {
-	    			throw new RepeatsImporterException("RepeatEAException " + e.getMessage());
-	    		} 
-	    		catch (RepeatsClassificationException e) {
-	    			throw new RepeatsImporterException("RepeatsClassificationException " + 
-	    					e.getMessage());
-				}
-    		}
-    	}
+			try {
+				repeatsClassRepo.save(rep.getRepeatsClassification());
+				repeatsService.save(rep);
+			} catch (RepeatException | OutOfBoundsException | IntervalFeatureException e) {
+				throw new RepeatsImporterException(e.getClass().getName() + " " + e.getMessage());
+			}
+		}
     }
     
 	/* (non-Javadoc)

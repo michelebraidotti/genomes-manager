@@ -3,10 +3,7 @@ package org.genomesmanager.repositories.repeats;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 import org.genomesmanager.domain.entities.*;
 
@@ -15,58 +12,43 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 	private EntityManager em;
 	private Query q;
 
-	private Repeat get(int repId) throws RepeatRepoException {
-		Repeat rep = em.find(Repeat.class, repId);
-		if (rep == null) {
-			throw new RepeatRepoException("Repeat id " + repId + " not found");
-		}
-		return rep;
+
+	@Override
+	public DnaTeRepeat getDnaTe(int dnaTeId) {
+		return em.find(DnaTeRepeat.class, dnaTeId);
 	}
 
 	@Override
-	public DnaTeRepeat getDnaTe(int dnaTeId) throws RepeatRepoException {
-		DnaTeRepeat rep = (DnaTeRepeat) get(dnaTeId);
-		return rep;
+	public HelitronRepeat getHelitron(int helitronId) {
+		return em.find(HelitronRepeat.class, helitronId);
 	}
 
 	@Override
-	public HelitronRepeat getHelitron(int helitronId)
-			throws RepeatRepoException {
-		HelitronRepeat rep = (HelitronRepeat) get(helitronId);
-		return rep;
+	public LineRepeat findLineRepeat(int lineId) {
+		return em.find(LineRepeat.class, lineId);
 	}
 
 	@Override
-	public LineRepeat getLine(int lineId) throws RepeatRepoException {
-		LineRepeat rep = (LineRepeat) get(lineId);
-		return rep;
+	public LtrRepeat findLtrRepeat(int lrtId) {
+		return em.find(LtrRepeat.class, lrtId);
+	}
+	@Override
+	public MiteRepeat findMiteRepeat(int miteId) {
+		return em.find(MiteRepeat.class, miteId);
 	}
 
 	@Override
-	public LtrRepeat getLtr(int lrtId) throws RepeatRepoException {
-		LtrRepeat rep = (LtrRepeat) get(lrtId);
-		return rep;
-	}
-	@Override
-	public MiteRepeat getMite(int miteId) throws RepeatRepoException {
-		MiteRepeat rep = (MiteRepeat) get(miteId);
-		return rep;
+	public SineRepeat findSineRepeat(int sineId) {
+		return em.find(SineRepeat.class, sineId);
 	}
 
 	@Override
-	public SineRepeat getSine(int sineId) throws RepeatRepoException {
-		SineRepeat rep = (SineRepeat) get(sineId);
-		return rep;
+	public UnknownRepeat findUnknRepeat(int unknId) {
+		return em.find(UnknownRepeat.class, unknId);
 	}
 
 	@Override
-	public UnknownRepeat getUnkn(int unknId) throws RepeatRepoException {
-		UnknownRepeat rep = (UnknownRepeat) get(unknId);
-		return rep;
-	}
-
-	@Override
-	public List<Repeat> getAllBySequence(int seqId) {
+	public List<Repeat> findAllRepeatsBySequence(int seqId) {
 		q = em.createNamedQuery("Repeat.findAllBySequence");
 		q.setParameter("seqId", seqId);
 		List<Repeat> repats = q.getResultList();
@@ -74,7 +56,7 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 	}
 
 	@Override
-	public List<Repeat> getAllBySequence(int seqId, RepeatsOrder repOrder) {
+	public List<Repeat> findAllRepeatsBySequence(int seqId, RepeatsOrder repOrder) {
 		String qName = "";
 		if (repOrder.equals(RepeatsOrder.ANY)) {
 			qName = "Repeat.findAllBySequence";
@@ -99,7 +81,7 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 	}
 
 	@Override
-	public List<Repeat> getAllByChromosome(int chrId, RepeatsOrder repOrder) {
+	public List<Repeat> findAllRepeatsByChromosome(int chrId, RepeatsOrder repOrder) {
 		String qName = "";
 		if (repOrder.equals(RepeatsOrder.ANY)) {
 			qName = "Repeat.findAllByChromosome";
@@ -124,8 +106,8 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 	}
 
 	@Override
-	public List<Repeat> getAllBySequence(int seqId,
-			RepeatsClassification repClass) {
+	public List<Repeat> findAllRepeatsBySequence(int seqId,
+												 RepeatsClassification repClass) {
 		q = em.createNamedQuery("Repeat.findByClassAndSequence");
 		q.setParameter("seqId", seqId);
 		q.setParameter("repClassId", repClass.getId());
@@ -136,7 +118,7 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Repeat> getAllInRange(int seqId, int start, int end) {
+	public List<Repeat> findAllRepeatsInRange(int seqId, int start, int end) {
 		q = em.createNamedQuery("Repeat.findInRange");
 		q.setParameter("seqId", seqId);
 		q.setParameter("start", start);
@@ -147,7 +129,7 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<LtrRepeat> getAllLtr(int seqId) {
+	public List<LtrRepeat> findAllLtrRepeats(int seqId) {
 		q = em.createNamedQuery("LtrRepeat.findAllBySequence");
 		q.setParameter("seqId", seqId);
 		List<LtrRepeat> ltrs = q.getResultList();
@@ -156,7 +138,7 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<LtrRepeat> getAllLtrInRange(int seqId, int start, int end) {
+	public List<LtrRepeat> findAllLtrRepeatsInRange(int seqId, int start, int end) {
 		q = em.createNamedQuery("LtrRepeat.findInRange");
 		q.setParameter("seqId", seqId);
 		q.setParameter("start", start);
@@ -166,11 +148,11 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 	}
 
 	@Override
-	public List<Repeat> getAllBySequence(int seqId, RepeatsOrder repType,
-			String superFamily) {
+	public List<Repeat> findAllRepeatsBySequence(int seqId, RepeatsOrder repType,
+												 String superFamily) {
 		// TODO check performance, may need a direct jpa query
 		List<Repeat> reps = new ArrayList<Repeat>();
-		for (Repeat r : getAllBySequence(seqId, repType)) {
+		for (Repeat r : findAllRepeatsBySequence(seqId, repType)) {
 			if (r.getRepeatsClassification().getSuperfamily()
 					.equals(superFamily)) {
 				reps.add(r);
@@ -181,7 +163,7 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Repeat> getAllBySpecies(Species sp) {
+	public List<Repeat> findAllRepeatsBySpecies(Species sp) {
 		q = em.createNamedQuery("Repeat.findAllBySpecies");
 		q.setParameter("speciesId", sp.getId());
 		List<Repeat> repeats = q.getResultList();
@@ -190,7 +172,7 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Repeat> getAllByChromosome(int chrId) {
+	public List<Repeat> findAllRepeatsByChromosome(int chrId) {
 		q = em.createNamedQuery("Repeat.findAllByChromosome");
 		q.setParameter("chrId", chrId);
 		List<Repeat> repeats = q.getResultList();
@@ -199,8 +181,8 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Repeat> getAllByChromosome(int chrId,
-			RepeatsClassification repClass) {
+	public List<Repeat> findAllRepeatsByChromosome(int chrId,
+												   RepeatsClassification repClass) {
 		q = em.createNamedQuery("Repeat.findByClassAndChromosome");
 		q.setParameter("chrId", chrId);
 		q.setParameter("repClassId", repClass.getId());
@@ -209,11 +191,11 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 	}
 
 	@Override
-	public List<Repeat> getAllByChromosome(int chrId, RepeatsOrder repOrd,
-			String superFamily) {
+	public List<Repeat> findAllRepeatsByChromosome(int chrId, RepeatsOrder repOrd,
+												   String superFamily) {
 		// TODO check performance, may need a direct jpa query
 		List<Repeat> reps = new ArrayList<Repeat>();
-		for (Repeat r : getAllByChromosome(chrId, repOrd)) {
+		for (Repeat r : findAllRepeatsByChromosome(chrId, repOrd)) {
 			if (r.getRepeatsClassification().getSuperfamily()
 					.equals(superFamily)) {
 				reps.add(r);
@@ -223,14 +205,14 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 	}
 
 	@Override
-	public Long countChildren(int repId) throws RepeatRepoException {
+	public Long countChildren(int repId) {
 		q = em.createNamedQuery("Repeat.countChildren");
 		q.setParameter("id", repId);
 		List<Object[]> results = q.getResultList();
 		if (results.size() == 0)
 			return new Long(0);
 		if (results.size() > 1)
-			throw new RepeatRepoException(
+			throw new NonUniqueResultException(
 					"Error, Repeat.countChildren query should return only one result");
 		return (Long) results.get(0)[2];
 	}
@@ -247,7 +229,7 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void validatePosition(Repeat repeat) throws RepeatRepoException {
+	public void validatePosition(Repeat repeat) throws RepeatException {
 		q = em.createNamedQuery("Repeat.findByCandidateKey");
 		q.setParameter("seqId", repeat.getSequence().getId());
 		q.setParameter("start", repeat.getX());
@@ -256,23 +238,41 @@ public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
 		reps = q.getResultList();
 		if (reps.size() > 0) {
 			Repeat existingRepeat = reps.get(0);
-			throw new RepeatRepoException("Repeat position conflicts with "
+			throw new RepeatException("Repeat position conflicts with "
 					+ "repeat " + existingRepeat.getId());
 		}
 	}
 
 	@Override
-	public void validateUpdate(Repeat rep) throws RepeatRepoException {
+	public void validateUpdate(Repeat rep) throws RepeatException {
 		Repeat currentRepeat = em.find(Repeat.class, rep.getId());
 		if (currentRepeat == null) {
-			throw new RepeatRepoException("Cannot update repeat " + rep.getId()
+			throw new NoResultException("Cannot update repeat " + rep.getId()
 					+ ": repeat not found");
 		}
 		if (currentRepeat.getRepeatsClassification().getId() != rep
 				.getRepeatsClassification().getId()) {
-			throw new RepeatRepoException("Cannot update repeat " + rep.getId()
+			throw new RepeatException("Cannot update repeat " + rep.getId()
 					+ ": repeat classification can't be modified");
+		}
+
+	}
+
+	@Override
+	public void updateContainedElementsCount(Repeat repeat) {
+		Repeat currentRepeat = em.find(Repeat.class, repeat.getId());
+		if (currentRepeat.getParent() == null
+				&& repeat.getParent() != null) {
+			repeat.getParent().setContainedElementsCount(
+					repeat.getParent().getContainedElementsCount() + 1);
 		}
 	}
 
+	@Override
+	public List<Object[]> findAllRepeatsWithParents() {
+		q = em.createNamedQuery("Repeat.findAllWithParents");
+		@SuppressWarnings("unchecked")
+		List<Object[]> results = q.getResultList();
+		return results;
+	}
 }
