@@ -72,7 +72,7 @@ import org.hibernate.annotations.Type;
 		@NamedQuery(name = "Repeat.findByClassAndChromosome", query = "SELECT r FROM Repeat r JOIN r.sequence s JOIN s.chromosome c "
 				+ "JOIN r.repeatsClassification rc "
 				+ "WHERE c.id = :chrId AND rc.id = :repClassId"
-				+ "ORDER BY r.x"),
+				+ " ORDER BY r.x"),
 		@NamedQuery(name = "Repeat.findByCandidateKey", query = "SELECT r FROM Repeat r "
 				+ "WHERE r.sequence.id = :seqId AND r.x = :start AND r.y = :end"),
 		@NamedQuery(name = "Repeat.count", query = "SELECT count(r.id) FROM Repeat r"),
@@ -97,13 +97,13 @@ import org.hibernate.annotations.Type;
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "Repeat.countRepeatsAndBasesByChromosome", query = "select rclass, subclass, rorder, superfamily, count(repeats.id) as count_repeats, sum(y-x+1) as sum_nucl "
 				+ "from (repeats_classification "
-				+ "left join repeats on (rclass = repeats_class and subclass = repeats_subclass and rorder = repeats_order and superfamily = repeats_superfamily and family = repeats_family )) "
+				+ "left join repeats on (repeats_classification.id = repeats.repeats_classification_id)) "
 				+ "join sequences on (repeats.sequence_id = sequences.id and repeats.parent_repeat_id is null) "
 				+ "left join chromosomes on (sequences.chromosome_id = chromosomes.id) "
 				+ "group by chromosomes.id, rclass, subclass, rorder, superfamily "
 				+ "having chromosomes.id = ?", resultSetMapping = "CountByClassif"),
 		@NamedNativeQuery(name = "Repeat.countRepeatsAndBases", query = "select rclass, subclass, rorder, superfamily, count(repeats.id) as count_repeats, sum(y-x+1) as sum_nucl "
-				+ "from repeats_classification left join repeats on (rclass = repeats_class and subclass = repeats_subclass and rorder = repeats_order and superfamily = repeats_superfamily and family = repeats_family and repeats.parent_repeat_id is null) "
+				+ "from repeats_classification left join repeats on (repeats_classification.id = repeats.repeats_classification_id and repeats.parent_repeat_id is null) "
 				+ "group by rclass, subclass, rorder, superfamily", resultSetMapping = "CountByClassif") })
 public class Repeat extends IntervalFeature implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -236,12 +236,7 @@ public class Repeat extends IntervalFeature implements Serializable {
 
 	// bi-directional many-to-one association to RepeatsClassification
 	@ManyToOne
-	@JoinColumns({
-			@JoinColumn(name = "repeats_class", referencedColumnName = "rclass"),
-			@JoinColumn(name = "repeats_subclass", referencedColumnName = "subclass"),
-			@JoinColumn(name = "repeats_order", referencedColumnName = "rorder"),
-			@JoinColumn(name = "repeats_superfamily", referencedColumnName = "superfamily"),
-			@JoinColumn(name = "repeats_family", referencedColumnName = "family"), })
+	@JoinColumn(name = "repeats_classification_id")
 	public RepeatsClassification getRepeatsClassification() {
 		return this.repeatsClassification;
 	}

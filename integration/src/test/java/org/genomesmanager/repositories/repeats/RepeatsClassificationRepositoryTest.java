@@ -48,7 +48,7 @@ public class RepeatsClassificationRepositoryTest extends AbstractIntegrationTest
 		repClassList = new ArrayList<RepeatsClassification>();
 		for (String repClassDefinition:repClassDefinitions) {
 			RepeatsClassification repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-			repeatsClassificationRepository.save(repClass);
+			repClass = repeatsClassificationRepository.save(repClass);
 			repClassList.add(repeatsClassificationRepository.findOne(repClass.getId()));
 		}
 	}
@@ -63,7 +63,7 @@ public class RepeatsClassificationRepositoryTest extends AbstractIntegrationTest
 		for (String repClassDefinition : repClassDefinitions) {
 			RepeatsClassification repClass = RepeatsClassificationOM
 					.Generate(repClassDefinition);
-			repeatsClassificationRepository.save(repClass);
+			repClass = repeatsClassificationRepository.save(repClass);
 			RepeatsClassification repClassPost = repeatsClassificationRepository
 					.findOne(repClass.getId());
 			assertEquals(repClassPost, repClass);

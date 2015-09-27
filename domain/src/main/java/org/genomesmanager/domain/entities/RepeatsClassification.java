@@ -3,13 +3,7 @@ package org.genomesmanager.domain.entities;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  * The persistent class for the repeats_classification database table.
@@ -53,6 +47,10 @@ public class RepeatsClassification implements Serializable {
 	public RepeatsClassification() {
 	}
 
+	@Id
+	@SequenceGenerator(name = "REPEATS_CLASSIFICATION_ID_GENERATOR", sequenceName = "annotation.repeats_classification_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPEATS_CLASSIFICATION_ID_GENERATOR")
+	@Column(insertable = false, updatable = false)
 	public int getId() {
 		return id;
 	}

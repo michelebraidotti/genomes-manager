@@ -37,16 +37,16 @@ public class RepeatsListTest extends AbstractIntegrationTest {
 	public void test() throws Exception {
 		int nOfRepeats = 7;
 		Species sp = SpeciesOM.Generate(1).get(0);
-		speciesRepository.save(sp);
+		sp = speciesRepository.save(sp);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		chromosomeRepository.save(chr);
+		chr = chromosomeRepository.save(chr);
 		Sequence seq = SequencesOM.Generate(1, chr).get(0);
-		sequenceRepository.save(seq);
-		String repClassDefinition = "I, I, LTR, test, test";
+		seq = sequenceRepository.save(seq);
 
+		String repClassDefinition = "I, I, LTR, test, test";
 		RepeatsClassification repClass = RepeatsClassificationOM
 				.Generate(repClassDefinition);
-		repeatsClassificationRepo.save(repClass);
+		repClass = repeatsClassificationRepo.save(repClass);
 
 		for (LtrRepeat ltr : RepeatsOM.GenerateLtrs(nOfRepeats, repClass, seq)) {
 			repeatRepo.save(ltr);

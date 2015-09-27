@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsClassificationException;
 
-public class RepeatsClassificationRepositoryCustomImpl implements
+public class RepeatsClassificationRepositoryImpl implements
 		RepeatsClassificationRepositoryCustom {
 
 	@PersistenceContext

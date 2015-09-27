@@ -50,13 +50,13 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 	@Test
 	public void test() throws Exception {
 		Species sp = SpeciesOM.Generate(1).get(0);
-		speciesRepository.save(sp);
+		sp = speciesRepository.save(sp);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		chromosomeRepository.save(chr);
+		chr = chromosomeRepository.save(chr);
 		Sequence seq = SequencesOM.Generate(1, chr).get(0);
 		seq.setSequenceText(SequencesOM.GenererateSequence(1000).toString());
 		seq.setLength(1000);
-		sequenceRepository.save(seq);
+		seq = sequenceRepository.save(seq);
 		String[] repClassDefinitions = { "I, I, LINE, test, test",
 				"II, II, Helitron, test, test", "II, III, MITE, test, test",
 				"II, I, DNA_TE, test, test", "I, I, LTR, test, test",
@@ -68,67 +68,67 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		String repClassDefinition = repClassDefinitions[0];
 		RepeatsClassification repClass = RepeatsClassificationOM
 				.Generate(repClassDefinition);
-		repeatsClassificationRepo.save(repClass);
+		repClass = repeatsClassificationRepo.save(repClass);
 		for (LineRepeat l : RepeatsOM.GenerateLines(nOfRepeats, repClass, seq)) {
-			repeatRepo.save(l);
+			l = repeatRepo.save(l);
 			repeats.add(l);
 		}
 
 		/* 2. Helitron */
 		repClassDefinition = repClassDefinitions[1];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		repeatsClassificationRepo.save(repClass);
+		repClass = repeatsClassificationRepo.save(repClass);
 		for (HelitronRepeat h : RepeatsOM.GenerateHelitrons(nOfRepeats,
 				repClass, seq)) {
-			repeatRepo.save(h);
+			h = repeatRepo.save(h);
 			repeats.add(h);
 		}
 
 		/* 3. Mite */
 		repClassDefinition = repClassDefinitions[2];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		repeatsClassificationRepo.save(repClass);
+		repClass = repeatsClassificationRepo.save(repClass);
 		for (MiteRepeat m : RepeatsOM.GenerateMites(nOfRepeats, repClass, seq)) {
-			repeatRepo.save(m);
+			m = repeatRepo.save(m);
 			repeats.add(m);
 		}
 
 		/* 3. DNATE */
 		repClassDefinition = repClassDefinitions[3];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		repeatsClassificationRepo.save(repClass);
+		repClass = repeatsClassificationRepo.save(repClass);
 		for (DnaTeRepeat dnate : RepeatsOM.GenerateDnaTes(nOfRepeats, repClass,
 				seq)) {
-			repeatRepo.save(dnate);
+			dnate = repeatRepo.save(dnate);
 			repeats.add(dnate);
 		}
 
 		/* 4. LTR */
 		repClassDefinition = repClassDefinitions[4];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		repeatsClassificationRepo.save(repClass);
+		repClass = repeatsClassificationRepo.save(repClass);
 		for (LtrRepeat ltr : RepeatsOM.GenerateLtrs(nOfRepeats, repClass, seq)) {
-			repeatRepo.save(ltr);
+			ltr = repeatRepo.save(ltr);
 			repeats.add(ltr);
 		}
 
 		/* 5. UNKN */
 		repClassDefinition = repClassDefinitions[5];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		repeatsClassificationRepo.save(repClass);
+		repClass = repeatsClassificationRepo.save(repClass);
 		for (UnknownRepeat unkn : RepeatsOM.GenerateUnknowns(nOfRepeats,
 				repClass, seq)) {
-			repeatRepo.save(unkn);
+			unkn = repeatRepo.save(unkn);
 			repeats.add(unkn);
 		}
 
 		/* 6. Sine */
 		repClassDefinition = repClassDefinitions[6];
 		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		repeatsClassificationRepo.save(repClass);
+		repClass = repeatsClassificationRepo.save(repClass);
 		for (SineRepeat sine : RepeatsOM.GenerateSines(nOfRepeats, repClass,
 				seq)) {
-			repeatRepo.save(sine);
+			sine = repeatRepo.save(sine);
 			repeats.add(sine);
 		}
 

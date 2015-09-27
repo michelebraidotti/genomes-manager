@@ -24,7 +24,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Table(name = "snps", schema = "annotation")
 @NamedQueries({
 		@NamedQuery(name = "Snp.findAllBySpecies", query = "SELECT s FROM Snp s JOIN s.sequence seq JOIN seq.chromosome c "
-				+ "JOIN c.species sp " + "WHERE sp.id.species = :speciesId "),
+				+ "JOIN c.species sp " + "WHERE sp.id = :speciesId "),
 		@NamedQuery(name = "Snp.findAllByChromosome", query = "SELECT s FROM Snp s JOIN s.sequence seq JOIN seq.chromosome c "
 				+ "WHERE c.id = :chrId") })
 public class Snp extends PointFeature implements Serializable {

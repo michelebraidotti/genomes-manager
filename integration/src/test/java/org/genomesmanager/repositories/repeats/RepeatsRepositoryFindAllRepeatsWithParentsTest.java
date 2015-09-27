@@ -2,6 +2,7 @@ package org.genomesmanager.repositories.repeats;
 
 import org.genomesmanager.domain.entities.*;
 import org.genomesmanager.domain.entities.objectmothers.*;
+import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
@@ -17,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by michele on 9/25/15.
  */
-public class RepeatsRepositoryFindAllRepeatsWithParentsTest {
+public class RepeatsRepositoryFindAllRepeatsWithParentsTest extends AbstractIntegrationTest {
     @Autowired
     private RepeatsClassificationRepository repeatsClassificationRepo;
     @Autowired
@@ -38,7 +39,7 @@ public class RepeatsRepositoryFindAllRepeatsWithParentsTest {
         Sequence seq = SequencesOM.Generate(1, chr).get(0);
         seq = sequenceRepo.save(seq);
         RepeatsClassification repClass = RepeatsClassificationOM.Generate("I, I, LTR, test, test");
-        repeatsClassificationRepo.save(repClass);
+        repClass = repeatsClassificationRepo.save(repClass);
         LtrRepeat parentLtr = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
         repeatRepo.save(parentLtr);
         LtrRepeat nestedLtr = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
@@ -48,10 +49,10 @@ public class RepeatsRepositoryFindAllRepeatsWithParentsTest {
         nestedLtr.setPbsY(nestedLtr.getY() - 1);
         nestedLtr.setPptX(nestedLtr.getX() + 1);
         nestedLtr.setPptY(nestedLtr.getY() - 1);
-        repeatRepo.save(nestedLtr);
+        nestedLtr = repeatRepo.save(nestedLtr);
 
         List<Object[]> result = repeatRepo.findAllRepeatsWithParents();
         assertEquals((Integer) nestedLtr.getId(), result.get(0)[0]);
-        assertEquals(1, result.get(0)[1]);
+        assertEquals(new Long(1), result.get(0)[1]);
     }
 }

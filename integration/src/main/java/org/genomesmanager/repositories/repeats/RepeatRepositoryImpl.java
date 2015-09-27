@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 import org.genomesmanager.domain.entities.*;
 
-public class RepeatRepositoryCustomImpl implements RepeatRepositoryCustom {
+public class RepeatRepositoryImpl implements RepeatRepositoryCustom {
 	@PersistenceContext
 	private EntityManager em;
 	private Query q;
