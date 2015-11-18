@@ -25,6 +25,7 @@ public class IntervalFeatureTest {
 	public void testValidateStrandnessFail() {
 		try {
 			mockedFeature.validateStrandness("anythink but + or -");
+			assertTrue(false);
 		} catch (IntervalFeatureException e) {
 			// OK
 		}
@@ -48,6 +49,7 @@ public class IntervalFeatureTest {
 		mockedFeature.setY(0);
 		try {
 			assertTrue(mockedFeature.isInternal(1));
+			assertTrue(false);
 		} catch (IntervalFeatureException e) {
 			// OK
 		}

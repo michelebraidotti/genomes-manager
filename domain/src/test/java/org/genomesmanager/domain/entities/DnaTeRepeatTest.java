@@ -39,12 +39,14 @@ public class DnaTeRepeatTest {
 		dnate.setTirX(dnate.length() + 1);
 		try {
 			dnate.validate();
+			assertTrue(false);
 		} catch (OutOfBoundsException e) {
 			assertTrue(true);
 		}
 		dnate.setTirY(dnate.length() + 1);
 		try {
 			dnate.validate();
+			assertTrue(false);
 		} catch (OutOfBoundsException e) {
 			assertTrue(true);
 		}

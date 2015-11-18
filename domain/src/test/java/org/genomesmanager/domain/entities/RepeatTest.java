@@ -53,27 +53,35 @@ public class RepeatTest {
 		repeat.setX(-1);
 		try {
 			repeat.validate();
+			assertTrue(false);
 		} catch (OutOfBoundsException e) {
 			// OK
+			assertTrue(true);
 		}
 		repeat.setX(seq.getLength() + 1);
 		try {
 			repeat.validate();
+			assertTrue(false);
 		} catch (OutOfBoundsException e) {
 			// OK
+			assertTrue(true);
 		}
 
 		repeat.setY(-1);
 		try {
 			repeat.validate();
+			assertTrue(false);
 		} catch (OutOfBoundsException e) {
 			// OK
+			assertTrue(true);
 		}
 		repeat.setY(seq.getLength() + 1);
 		try {
 			repeat.validate();
+			assertTrue(false);
 		} catch (OutOfBoundsException e) {
 			// OK
+			assertTrue(true);
 		}
 
 		// Fixing it
@@ -87,16 +95,20 @@ public class RepeatTest {
 		repeat.setSequence(null);
 		try {
 			repeat.validate();
+			assertTrue(false);
 		} catch (RepeatException e) {
 			// OK
+			assertTrue(true);
 		}
 
 		repeat.setX(seq.getLength() - 1);
 		repeat.setY(1);
 		try {
 			repeat.validate();
+			assertTrue(false);
 		} catch (RepeatException e) {
 			// OK
+			assertTrue(true);
 		}
 
 		// Fixing it

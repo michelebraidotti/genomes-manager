@@ -4,13 +4,15 @@
 package org.genomesmanager.domain.entities;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.apache.commons.lang3.StringUtils;
+import org.genomesmanager.domain.entities.objectmothers.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Calendar;
 
 /**
  * @author michele
@@ -63,8 +65,15 @@ public class SequenceTest {
 	 * {@link org.genomesmanager.domain.entities.Sequence#setCreateDefaults()}.
 	 */
 	@Test
-	public void testSetCreateDefaults() {
-		fail("Not yet implemented");
+	public void testSetCreateDefaults() throws InterruptedException {
+		Calendar beforeSettingsDefaults = Calendar.getInstance();
+		Thread.sleep(1000);
+		seq.setCreateDefaults();
+		Thread.sleep(1000);
+		Calendar afterSettingsDefaults = Calendar.getInstance();
+		assertEquals(seq.getDateCreated(), seq.getDateModified());
+		assertEquals(-1, beforeSettingsDefaults.compareTo(seq.getDateCreated()));
+		assertEquals(1, afterSettingsDefaults.compareTo(seq.getDateCreated()));
 	}
 
 	/**
@@ -72,8 +81,11 @@ public class SequenceTest {
 	 * {@link org.genomesmanager.domain.entities.Sequence#setUpdateDefaults()}.
 	 */
 	@Test
-	public void testSetUpdateDefaults() {
-		fail("Not yet implemented");
+	public void testSetUpdateDefaults() throws InterruptedException {
+		Calendar beforeSettingsDefaults = Calendar.getInstance();
+		Thread.sleep(1000);
+		seq.setUpdateDefaults();
+		assertEquals(-1, beforeSettingsDefaults.compareTo(seq.getDateModified()));
 	}
 
 	/**
@@ -81,8 +93,61 @@ public class SequenceTest {
 	 * {@link org.genomesmanager.domain.entities.Sequence#getMaskedSequence()}.
 	 */
 	@Test
-	public void testGetMaskedSequence() {
-		fail("Not yet implemented");
+	public void testGetMaskedSequence() throws Exception {
+
+		LtrRepeat ltr = RepeatsOM.GenerateLtrs(1, RepeatsClassificationOM.Generate("I, I, LTR, test, test"),seq).get(0);
+		seq.getRepeats().add(ltr);
+		ltr.setX(seq.getSequenceText().length() + 1 );
+		try {
+			seq.getMaskedSequence();
+			assertTrue(false);
+		}
+		catch (SequenceSliceException sse) {
+			// O.K.
+			assertTrue(true);
+		}
+		ltr.setX( -1 );
+		try {
+			seq.getMaskedSequence();
+			assertTrue(false);
+		}
+		catch (SequenceSliceException sse) {
+			// O.K.
+			assertTrue(true);
+		}
+
+		ltr.setY(seq.getSequenceText().length() + 1 );
+		try {
+			seq.getMaskedSequence();
+			assertTrue(false);
+		}
+		catch (SequenceSliceException sse) {
+			// O.K.
+			assertTrue(true);
+		}
+		ltr.setY( -1 );
+		try {
+			seq.getMaskedSequence();
+			assertTrue(false);
+		}
+		catch (SequenceSliceException sse) {
+			// O.K.
+			assertTrue(true);
+		}
+
+		ltr.setX(1);
+		ltr.setY(seq.getSequenceText().length());
+		String maskedSeq = seq.getMaskedSequence();
+		String expectedSeq = StringUtils.repeat('N', seq.getSequenceText().length());
+		assertEquals(expectedSeq, maskedSeq);
+
+		ltr.setX(2);
+		ltr.setY(seq.getSequenceText().length() - 1);
+		maskedSeq = seq.getMaskedSequence();
+		expectedSeq = seq.getSequenceText().charAt(0)
+				+ StringUtils.repeat('N', seq.getSequenceText().length() - 2)
+				+ seq.getSequenceText().charAt(seq.getSequenceText().length() - 1);
+		assertEquals(expectedSeq, maskedSeq);
 	}
 
 	/**
@@ -91,7 +156,35 @@ public class SequenceTest {
 	 */
 	@Test
 	public void testGetSlice() {
-		fail("Not yet implemented");
+
+		try {
+			seq.getSlice(5, 3);
+			assertTrue(false);
+		}
+		catch (SequenceSliceException sse) {
+			assertTrue(true);
+		}
+		try {
+			seq.getSlice(-1, 11);
+			assertTrue(false);
+		}
+		catch (SequenceSliceException sse) {
+			assertTrue(true);
+		}
+		try {
+			seq.getSlice(5, seq.getSequenceText().length() + 1);
+			assertTrue(false);
+		}
+		catch (SequenceSliceException sse) {
+			assertTrue(true);
+		}
+		try {
+			String subseq = seq.getSlice(1, 5);
+			assertTrue(subseq.length() == 5);
+		} catch (SequenceSliceException e) {
+			assertTrue(false);
+		}
+
 	}
 
 	/**
@@ -101,7 +194,19 @@ public class SequenceTest {
 	 */
 	@Test
 	public void testGetReverseComplementSlice() {
-		fail("Not yet implemented");
+		String backupSeqText = seq.getSequenceText();
+		try {
+			seq.setSequenceText("ACTG");
+			String complementReverse = seq.getReverseComplementSlice(1, 4);
+			assertEquals("CAGT", complementReverse);
+		}
+		catch (SequenceSliceException sse) {
+			assertTrue(false);
+		}
+		finally {
+			seq.setSequenceText(backupSeqText);
+		}
+
 	}
 
 	/**
@@ -110,7 +215,8 @@ public class SequenceTest {
 	 */
 	@Test
 	public void testDescr() {
-		fail("Not yet implemented");
+
+		assertEquals(seq.getName() + Sequence.NAME_SEPARATOR + seq.getVersion(), seq.descr());
 	}
 
 	/**
@@ -119,7 +225,8 @@ public class SequenceTest {
 	 */
 	@Test
 	public void testHumanName() {
-		fail("Not yet implemented");
+
+		assertEquals(seq.getName(), seq.humanName());
 	}
 
 }

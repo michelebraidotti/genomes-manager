@@ -1,10 +1,11 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities;
 
 import static org.junit.Assert.assertEquals;
 
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsClassificationException;
 import org.genomesmanager.domain.entities.RepeatsOrder;
+import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
 import org.junit.Test;
 
 public class RepeatsClassificationTest {
