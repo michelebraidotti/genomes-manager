@@ -281,7 +281,7 @@ ALTER TABLE repeats_id_seq OWNER TO genomes;
 CREATE TABLE repeats (
     id integer DEFAULT nextval('repeats_id_seq'::regclass) NOT NULL,
     type character varying(10) DEFAULT '--'::character varying NOT NULL,
-    repeats_classification_id integer
+    repeats_classification_id integer,
     sequence_id integer NOT NULL,
     x integer NOT NULL,
     y integer NOT NULL,
@@ -293,7 +293,7 @@ CREATE TABLE repeats (
     date_modified timestamp without time zone DEFAULT now() NOT NULL,
     date_created timestamp without time zone NOT NULL,
     notes text,
-    repeat_text text,
+    repeat_text text
 );
 
 
@@ -318,12 +318,12 @@ ALTER TABLE repeats_classification_id_seq OWNER TO genomes;
 --
 
 CREATE TABLE repeats_classification (
-    id integer DEFAULT nextval('repeats_classification_id_seq'::regclass) NOT NULL
+    id integer DEFAULT nextval('repeats_classification_id_seq'::regclass) NOT NULL,
     rclass character varying(25) NOT NULL,
     subclass character varying(25) NOT NULL,
     rorder character varying(45) NOT NULL,
     superfamily character varying(45) NOT NULL,
-    family character varying(45) NOT NULL,
+    family character varying(45) NOT NULL
 );
 
 
@@ -622,14 +622,14 @@ ALTER TABLE sequences_id_seq OWNER TO genomes;
 CREATE TABLE sequences (
     id integer DEFAULT nextval('sequences_id_seq'::regclass) NOT NULL,
     type character varying(15) DEFAULT '--'::character varying NOT NULL,
+    name character varying(55),
+    version character varying(9),
     sequence_text text,
     length integer DEFAULT 0 NOT NULL,
     chromosome_id integer NOT NULL,
     superseded_by integer,
     date_modified timestamp without time zone DEFAULT now() NOT NULL,
-    date_created timestamp without time zone NOT NULL,
-    name character varying(55),
-    version character varying(9)
+    date_created timestamp without time zone NOT NULL
 );
 
 
@@ -654,12 +654,12 @@ ALTER TABLE species_id_seq OWNER TO genomes;
 --
 
 CREATE TABLE species (
-    id integer DEFAULT nextval('species_id_seq'::regclass) NOT NULL
+    id integer DEFAULT nextval('species_id_seq'::regclass) NOT NULL,
     genus character varying(45) NOT NULL,
     species character varying(45) NOT NULL,
     subspecies character varying(45) NOT NULL,
     common_name character varying(45) DEFAULT NULL::character varying,
-    genome_type character varying(15) DEFAULT NULL::character varying,
+    genome_type character varying(15) DEFAULT NULL::character varying
 );
 
 
@@ -684,10 +684,10 @@ ALTER TABLE varieties_id_seq OWNER TO genomes;
 --
 
 CREATE TABLE varieties (
-    id integer DEFAULT nextval('varieties_id_seq'::regclass) NOT NULL
+    id integer DEFAULT nextval('varieties_id_seq'::regclass) NOT NULL,
     name character varying(55) NOT NULL,
     alias character varying(55),
-    species_id integer,
+    species_id integer
 );
 
 
