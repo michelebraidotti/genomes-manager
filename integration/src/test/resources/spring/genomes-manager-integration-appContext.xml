@@ -31,7 +31,7 @@
 
 	<!-- our datasource -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.hibernate.dialect.PostgreSQLDialect" />
+		<property name="driverClassName" value="org.hibernate.dialect.PostgreSQL82Dialect" />
         <property name="url" value="jdbc:postgresql://localhost:5432/genomes" />
         <property name="username" value="genomes" />
         <property name="password" value="12345" />
@@ -44,7 +44,7 @@
 		<property name="database" value="POSTGRESQL" />
 		<property name="showSql" value="true" />
 		<property name="generateDdl" value="true" />
-		<property name="databasePlatform" value= "org.hibernate.dialect.PostgreSQLDialect"/>
+		<property name="databasePlatform" value= "org.hibernate.dialect.PostgreSQL82Dialect"/>
 	</bean>
 
 	<!-- The entitymanager -->
@@ -63,7 +63,6 @@
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">validate</prop>
-				<!-- prop key="hibernate.hbm2ddl.auto">create</prop-->
 				<prop key="hibernate.showSql">true</prop>
 				<prop key="hibernate.formatSql">true</prop>
 			</props>

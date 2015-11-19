@@ -1,14 +1,16 @@
-In psql console:
+=== In psql console
 create user genomes with password '12345';
 create database genomes;
 grant all on database genomes to genomes;
 
-In bash console:
+=== In bash console:
 psql genomes < genomes.sql
 
-In psql console:
+=== In psql console:
 ALTER USER genomes SET search_path = sequence,annotation,aux,public;
 
+
+=== Setting up postgres configuration.
 Change /etc/postgresql/9.1/main/pg_hba.conf
 add this line before any line referring to 'local' 'all' 'all' 'peer' or 'md5':
 
@@ -17,5 +19,16 @@ local   genomes         all                          	        trust
 
 or something that lets you connect to the database as genomes user.
 
-log in with
-psql genomes --username=genomes
+Make sure that in /etc/postgresql/9.4/main/postgresql.conf
+the following line is not commented:
+
+listen_addresses = 'localhost'          # what IP address(es) to listen on;
+
+and that the port is set to 5432:
+
+port = 5432                             # (change requires restart)
+
+=== Test postgresql setup.
+Log in with "psql genomes --username=genomes".
+Run "nmap -sT -O localhost" and make sure that "5432/tcp  open  postgresql" is reported in the command output.
+
