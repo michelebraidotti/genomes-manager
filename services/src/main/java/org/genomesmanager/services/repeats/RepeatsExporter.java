@@ -8,49 +8,46 @@ import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsOrder;
 import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 
 public interface RepeatsExporter {
 
 	public abstract List<String> getFileContent();
 
-	public abstract void setRepeatsListBySpecies(String speciesDefinition)
-			throws SpeciesRepoException;
+	public abstract void loadRepeatsListBySpecies(String speciesDefinition)
+			throws CannotParseSpeciesDefinitionException;
 
-	public abstract List<Repeat> getRepeatsList();
+	public abstract List<Repeat> getRepeats();
 
-	public abstract void setRepeatsList(Chromosome chr);
+	public abstract void loadRepeatsList(Chromosome chr);
 
-	public abstract void setRepeatsList(Chromosome chr, RepeatsOrder repOrd);
+	public abstract void loadRepeatsList(Chromosome chr, RepeatsOrder repOrd);
 
-	public abstract void setRepeatsList(Chromosome chr,
-			RepeatsClassification repClass);
+	public abstract void loadRepeatsList(Chromosome chr,
+										 RepeatsClassification repClass);
 
-	public abstract void setRepeatsList(Chromosome chr, RepeatsOrder repOrd,
-			String superFamily);
+	public abstract void loadRepeatsList(Chromosome chr, RepeatsOrder repOrd,
+										 String superFamily);
 
-	public abstract void setRepeatsList(Sequence seq);
+	public abstract void loadRepeatsList(Sequence seq);
 
-	public abstract void setRepeatsList(List<Integer> repIds)
-			throws RepeatRepoException;
+	public abstract void loadRepeatsList(List<Integer> repIds);
 
-	public abstract void setRepeatsList(Sequence seq,
-			RepeatsClassification repClass);
+	public abstract void loadRepeatsList(Sequence seq,
+										 RepeatsClassification repClass);
 
-	public abstract void setRepeatsList(Sequence seq, RepeatsOrder repOrd,
-			String superFamily);
+	public abstract void loadRepeatsList(Sequence seq, RepeatsOrder repOrd,
+										 String superFamily);
 
-	public abstract void setRepeatsList(Sequence seq, RepeatsOrder repOrd);
+	public abstract void loadRepeatsList(Sequence seq, RepeatsOrder repOrd);
 
 	public abstract int getNOfRepeats();
 
 	public abstract void setFileContent(AgiExportType expType)
 			throws RepeatsExporterException;
 
-	public abstract void setFileContent(AgiExportType expType,
-			Boolean usingPseudomolCoordinates) throws RepeatsExporterException,
-			SequenceRepoException;
+	public abstract void setFileContent(AgiExportType expType, Boolean usingPseudomolCoordinates)
+			throws RepeatsExporterException;
 
 	public abstract void exportFlankingRegions(int flankingLength);
 

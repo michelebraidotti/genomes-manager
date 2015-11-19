@@ -6,8 +6,7 @@ import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
-import org.genomesmanager.repositories.sequences.ChromosomeRepoException;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.sequences.PseudomoleculeImporter;
 import org.genomesmanager.services.sequences.PseudomoleculeImporterException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
 	@Autowired
 	private ChromosomeRepository chrRepo;
 	@Autowired
-	private SequenceRepo seqRepo;
+	private SequenceRepository seqRepo;
 	
     public PseudomoleculeImporterImpl() {
     }
@@ -42,21 +41,15 @@ public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
 	public void importPseudomolecule(int chrId, StringBuilder sequenceBulilder, String name, 
     		String version) throws  PseudomoleculeImporterException {
     	Pseudomolecule pm = new Pseudomolecule();
-    	Chromosome c;
-		try {
-			c = chrRepo.get(chrId);
-		} 
-		catch (ChromosomeRepoException e) {
-			throw new PseudomoleculeImporterException("ChromosomeEAException: " + 
-					e.getMessage());
-		}
+    	Chromosome c = chrRepo.findOne(chrId);
+		if ( c == null) throw  new PseudomoleculeImporterException("Chromosome with Id '"  + chrId + "' not found.");
 		String sequence = sequenceBulilder.toString();
     	pm.setSequenceText(sequence);
     	pm.setLength(sequence.length());
     	pm.setName(name);
     	pm.setVersion(version);
     	pm.setChromosome(c);
-    	seqRepo.insert(pm);
+    	seqRepo.save(pm);
     }
     
     /* (non-Javadoc)

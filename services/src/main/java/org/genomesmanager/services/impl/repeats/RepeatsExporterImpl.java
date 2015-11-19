@@ -12,12 +12,13 @@ import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SequenceSliceException;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.repeats.RepeatRepository;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
+import org.genomesmanager.repositories.sequences.ScaffoldRepository;
 import org.genomesmanager.services.repeats.RepeatsExporter;
 import org.genomesmanager.services.repeats.RepeatsExporterException;
+import org.genomesmanager.services.repeats.RepeatsService;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,13 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	private List<String> fileContent = null;
 	private List<Repeat> repeats = null;
 	@Autowired
-	private RepeatsList repeatsList;
+	private RepeatsService repeatsService;
 	@Autowired
-	private RepeatRepo repeatRepo;
+	private RepeatRepository repeatRepository;
 	@Autowired
-	private SpeciesRepositoryCustom speciesRepo;
+	private SpeciesService speciesRepository;
 	@Autowired
-	private SequenceRepo seqRepo;
+	private ScaffoldRepository scaffoldRepository;
 	
     public RepeatsExporterImpl() {
     }
@@ -51,95 +52,93 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsListBySpecies(java.lang.String)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsListBySpecies(java.lang.String)
 	 */
 	@Override
-	public void setRepeatsListBySpecies(String speciesDefinition) throws SpeciesRepoException {
-		Species sp = speciesRepo.get(speciesDefinition);
-		repeats = repeatsList.getAllBySpecies(sp.getId());
+	public void loadRepeatsListBySpecies(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
+		Species sp = speciesRepository.get(speciesDefinition);
+		repeats = repeatsService.getAllBySpecies(sp.getId());
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#getRepeatsList()
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#getRepeats()
 	 */
-	@Override
-	public List<Repeat> getRepeatsList() {
+	public List<Repeat> getRepeats() {
 		return this.repeats;
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(org.genomesmanager.domain.entities.Chromosome)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(org.genomesmanager.domain.entities.Chromosome)
 	 */
-	@Override
-	public void setRepeatsList(Chromosome chr) {
-		repeats = repeatsList.getAllByChromosome(chr.getId());
+	public void loadRepeatsList(Chromosome chr) {
+		repeats = repeatsService.getAllByChromosome(chr.getId());
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(org.genomesmanager.domain.entities.Chromosome, org.genomesmanager.domain.entities.RepeatsOrder)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(org.genomesmanager.domain.entities.Chromosome, org.genomesmanager.domain.entities.RepeatsOrder)
 	 */
 	@Override
-	public void setRepeatsList(Chromosome chr, RepeatsOrder repOrd) {
-		repeats = repeatsList.getAllByChromosome(chr.getId(), repOrd);
+	public void loadRepeatsList(Chromosome chr, RepeatsOrder repOrd) {
+		repeats = repeatsService.getAllByChromosome(chr.getId(), repOrd);
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(org.genomesmanager.domain.entities.Chromosome, org.genomesmanager.domain.entities.RepeatsClassification)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(org.genomesmanager.domain.entities.Chromosome, org.genomesmanager.domain.entities.RepeatsClassification)
 	 */
 	@Override
-	public void setRepeatsList(Chromosome chr, RepeatsClassification repClass) {
-		repeats = repeatsList.getAllByChromosome(chr.getId(), repClass);
+	public void loadRepeatsList(Chromosome chr, RepeatsClassification repClass) {
+		repeats = repeatsService.getAllByChromosome(chr.getId(), repClass);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(org.genomesmanager.domain.entities.Chromosome, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(org.genomesmanager.domain.entities.Chromosome, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
 	 */
 	@Override
-	public void setRepeatsList(Chromosome chr, RepeatsOrder repOrd, String superFamily) {
-		repeats = repeatsList.getAllByChromosome(chr.getId(), repOrd, superFamily);
+	public void loadRepeatsList(Chromosome chr, RepeatsOrder repOrd, String superFamily) {
+		repeats = repeatsService.getAllByChromosome(chr.getId(), repOrd, superFamily);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(int)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(int)
 	 */
 	@Override
-	public void setRepeatsList(Sequence seq) {
-		repeats = repeatsList.getAllBySequence(seq.getId());
+	public void loadRepeatsList(Sequence seq) {
+		repeats = repeatsService.getAllBySequence(seq.getId());
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(java.util.List)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(java.util.List)
 	 */
 	@Override
-	public void setRepeatsList(List<Integer> repIds) throws RepeatRepoException {
+	public void loadRepeatsList(List<Integer> repIds) {
 		repeats = new ArrayList<Repeat>();
 		for (Integer repId:repIds) {
-			repeats.add(repeatRepo.get(repId));
+			repeats.add(repeatRepository.findOne(repId));
 		}
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(int, org.genomesmanager.domain.entities.RepeatsClassification)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(int, org.genomesmanager.domain.entities.RepeatsClassification)
 	 */
 	@Override
-	public void setRepeatsList(Sequence seq, RepeatsClassification repClass) {
-		repeats = repeatsList.getAllBySequence(seq.getId(), repClass);
+	public void loadRepeatsList(Sequence seq, RepeatsClassification repClass) {
+		repeats = repeatsService.getAllBySequence(seq.getId(), repClass);
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(int, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(int, org.genomesmanager.domain.entities.RepeatsOrder, java.lang.String)
 	 */
 	@Override
-	public void setRepeatsList(Sequence seq, RepeatsOrder repOrd, String superFamily) {
-		repeats = repeatsList.getAllBySequence(seq.getId(), repOrd, superFamily);
+	public void loadRepeatsList(Sequence seq, RepeatsOrder repOrd, String superFamily) {
+		repeats = repeatsService.getAllBySequence(seq.getId(), repOrd, superFamily);
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setRepeatsList(int, org.genomesmanager.domain.entities.RepeatsOrder)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#loadRepeatsList(int, org.genomesmanager.domain.entities.RepeatsOrder)
 	 */
 	@Override
-	public void setRepeatsList(Sequence seq, RepeatsOrder repOrd) {
-		repeats = repeatsList.getAllBySequence(seq.getId(), repOrd);
+	public void loadRepeatsList(Sequence seq, RepeatsOrder repOrd) {
+		repeats = repeatsService.getAllBySequence(seq.getId(), repOrd);
 	}
 	
 	/* (non-Javadoc)
@@ -187,7 +186,7 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	 */
 	@Override
 	public void setFileContent(AgiExportType expType, 
-			Boolean usingPseudomolCoordinates) throws RepeatsExporterException, SequenceRepoException {
+			Boolean usingPseudomolCoordinates) throws RepeatsExporterException {
 		if ( usingPseudomolCoordinates ) {
 			if (expType.equals(AgiExportType.FASTA)) {
 				throw new RepeatsExporterException("Exporting fasta using pseudomolecule coords not allowed");
@@ -223,12 +222,12 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	}
     
     private void exportGff3WithPseudomolCoordinates(List<Repeat> repeats, 
-    		Boolean extraInfo) throws SequenceRepoException {
+    		Boolean extraInfo) {
     	fileContent = new ArrayList<String>();
     	fileContent.add("##gff-version 3\n");
 		for (Repeat repeat:repeats) {
-			Scaffold s = seqRepo.getScaffold(repeat.getSequence());
-			if ( extraInfo) {
+			Scaffold s = scaffoldRepository.findOne(repeat.getSequence().getId());
+			if ( extraInfo ) {
 				fileContent.add(
 						repeat.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) + 
 						repeat.extraAnnot() + "\n");

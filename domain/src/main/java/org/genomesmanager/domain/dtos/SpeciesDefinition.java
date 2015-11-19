@@ -1,5 +1,7 @@
-package org.genomesmanager.services.impl.species;
+package org.genomesmanager.domain.dtos;
 
+
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 
 public class SpeciesDefinition {
 	public String genus = "";

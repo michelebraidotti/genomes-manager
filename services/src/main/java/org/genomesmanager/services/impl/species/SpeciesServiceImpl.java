@@ -1,31 +1,27 @@
 package org.genomesmanager.services.impl.species;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
+import org.genomesmanager.domain.dtos.SpeciesDefinition;
+import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.repositories.species.SpeciesRepository;
-import org.genomesmanager.services.species.SpeciesManager;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("SpeciesManager")
-public class SpeciesManagerImpl implements SpeciesManager, Serializable {
-	private static final long serialVersionUID = -6384957192110079568L;
+@Service("SpeciesService")
+public class SpeciesServiceImpl implements SpeciesService {
 	@Autowired
 	private SpeciesRepository speciesRepo;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.genomesmanager.services.impl.specie* @see org.genomesmanager.services.impl.species.SpeciesBrowser#getAll()
-	 s.SpeciesBrowser#delete(org.
-	 * genomesmanager.domain.entities.Species)
-	 */
 	@Override
 	public void delete(Species sp) {
 		speciesRepo.delete(sp);
 	}
-	
+
 
 	@Override
 	public void delete(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
@@ -34,54 +30,61 @@ public class SpeciesManagerImpl implements SpeciesManager, Serializable {
 		speciesRepo.delete(speciesEntity);
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.genomesmanager.services.impl.species.SpeciesBrowser#deleteByKey(org
-	 * .genomesmanager.domain.entities.SpeciesPK)
-	 */
 	@Override
 	public void delete(String genus, String species, String subspecies) {
 		Species speciesEntity = speciesRepo.findByGenusAndSpeciesAndSubspecies(genus, species, subspecies);
 		speciesRepo.delete(speciesEntity);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.genomesmanager.services.impl.species.SpeciesBrowser#get(java.lang
-	 * .String, java.lang.String, java.lang.String)
-	 */
 	@Override
 	public Species get(String genus, String species, String subspecies) {
 		return speciesRepo.findByGenusAndSpeciesAndSubspecies(genus, species, subspecies);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.genomesmanager.services.impl.species.SpeciesBrowser#get(java.lang
-	 * .String)
-	 */
 	@Override
 	public Species get(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
 		SpeciesDefinition sd = new SpeciesDefinition(speciesDefinition);
 		return speciesRepo.findByGenusAndSpeciesAndSubspecies(sd.genus, sd.species, sd.subspecies);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.genomesmanager.services.impl.species.SpeciesBrowser#insert(org.
-	 * genomesmanager.domain.entities.Species)
-	 */
+
 	@Override
 	public void save(Species sp) {
 		speciesRepo.save(sp);
+	}
+
+	@Override
+	public List<Species> getAll() {
+		return speciesRepo.findAll();
+	}
+
+	@Override
+	public List<Species> getAll(boolean greedy) {
+		List<Species> sps = getAll();
+		if (! greedy)
+			return sps;
+		for (Species s:sps) {
+			s.getChromosomes().size();
+			s.getVarieties().size();
+		}
+		return sps;
+	}
+
+	@Override
+	public List<Species> getRice() {
+		List<Species> rice = new ArrayList<Species>();
+		for (Species s:	getAll()) {
+			if ( s.getGenus().equals("Oryza") )
+				rice.add(s);
+		}
+		return rice;
+	}
+
+
+	@Override
+	public List<Chromosome> getChromosomes(String genus, String species, String subspecies) {
+		Species speciesEntity = speciesRepo.findByGenusAndSpeciesAndSubspecies(genus, species, subspecies);
+		return speciesEntity.getChromosomes();
 	}
 	
 }

@@ -27,11 +27,11 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	private List<String> wrongLines = new ArrayList<String>();
 	private List<String> warningLines = new ArrayList<String>();
 	@Autowired
-	private RepeatRepository repeatRepo;
+	private RepeatRepository repeatRepository;
 	@Autowired
-	private RepeatsClassificationRepository repeatsClassRepo;
+	private RepeatsClassificationRepository repeatsClassificationRepository;
 	@Autowired
-	private SequenceRepository sequenceRepo;
+	private SequenceRepository sequenceRepository;
 	@Autowired
 	private RepeatsService repeatsService;
 
@@ -48,7 +48,7 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	    		Repeat rep;
 	    		Properties props = gff3.getAttributes();			 
 	    		if ( gff3.getAttribId() != null && ! gff3.getAttribId().equals("0") ) {
-	    			rep = repeatRepo.findOne(Integer.parseInt(gff3.getAttribId()));
+	    			rep = repeatRepository.findOne(Integer.parseInt(gff3.getAttribId()));
 	    			if ( props.getProperty("family") != null && ! props.getProperty("family").equals("") ) {
 	    				warningLines.add(lineN + "\t" + line + "\t" + "Family attrib will be ignored");
 	    			}
@@ -61,17 +61,12 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	    		}
 	    		else {
 
-					RepeatsClassification repClass = null;
-					try {
-						repClass = RepeatsClassification.generate(gff3.getType(), gff3.getAttributesString());
-					} catch (RepeatsClassificationException e) {
-						e.printStackTrace();
-					}
+					RepeatsClassification repClass = RepeatsClassification.generate(gff3.getType(), gff3.getAttributesString());
 					rep = Repeat.getNew(repClass);
 				}
         		if ( seq == null || ! seq.humanName().equals(gff3.getSeqId()) ) {
 					try {
-						seq = sequenceRepo.findLatest(gff3.getSeqId());
+						seq = sequenceRepository.findLatest(gff3.getSeqId());
 					}
 					catch (NoResultException e) {
 						wrongLines.add(lineN + "\t" + line + "\t" + "Error while looking for sequence " +
@@ -87,11 +82,11 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	    		}
 	    		rep.validate();
 	    		if ( rep.getId() == 0 ) {
-		    		repeatRepo.validatePosition(rep);
+		    		repeatRepository.validatePosition(rep);
     			}
 	    		repeats.add(rep);
     		}
-    		catch ( Gff3LineParserException | RepeatException | NumberFormatException | OutOfBoundsException | IntervalFeatureException e) {
+    		catch ( RepeatsClassificationException | Gff3LineParserException | RepeatException | NumberFormatException | OutOfBoundsException | IntervalFeatureException e) {
     			wrongLines.add(lineN + "\t" + line + "\t" + e.getClass().getName() + ": " + e.getMessage());
 			}
 		}
@@ -106,7 +101,7 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsImporter#getRepeatsList()
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsImporter#getRepeats()
 	 */
 	@Override
 	public List<Repeat> getRepeatsList() {
@@ -146,7 +141,7 @@ public class RepeatsImporterImpl implements RepeatsImporter {
 	public void saveList() throws RepeatsImporterException {  	
     	for ( Repeat rep:repeats ) {
 			try {
-				repeatsClassRepo.save(rep.getRepeatsClassification());
+				repeatsClassificationRepository.save(rep.getRepeatsClassification());
 				repeatsService.save(rep);
 			} catch (RepeatException | OutOfBoundsException | IntervalFeatureException e) {
 				throw new RepeatsImporterException(e.getClass().getName() + " " + e.getMessage());

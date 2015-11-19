@@ -12,9 +12,7 @@ import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
-import org.genomesmanager.repositories.sequences.ChromosomeRepoException;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
+import org.genomesmanager.repositories.sequences.ScaffoldRepository;
 import org.genomesmanager.services.sequences.ScaffoldsImporter;
 import org.genomesmanager.services.sequences.ScaffoldsImporterException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	@Autowired
-	private ChromosomeRepository chromosomeRepo;
+	private ChromosomeRepository chromosomeRepository;
 	@Autowired
-	private SequenceRepo sequenceRepo;
+	private ScaffoldRepository scaffoldRepository;
 	private List<Scaffold> scaffolds = new ArrayList<Scaffold>();
 	private List<String> wrongLines = new ArrayList<String>();
 	private List<String> warningLines = new ArrayList<String>();
@@ -42,13 +40,13 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 			throws ScaffoldsImporterException {
 		reset();
 		HashMap<String, ScaffoldInfo> scaffsPosition = new HashMap<String, ScaffoldInfo>();
-		for (ScaffoldInfo info : scaffoldsinfo) 
+		for (ScaffoldInfo info : scaffoldsinfo)
 			scaffsPosition.put(info.getName(), info);
 		for (SimpleFasta fasta : fastas) {
 			ScaffoldInfo info = scaffsPosition.get(fasta.getId());
 			if (info != null) {
 				Scaffold s = new Scaffold();
-				Chromosome chr = chromosomeRepo.get(info.getChr(), sp);
+				Chromosome chr = chromosomeRepository.findByChromosomeNumberAndSpecies(info.getChr(), sp);
 				if (chr == null) {
 					warningLines.add("Chromosome " + info.getChr() + ", "
 							+ sp.toString() + " not found");
@@ -64,7 +62,7 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 					s.setIsUnplaced(false);
 				}
 				s.setChromosome(chr);
-				s.setScaffVersion("1");
+				s.setVersion("1");
 				if (isDuplicated(s)) {
 					wrongLines.add(fasta.getId() + "\tDuplicated");
 				} else {
@@ -110,11 +108,7 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	public void importScaffolds(int chrId, String version,
 			List<String> fastaLines) throws ScaffoldsImporterException {
 		Chromosome chr;
-		try {
-			chr = chromosomeRepo.get(chrId);
-		} catch (ChromosomeRepoException e) {
-			throw new ScaffoldsImporterException(e.getMessage());
-		}
+		chr = chromosomeRepository.findOne(chrId);
 		List<SimpleFasta> fastas = FastaLinesToSimpleFasta
 				.GetSimpleFastas(fastaLines);
 		for (SimpleFasta fasta : fastas) {
@@ -126,7 +120,7 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 							+ "\tUnmanaged error, scaffold is null");
 				} else {
 					s.setChromosome(chr);
-					s.setScaffVersion(version);
+					s.setVersion(version);
 					if (isDuplicated(s)) {
 						wrongLines.add(fasta.getId() + "\tDuplicated");
 					} else {
@@ -147,14 +141,10 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	}
 
 	private boolean isDuplicated(Scaffold s) {
-		Scaffold current = null;
-		try {
-			current = (Scaffold) sequenceRepo.get(s.toString());
-			return current.equals(s);
-		} catch (SequenceRepoException e) {
-			System.out.println("isDuplicated analisis: " + e.getMessage() + " (which should be fine)");
-		}
-		return false;
+		Scaffold existing = null;
+		existing = (Scaffold) scaffoldRepository.findByName(s.descr());
+		return existing.equals(s);
+
 	}
 
 	/* (non-Javadoc)
@@ -206,7 +196,7 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	public void save() throws ScaffoldsImporterException {
 		if (scaffolds.size() > 0) {
 			for (Scaffold s : scaffolds) {
-				sequenceRepo.insert(s);
+				scaffoldRepository.save(s);
 			}
 		}
 	}

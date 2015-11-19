@@ -11,7 +11,7 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.SpeciesPK;
 import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
-import org.genomesmanager.services.species.SpeciesManager;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Scope("session")
 public class SpeciesManagerController {
 	@Autowired
-	private SpeciesManager speciesManager;
+	private SpeciesService speciesManager;
 	private List<String> selectedChromosomes = new ArrayList<String>();
 	private String speciesDefinition;
 	private String newChromosome;

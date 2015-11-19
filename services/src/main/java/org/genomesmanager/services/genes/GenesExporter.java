@@ -3,9 +3,9 @@ package org.genomesmanager.services.genes;
 import java.util.List;
 
 import org.genomesmanager.common.formats.AgiExportType;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
 
 public interface GenesExporter {
 
@@ -18,7 +18,7 @@ public interface GenesExporter {
 	public abstract void setGenesList(Species sp);
 
 	public abstract void setGenesList(String speciesDefinition)
-			throws SpeciesRepoException;
+			throws CannotParseSpeciesDefinitionException;
 
 	public abstract void setFileContent(AgiExportType expType,
 			Boolean usingPseudomolCoordinates) throws GenesExporterException;

@@ -10,8 +10,7 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
-import org.genomesmanager.services.species.SpeciesBrowser;
-import org.genomesmanager.services.species.SpeciesManager;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,9 +20,7 @@ import org.springframework.stereotype.Component;
 public class SpeciesBrowserController {
 	private static String NO_SELECTION = "--";
 	@Autowired
-	private SpeciesBrowser speciesBrowser;
-	@Autowired
-	private SpeciesManager speciesManager;
+	private SpeciesService speciesManager;
 	@Autowired
 	private ChromosomeRepository chromosomeRepo;
 	private String speciesDefinition = "";

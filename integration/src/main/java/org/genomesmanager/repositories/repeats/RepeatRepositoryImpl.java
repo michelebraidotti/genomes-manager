@@ -14,12 +14,12 @@ public class RepeatRepositoryImpl implements RepeatRepositoryCustom {
 
 
 	@Override
-	public DnaTeRepeat getDnaTe(int dnaTeId) {
+	public DnaTeRepeat findDnaTeRepeat(int dnaTeId) {
 		return em.find(DnaTeRepeat.class, dnaTeId);
 	}
 
 	@Override
-	public HelitronRepeat getHelitron(int helitronId) {
+	public HelitronRepeat findHelitronRepeat(int helitronId) {
 		return em.find(HelitronRepeat.class, helitronId);
 	}
 
@@ -166,6 +166,15 @@ public class RepeatRepositoryImpl implements RepeatRepositoryCustom {
 	public List<Repeat> findAllRepeatsBySpecies(Species sp) {
 		q = em.createNamedQuery("Repeat.findAllBySpecies");
 		q.setParameter("speciesId", sp.getId());
+		List<Repeat> repeats = q.getResultList();
+		return repeats;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Repeat> findAllRepeatsBySpecies(int speciesId) {
+		q = em.createNamedQuery("Repeat.findAllBySpecies");
+		q.setParameter("speciesId", speciesId);
 		List<Repeat> repeats = q.getResultList();
 		return repeats;
 	}

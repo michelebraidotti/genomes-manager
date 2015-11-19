@@ -86,7 +86,7 @@ public class RepeatsExporterTest {
 		when(speciesRepo.get(sp.toString())).thenReturn(sp);
 		when(repeatsList.getAllByChromosome(chr.getId())).thenReturn(repeats);
 		
-		repeatsExporter.setRepeatsList(chr);
+		repeatsExporter.loadRepeatsList(chr);
 		repeatsExporter.setFileContent(AgiExportType.GFF3);
 		assertTrue(repeatsExporter.getFileContent().size() > 0);
 		assertEquals(repeatsExporter.getNOfRepeats(), repeats.size());
@@ -97,7 +97,7 @@ public class RepeatsExporterTest {
 		when(speciesRepo.get(sp.toString())).thenReturn(sp);
 		when(repeatsList.getAllByChromosome(chr.getId())).thenReturn(repeats);
 		
-		repeatsExporter.setRepeatsList(chr);
+		repeatsExporter.loadRepeatsList(chr);
 		repeatsExporter.setFileContent(AgiExportType.GFF3PLUS);
 		for (String s:repeatsExporter.getFileContent()) System.out.print(s);
 		assertTrue(repeatsExporter.getFileContent().size() > 0);
@@ -109,7 +109,7 @@ public class RepeatsExporterTest {
 		when(speciesRepo.get(sp.toString())).thenReturn(sp);
 		when(repeatsList.getAllBySequence(seq.getId())).thenReturn(repeats);
 		
-		repeatsExporter.setRepeatsList(seq);
+		repeatsExporter.loadRepeatsList(seq);
 		repeatsExporter.setFileContent(AgiExportType.GFF3);
 		assertTrue(repeatsExporter.getFileContent().size() > 0);
 		assertEquals(repeatsExporter.getNOfRepeats(), repeats.size());

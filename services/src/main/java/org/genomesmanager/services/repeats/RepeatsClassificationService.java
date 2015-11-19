@@ -3,9 +3,9 @@ package org.genomesmanager.services.repeats;
 import java.util.List;
 
 import org.genomesmanager.domain.entities.RepeatsClassification;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationException;
+import org.genomesmanager.domain.entities.RepeatsClassificationException;
 
-public interface RepeatsClassificationExplorer {
+public interface RepeatsClassificationService {
 
 	public abstract List<RepeatsClassification> getAll();
 

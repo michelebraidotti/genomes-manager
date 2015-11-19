@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.genomesmanager.common.formats.AgiExportType;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Rna;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.repositories.genes.RnasList;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.genes.RnaRepository;
+import org.genomesmanager.repositories.sequences.ScaffoldRepository;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.genes.RnasExporter;
 import org.genomesmanager.services.genes.RnasExporterException;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,13 @@ public class RnasExporterImpl implements RnasExporter  {
     private List<Rna> rnas;
     private List<String> fileContent = null;
     @Autowired
-    private RnasList rnasList;	
+    private RnaRepository rnasList;
     @Autowired
-	private SpeciesRepositoryCustom speciesRepo;
+	private SpeciesService speciesService;
     @Autowired
-	private SequenceRepo seqRepo;
+	private SequenceRepository seqRepo;
+	@Autowired
+	private ScaffoldRepository scaffoldRepository;
     
     public RnasExporterImpl() {
     }
@@ -47,7 +49,7 @@ public class RnasExporterImpl implements RnasExporter  {
 	 */
 	@Override
 	public void setRnasList(Chromosome chr) {
-		rnas = rnasList.getAllByChromosome(chr.getId());
+		rnas = rnasList.findBySequenceChromosome(chr);
 	}
 
 	/* (non-Javadoc)
@@ -55,17 +57,17 @@ public class RnasExporterImpl implements RnasExporter  {
 	 */
 	@Override
 	public void setRnasList(Species sp) {
-		rnas = rnasList.getAllBySpecies(sp.getId());
+		rnas = rnasList.findBySequenceChromosomeSpecies(sp);
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.genes.RnasExporter#setRepeatsListBySpecies(java.lang.String)
+	 * @see org.genomesmanager.services.impl.genes.RnasExporter#loadRepeatsListBySpecies(java.lang.String)
 	 */
 	@Override
-	public void setRnasList(String speciesDefinition) throws SpeciesRepoException {
-		Species sp = speciesRepo.get(speciesDefinition);
-		rnas = rnasList.getAllBySpecies(sp.getId());
+	public void setRnasList(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
+		Species sp = speciesService.get(speciesDefinition);
+		rnas = rnasList.findBySequenceChromosomeSpecies(sp);
 	}
 	
 	/* (non-Javadoc)
@@ -103,25 +105,16 @@ public class RnasExporterImpl implements RnasExporter  {
     	fileContent.add("##gff-version 3\n");
     	for (Rna rna:rnas) {
     		if ( extraInfo && usingPseudomolCoordinates ) {
-				try {
-					Scaffold s = seqRepo.getScaffold(rna.getSequence());
-					fileContent.add(
-						rna.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) + 
-						rna.extraAnnot() + "\n");
-				} 
-				catch (SequenceRepoException e) {
-					e.printStackTrace();
-				}
+				Scaffold s = scaffoldRepository.findOne(rna.getSequence().getId());
+				fileContent.add(
+					rna.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) +
+					rna.extraAnnot() + "\n");
+
     		}
     		else if ( ! extraInfo && usingPseudomolCoordinates ) {
-				try {
-					Scaffold s = seqRepo.getScaffold(rna.getSequence());
-					fileContent.add(
-    					rna.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) + "\n");
-				} 
-				catch (SequenceRepoException e) {
-					e.printStackTrace();
-				}
+				Scaffold s = scaffoldRepository.findOne(rna.getSequence().getId());
+				fileContent.add(
+					rna.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) + "\n");
     		}
     		else if ( extraInfo && ! usingPseudomolCoordinates ) {
     			fileContent.add(rna.toGff3Line() + rna.extraAnnot() + "\n");

@@ -1,4 +1,4 @@
-package org.genomesmanager.services.impl.species;
+package org.genomesmanager.domain.dtos;
 
 public class CannotParseSpeciesDefinitionException extends Exception {
 	private static final long serialVersionUID = -8449497681042693910L;

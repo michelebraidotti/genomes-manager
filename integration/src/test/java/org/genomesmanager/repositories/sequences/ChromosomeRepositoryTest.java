@@ -1,6 +1,7 @@
 package org.genomesmanager.repositories.sequences;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
@@ -38,5 +39,11 @@ public class ChromosomeRepositoryTest extends AbstractIntegrationTest {
 		}
 		assertEquals(nOfChrsPre + nOfChrs, chromosomeRepo.findAll().size());
 		assertEquals(nOfChrs, chromosomeRepo.findBySpecies(sp).size());
-	}	
+	}
+
+	@Test
+	public void testFindByChromosomeNumberAndSpecies() {
+		chromosomeRepo.findByChromosomeNumberAndSpecies("", null);
+		assertTrue(false);
+	}
 }

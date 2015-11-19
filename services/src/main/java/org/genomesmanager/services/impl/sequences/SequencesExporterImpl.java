@@ -6,7 +6,7 @@ import java.util.List;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SequenceSliceException;
-import org.genomesmanager.repositories.sequences.SequencesList;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.sequences.SequencesExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service("SequencesExporter")
 public class SequencesExporterImpl implements SequencesExporter {
 	@Autowired
-	private SequencesList sequencesList;
+	private SequenceRepository sequenceRepository;
 	
     public SequencesExporterImpl() {
     }
@@ -25,7 +25,7 @@ public class SequencesExporterImpl implements SequencesExporter {
 	@Override
     public List<String> getFastaContent(Chromosome chr) {
 		List<String> out = new ArrayList<String>();
-		for (Sequence seq:sequencesList.getAllByChromosome(chr.getId())) {
+		for (Sequence seq: sequenceRepository.findByChromosome(chr)) {
 			out.add(seq.getFastaHeader());
 			out.add(seq.getSequenceText());
 		}
@@ -38,7 +38,7 @@ public class SequencesExporterImpl implements SequencesExporter {
 	@Override
     public List<String> getMaskedFastaContent(Chromosome chr) throws SequenceSliceException {
 		List<String> out = new ArrayList<String>();
-		for (Sequence seq:sequencesList.getAllByChromosome(chr.getId())) {
+		for (Sequence seq: sequenceRepository.findByChromosome(chr)) {
 			out.add(seq.getFastaHeader());
 			out.add(seq.getMaskedSequence());
 		}

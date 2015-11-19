@@ -40,7 +40,7 @@ public class Pseudomolecule extends Sequence implements Serializable {
     }
     
 	@Column(name="is_scaffold_derived")
-	public Boolean getIsScaffoldDerived() {
+	public Boolean isScaffoldDerived() {
 		return isScaffoldDerived;
 	}
 
@@ -50,7 +50,7 @@ public class Pseudomolecule extends Sequence implements Serializable {
 
 	
 	@Column(name="is_unplaced")
-	public Boolean getIsUnplaced() {
+	public Boolean isUnplaced() {
 		return isUnplaced;
 	}
 

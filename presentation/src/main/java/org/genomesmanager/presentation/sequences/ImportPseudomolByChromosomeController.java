@@ -24,7 +24,7 @@ import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.sequences.PseudomoleculeImporter;
 import org.genomesmanager.services.sequences.PseudomoleculeImporterException;
-import org.genomesmanager.services.species.SpeciesManager;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,7 +36,7 @@ public class ImportPseudomolByChromosomeController extends FileUpload {
 	@Autowired
 	private PseudomoleculeImporter pseudomoleculeImporter;
 	@Autowired
-	private SpeciesManager speciesManager;
+	private SpeciesService speciesManager;
 	@Autowired
 	private ChromosomeRepository chromosomeRepo;
 	private String speciesDefinition = "";

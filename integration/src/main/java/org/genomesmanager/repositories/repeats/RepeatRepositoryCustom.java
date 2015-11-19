@@ -6,9 +6,9 @@ import java.util.List;
 import org.genomesmanager.domain.entities.*;
 
 public interface RepeatRepositoryCustom {
-	public abstract DnaTeRepeat getDnaTe(int dnaTeId);
+	public abstract DnaTeRepeat findDnaTeRepeat(int dnaTeId);
 
-	public abstract HelitronRepeat getHelitron(int helitronId);
+	public abstract HelitronRepeat findHelitronRepeat(int helitronId);
 
 	public abstract LineRepeat findLineRepeat(int lineId);
 
@@ -37,6 +37,8 @@ public interface RepeatRepositoryCustom {
 	public abstract List<Repeat> findAllRepeatsBySequence(int seqId, RepeatsOrder repType, String superFamily);
 
 	public abstract List<Repeat> findAllRepeatsBySpecies(Species sp);
+
+	public abstract List<Repeat> findAllRepeatsBySpecies(int speciesId);
 
 	public abstract List<Repeat> findAllRepeatsByChromosome(int chrId);
 

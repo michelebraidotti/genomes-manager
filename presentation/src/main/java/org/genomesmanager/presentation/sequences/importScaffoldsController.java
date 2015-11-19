@@ -23,7 +23,7 @@ import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
 import org.genomesmanager.services.sequences.ScaffoldsImporter;
 import org.genomesmanager.services.sequences.ScaffoldsImporterException;
-import org.genomesmanager.services.species.SpeciesManager;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -35,7 +35,7 @@ public class importScaffoldsController {
 	@Autowired
 	private ScaffoldsImporter scaffoldsImporter;
 	@Autowired
-	private SpeciesManager speciesManager;
+	private SpeciesService speciesManager;
 	private String speciesDefinition = "";
 	private Species speciesSeleced;
 	private List<ExtendedScaffoldInfo> scaffoldsInfo = new ArrayList<ExtendedScaffoldInfo>();

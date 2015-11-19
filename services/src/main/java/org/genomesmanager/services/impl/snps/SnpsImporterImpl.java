@@ -7,12 +7,10 @@ import org.genomesmanager.domain.entities.Individual;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Snp;
 import org.genomesmanager.domain.entities.Variety;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.repositories.snps.SnpRepository;
 import org.genomesmanager.repositories.species.IndividualRepository;
 import org.genomesmanager.repositories.species.VarietyRepository;
-import org.genomesmanager.repositories.species.VarietyRepoException;
 import org.genomesmanager.services.snp.SnpsImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -26,13 +24,13 @@ public class SnpsImporterImpl implements SnpsImporter {
 	private List<String> errors = new ArrayList<String>();
 	private List<String> warnings = new ArrayList<String>();
 	@Autowired
-	private VarietyRepository varietyRepo;
+	private VarietyRepository varietyRepository;
 	@Autowired
-	private SequenceRepo seqRepo;
+	private SequenceRepository sequenceRepository;
 	@Autowired
-	private IndividualRepository indRepo;
+	private IndividualRepository individualRepository;
 	@Autowired
-	private SnpRepository snpRepo;
+	private SnpRepository snpRepository;
 	
 	public SnpsImporterImpl() {
     }
@@ -59,7 +57,7 @@ public class SnpsImporterImpl implements SnpsImporter {
 	@Override
 	public void setIndividuals(List<Integer> ids) {
 		for (Integer id:ids) {
-			individuals.add(indRepo.get(id));
+			individuals.add(individualRepository.findOne(id));
 		}
 	}
 
@@ -95,9 +93,9 @@ public class SnpsImporterImpl implements SnpsImporter {
 	 */
 	@Override
 	public void buildIndividuals(List<String> varieties, 
-			String descr) throws VarietyRepoException {
+			String descr) {
 		for (String v:varieties) {
-			Variety var = varietyRepo.get(v);
+			Variety var = varietyRepository.findByName(v).get(0);
 			Individual i = new Individual();
 			i.setVariety(var);
 			i.setDescription(descr);
@@ -109,13 +107,13 @@ public class SnpsImporterImpl implements SnpsImporter {
 	 * @see org.genomesmanager.services.impl.snps.SnpsImporter#parseMipsSnps(java.util.List)
 	 */
 	@Override
-	public void parseMipsSnps(List<String> lines) throws SequenceRepoException {		
+	public void parseMipsSnps(List<String> lines) {
 		System.out.println("Lines: " + lines.size());
 		int lineN = 1;
 		for (String line:lines) {
 			String[] elems = line.split("\t+");
 			String scaffoldName = elems[0];
-			Sequence seq = seqRepo.getLatest(scaffoldName);
+			Sequence seq = sequenceRepository.findLatest(scaffoldName);
 			if ( seq == null ) {
 				errors.add(lineN + "\t" + line + "\t" + "Scaffold " + scaffoldName + " not found");
 				continue;
@@ -147,19 +145,10 @@ public class SnpsImporterImpl implements SnpsImporter {
 	@Override
 	public void save() {
 		for (Individual i:individuals) {
-			if ( i.getId() == null || i.getId() == 0 ) {
-				indRepo.insert(i);
-			}
+			individualRepository.save(i);
 		}
 		for (Snp snp:snps) {
-			if ( snp != null ) {
-				if ( snp.getId() == 0 ) {
-					snpRepo.insert(snp);
-				}
-				else {
-					snpRepo.update(snp);
-				}
-			}
+			snpRepository.save(snp);
 		}
 	}
 	

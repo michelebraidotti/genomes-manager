@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.genomesmanager.common.formats.AgiExportType;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Exon;
 import org.genomesmanager.domain.entities.Gene;
 import org.genomesmanager.domain.entities.Mrna;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.repositories.genes.GenesList;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.genes.GeneRepository;
+import org.genomesmanager.repositories.sequences.ScaffoldRepository;
 import org.genomesmanager.services.genes.GenesExporter;
 import org.genomesmanager.services.genes.GenesExporterException;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -25,11 +24,11 @@ import org.springframework.stereotype.Service;
 @Scope("prototype")
 public class GenesExporterImpl implements GenesExporter {
 	@Autowired
-	private GenesList genesList;
+	private GeneRepository genesList;
 	@Autowired
-	private SpeciesRepositoryCustom speciesRepo;
+	private SpeciesService speciesService;
 	@Autowired
-	private SequenceRepo seqRepo;
+	private ScaffoldRepository scaffoldRepository;
     private Boolean greedyLoad = true;
     private List<Gene> genes;
     private List<String> fileContent = null;
@@ -58,7 +57,7 @@ public class GenesExporterImpl implements GenesExporter {
 	 */
 	@Override
 	public void setGenesList(Chromosome chr) {
-		genes = genesList.getAllByChromosome(chr.getId(), greedyLoad);
+		genes = genesList.findBySequenceChromosome(chr);
 	}
 
 	/* (non-Javadoc)
@@ -66,18 +65,17 @@ public class GenesExporterImpl implements GenesExporter {
 	 */
 	@Override
 	public void setGenesList(Species sp) {
-		genes = genesList.getAllBySpecies(sp.getId(), greedyLoad);
+		genes = genesList.findBySequenceChromosomeSpecies(sp);
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.genes.GenesExporter#setRepeatsListBySpecies(java.lang.String)
+	 * @see org.genomesmanager.services.impl.genes.GenesExporter#loadRepeatsListBySpecies(java.lang.String)
 	 */
 	@Override
-	public void setGenesList(String speciesDefinition)
-			throws SpeciesRepoException {
-		Species sp = speciesRepo.get(speciesDefinition);
-		genes = genesList.getAllBySpecies(sp.getId(), greedyLoad);
+	public void setGenesList(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
+		Species sp = speciesService.get(speciesDefinition);
+		genes = genesList.findBySequenceChromosomeSpecies(sp);
 	}
 
 	/* (non-Javadoc)
@@ -121,26 +119,19 @@ public class GenesExporterImpl implements GenesExporter {
     	fileContent.add("##gff-version 3\n");
     	for (Gene gene:genes) {
     		if ( extraInfo && usingPseudomolCoordinates ) {
-				try {
-					Scaffold s = seqRepo.getScaffold(gene.getSequence());
-					fileContent.add(
-						gene.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) + 
-						gene.extraAnnot() + "\n");
-					addExonsGff3(gene, extraInfo, s);
-				} catch (SequenceRepoException e) {
-					e.printStackTrace();
-				}
+
+				Scaffold s = scaffoldRepository.findOne(gene.getSequence().getId());
+				fileContent.add(
+					gene.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) +
+					gene.extraAnnot() + "\n");
+				addExonsGff3(gene, extraInfo, s);
     		}
     		else if ( ! extraInfo && usingPseudomolCoordinates ) {
-				try {
-					Scaffold s = seqRepo.getScaffold(gene.getSequence());
-					fileContent.add(
-    					gene.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) + "\n");
-					addExonsGff3(gene, extraInfo, s);
-				} 
-				catch (SequenceRepoException e) {
-					e.printStackTrace();
-				}
+
+				Scaffold s = scaffoldRepository.findOne(gene.getSequence().getId());
+				fileContent.add(
+					gene.toGff3WithPseudomolCoordinatesLine(s.getPseudomolecule().getName(), s.getPseudomolOffset()) + "\n");
+				addExonsGff3(gene, extraInfo, s);
     		}
     		else if ( extraInfo && ! usingPseudomolCoordinates ) {
     			fileContent.add(gene.toGff3Line() + gene.extraAnnot() + "\n");

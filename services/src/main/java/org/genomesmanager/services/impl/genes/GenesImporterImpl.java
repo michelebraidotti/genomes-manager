@@ -10,8 +10,7 @@ import org.genomesmanager.domain.entities.Gene;
 import org.genomesmanager.domain.entities.Mrna;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.repositories.genes.GeneRepository;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.genes.GenesImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -24,7 +23,7 @@ public class GenesImporterImpl implements GenesImporter {
 	private List<String> errors = new ArrayList<String>();
 	private List<String> warnings = new ArrayList<String>();
 	@Autowired
-	private SequenceRepo sequenceRepo;
+	private SequenceRepository sequenceRepository;
 	@Autowired
 	private GeneRepository geneRepo;
 
@@ -79,15 +78,21 @@ public class GenesImporterImpl implements GenesImporter {
 				gff3.parse(line);
 				if (gff3.getType().equals("gene")) {
 					if (seq == null || !seq.humanName().equals(gff3.getSeqId())) {
-						seq = sequenceRepo.getLatest(gff3.getSeqId());
+						seq = sequenceRepository.findLatest(gff3.getSeqId());
 					}
-					Gene gene = new Gene();
-					gene.setSequence(seq);
-					gene.setX(gff3.getStart());
-					gene.setY(gff3.getEnd());
-					gene.setStrandness(gff3.getStrand());
-					gene.setName(gff3.getAttribId());
-					genes.add(gene);
+					if ( seq == null) {
+						errors.add(lineN + "\t" + line + "\t"
+								+ "Error while looking for sequence '" + gff3.getSeqId() + "', sequence not found.");
+					}
+					else {
+						Gene gene = new Gene();
+						gene.setSequence(seq);
+						gene.setX(gff3.getStart());
+						gene.setY(gff3.getEnd());
+						gene.setStrandness(gff3.getStrand());
+						gene.setName(gff3.getAttribId());
+						genes.add(gene);
+					}
 				}
 				else if (gff3.getType().equals("mRNA")) {
 					Mrna mrna = new Mrna();
@@ -130,17 +135,13 @@ public class GenesImporterImpl implements GenesImporter {
 
 				} 
 				else {
-					// Skip line;
+					warnings.add(lineN + "\t" + line + "\t"
+							+ "Line skipped: unrecognized gff3 type.");
 				}
 			} 
 			catch (Gff3LineParserException e) {
 				errors.add(lineN + "\t" + line + "\t"
 						+ "Gff3LineParserException: " + e.getMessage());
-			} 
-			catch (SequenceRepoException e) {
-				errors.add(lineN + "\t" + line + "\t"
-						+ "Error while looking for sequence " + gff3.getSeqId()
-						+ ": " + e.getMessage());
 			}
 		}
 	}
@@ -151,11 +152,7 @@ public class GenesImporterImpl implements GenesImporter {
 	@Override
 	public void save() {
 		for (Gene g : genes) {
-			if (g.getId() == 0) {
-				geneRepo.insert(g);
-			} else {
-				geneRepo.update(g);
-			}
+			geneRepo.save(g);
 		}
 	}
 
