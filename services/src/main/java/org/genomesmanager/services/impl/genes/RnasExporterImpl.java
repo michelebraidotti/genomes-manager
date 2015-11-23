@@ -1,8 +1,5 @@
 package org.genomesmanager.services.impl.genes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genomesmanager.common.formats.AgiExportType;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
@@ -19,17 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service("RnasExporter")
 @Scope("prototype")
 public class RnasExporterImpl implements RnasExporter  {
     private List<Rna> rnas;
     private List<String> fileContent = null;
     @Autowired
-    private RnaRepository rnasList;
+    private RnaRepository rnaRepository;
     @Autowired
 	private SpeciesService speciesService;
     @Autowired
-	private SequenceRepository seqRepo;
+	private SequenceRepository sequenceRepository;
 	@Autowired
 	private ScaffoldRepository scaffoldRepository;
     
@@ -49,7 +49,7 @@ public class RnasExporterImpl implements RnasExporter  {
 	 */
 	@Override
 	public void setRnasList(Chromosome chr) {
-		rnas = rnasList.findBySequenceChromosome(chr);
+		rnas = rnaRepository.findBySequenceChromosome(chr);
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +57,7 @@ public class RnasExporterImpl implements RnasExporter  {
 	 */
 	@Override
 	public void setRnasList(Species sp) {
-		rnas = rnasList.findBySequenceChromosomeSpecies(sp);
+		rnas = rnaRepository.findBySequenceChromosomeSpecies(sp);
 		
 	}
 
@@ -67,7 +67,7 @@ public class RnasExporterImpl implements RnasExporter  {
 	@Override
 	public void setRnasList(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
 		Species sp = speciesService.get(speciesDefinition);
-		rnas = rnasList.findBySequenceChromosomeSpecies(sp);
+		rnas = rnaRepository.findBySequenceChromosomeSpecies(sp);
 	}
 	
 	/* (non-Javadoc)

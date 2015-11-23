@@ -1,8 +1,8 @@
 package org.genomesmanager.services.sequences;
 
-import java.util.List;
-
 import org.genomesmanager.common.formats.SimpleFasta;
+
+import java.util.List;
 
 public interface PseudomoleculeImporter {
 

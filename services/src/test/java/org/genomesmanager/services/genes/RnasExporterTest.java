@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.genomesmanager.common.formats.AgiExportType;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Rna;
 import org.genomesmanager.domain.entities.Sequence;
@@ -15,11 +16,10 @@ import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.RnasOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.genes.RnasList;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.genes.RnaRepository;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.genes.RnasExporterImpl;
+import org.genomesmanager.services.species.SpeciesService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -28,11 +28,11 @@ import org.mockito.MockitoAnnotations;
 
 public class RnasExporterTest {
 	@Mock
-	private RnasList rnasList;
+	private RnaRepository rnaRepository;
 	@Mock
-	private SpeciesRepositoryCustom speciesRepo;
+	private SpeciesService speciesService;
 	@Mock
-	private SequenceRepo seqRepo;
+	private SequenceRepository sequenceRepository;
 	@InjectMocks
 	private RnasExporter rnasExporter = new RnasExporterImpl();
 	private Species sp;
@@ -47,7 +47,7 @@ public class RnasExporterTest {
 		generator = new Random();
 		int nOfRnas = 5;
 		sp = SpeciesOM.Generate(1).get(0);
-		speciesRepo.insert(sp);
+		speciesService.save(sp);
 		chr = ChromosomesOM.Generate(1, sp).get(0);
 		chr.setId(generator.nextInt());
 		Sequence seq = SequencesOM.Generate(1, chr).get(0);
@@ -61,20 +61,18 @@ public class RnasExporterTest {
 	}
 	
 	@Test
-	public void testExportByChr() throws SpeciesRepoException, RnasExporterException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(rnasList.getAllByChromosome(chr.getId())).thenReturn(rnas);
+	public void testExportByChr() throws RnasExporterException {
+		when(rnaRepository.findBySequenceChromosome(chr)).thenReturn(rnas);
 		
 		rnasExporter.setRnasList(chr);
 		rnasExporter.setFileContent(AgiExportType.GFF3PLUS, false);
-		for (String s:rnasExporter.getFileContent()) System.out.println(s);
+
 		assertTrue(rnasExporter.getFileContent().size() > 0);
 	}
 	
 	@Test
-	public void testExportByChrNormalGff3() throws SpeciesRepoException, RnasExporterException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(rnasList.getAllByChromosome(chr.getId())).thenReturn(rnas);
+	public void testExportByChrNormalGff3() throws RnasExporterException {
+		when(rnaRepository.findBySequenceChromosome(chr)).thenReturn(rnas);
 		
 		rnasExporter.setRnasList(chr);
 		rnasExporter.setFileContent(AgiExportType.GFF3, false);
@@ -82,9 +80,8 @@ public class RnasExporterTest {
 	} 
 	
 	@Test
-	public void testExportBySpecies() throws SpeciesRepoException, RnasExporterException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(rnasList.getAllBySpecies(sp.getId())).thenReturn(rnas);
+	public void testExportBySpecies() throws RnasExporterException {
+		when(rnaRepository.findBySequenceChromosomeSpecies(sp)).thenReturn(rnas);
 		
 		rnasExporter.setRnasList(sp);
 		rnasExporter.setFileContent(AgiExportType.GFF3PLUS, false);
@@ -92,11 +89,10 @@ public class RnasExporterTest {
 	}
 	
 	@Test
-	public void testExportBySpeciesDefinition() throws SpeciesRepoException, RnasExporterException {
+	public void testExportBySpeciesDefinition() throws RnasExporterException, CannotParseSpeciesDefinitionException {
 		String speciesDefinition = "dummy";
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(speciesRepo.get(speciesDefinition)).thenReturn(sp);
-		when(rnasList.getAllBySpecies(sp.getId())).thenReturn(rnas);
+		when(speciesService.get(speciesDefinition)).thenReturn(sp);
+		when(rnaRepository.findBySequenceChromosomeSpecies(sp)).thenReturn(rnas);
 		
 		rnasExporter.setRnasList(speciesDefinition);
 		rnasExporter.setFileContent(AgiExportType.GFF3PLUS, false);

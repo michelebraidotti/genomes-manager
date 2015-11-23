@@ -1,19 +1,9 @@
 package org.genomesmanager.services.impl.repeats;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genomesmanager.common.formats.AgiExportType;
-import org.genomesmanager.domain.entities.Chromosome;
-import org.genomesmanager.domain.entities.Repeat;
-import org.genomesmanager.domain.entities.RepeatsClassification;
-import org.genomesmanager.domain.entities.RepeatsOrder;
-import org.genomesmanager.domain.entities.Scaffold;
-import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.domain.entities.SequenceSliceException;
-import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
+import org.genomesmanager.domain.entities.*;
+import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
 import org.genomesmanager.services.repeats.RepeatsExporter;
 import org.genomesmanager.services.repeats.RepeatsExporterException;
@@ -22,6 +12,9 @@ import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Session Bean implementation class RepeatsExporter

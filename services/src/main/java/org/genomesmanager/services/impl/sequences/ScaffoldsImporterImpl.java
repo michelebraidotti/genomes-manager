@@ -1,9 +1,5 @@
 package org.genomesmanager.services.impl.sequences;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.genomesmanager.common.formats.ScaffoldInfo;
 import org.genomesmanager.common.formats.ScaffoldInfoException;
 import org.genomesmanager.common.formats.SimpleFasta;
@@ -20,6 +16,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 @Service("ScaffoldsImporter")
 @Scope("prototype")
 @Transactional
@@ -28,12 +28,10 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	private ChromosomeRepository chromosomeRepository;
 	@Autowired
 	private ScaffoldRepository scaffoldRepository;
+
 	private List<Scaffold> scaffolds = new ArrayList<Scaffold>();
 	private List<String> wrongLines = new ArrayList<String>();
 	private List<String> warningLines = new ArrayList<String>();
-
-	public ScaffoldsImporterImpl() {
-	}
 
 	@Override
 	public void importScaffoldsWithInfo(List<ScaffoldInfo> scaffoldsinfo, List<SimpleFasta> fastas, Species sp)

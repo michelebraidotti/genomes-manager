@@ -1,7 +1,5 @@
 package org.genomesmanager.services.impl.sequences;
 
-import java.util.List;
-
 import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Pseudomolecule;
@@ -13,13 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service("PseudomoleculeImporter")
 @Transactional
 public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
 	@Autowired
-	private ChromosomeRepository chrRepo;
+	private ChromosomeRepository chromosomeRepository;
 	@Autowired
-	private SequenceRepository seqRepo;
+	private SequenceRepository sequenceRepository;
 	
     public PseudomoleculeImporterImpl() {
     }
@@ -41,7 +41,7 @@ public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
 	public void importPseudomolecule(int chrId, StringBuilder sequenceBulilder, String name, 
     		String version) throws  PseudomoleculeImporterException {
     	Pseudomolecule pm = new Pseudomolecule();
-    	Chromosome c = chrRepo.findOne(chrId);
+    	Chromosome c = chromosomeRepository.findOne(chrId);
 		if ( c == null) throw  new PseudomoleculeImporterException("Chromosome with Id '"  + chrId + "' not found.");
 		String sequence = sequenceBulilder.toString();
     	pm.setSequenceText(sequence);
@@ -49,7 +49,7 @@ public class PseudomoleculeImporterImpl implements PseudomoleculeImporter {
     	pm.setName(name);
     	pm.setVersion(version);
     	pm.setChromosome(c);
-    	seqRepo.save(pm);
+    	sequenceRepository.save(pm);
     }
     
     /* (non-Javadoc)

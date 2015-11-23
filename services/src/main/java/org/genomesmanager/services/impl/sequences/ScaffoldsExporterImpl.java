@@ -1,25 +1,29 @@
 package org.genomesmanager.services.impl.sequences;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genomesmanager.common.formats.SimpleFasta;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
+import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.SequenceSliceException;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.repositories.sequences.ScaffoldsList;
-import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
+import org.genomesmanager.repositories.sequences.ScaffoldRepository;
 import org.genomesmanager.services.sequences.ScaffoldsExporter;
+import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("ScaffoldsExporter")
 public class ScaffoldsExporterImpl implements ScaffoldsExporter {
 	@Autowired
-	private SpeciesRepositoryCustom speciesRepo;
+	private SpeciesService speciesService;
 	@Autowired
-	private ScaffoldsList scaffoldsList;
+	private ScaffoldRepository scaffoldRepository;
+	@Autowired
+	private ChromosomeRepository chromosomeRepository;
 	
     public ScaffoldsExporterImpl() {
     }
@@ -29,9 +33,9 @@ public class ScaffoldsExporterImpl implements ScaffoldsExporter {
 	 */
     @Override
 	public List<SimpleFasta> getAllSequencesBySpecies(String speciesDefinition, 
-    		Boolean maskSequence) throws SpeciesRepoException, SequenceSliceException {
-		Species s = speciesRepo.get(speciesDefinition);
-    	return convertScaffoldsToFasta(scaffoldsList.getAllBySpecies(s.getId()), maskSequence);
+    		Boolean maskSequence) throws SequenceSliceException, CannotParseSpeciesDefinitionException {
+		Species s = speciesService.get(speciesDefinition);
+    	return convertScaffoldsToFasta(scaffoldRepository.findByChromosomeSpecies(s), maskSequence);
     }
     
     /* (non-Javadoc)
@@ -39,8 +43,9 @@ public class ScaffoldsExporterImpl implements ScaffoldsExporter {
 	 */
     @Override
 	public List<SimpleFasta> getAllSequencesByChromosome(int chrId, 
-    		Boolean maskSequence) throws SpeciesRepoException, SequenceSliceException {
-    	return convertScaffoldsToFasta(scaffoldsList.getAllByChromosome(chrId), maskSequence);
+    		Boolean maskSequence) throws SequenceSliceException {
+		Chromosome c = chromosomeRepository.findOne(chrId);
+    	return convertScaffoldsToFasta(scaffoldRepository.findByChromosome(c), maskSequence);
     }
     
 	private List <SimpleFasta> convertScaffoldsToFasta(List<Scaffold> scaffs, 

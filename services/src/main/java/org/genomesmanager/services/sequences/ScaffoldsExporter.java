@@ -1,19 +1,18 @@
 package org.genomesmanager.services.sequences;
 
-import java.util.List;
-
 import org.genomesmanager.common.formats.SimpleFasta;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.SequenceSliceException;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+
+import java.util.List;
 
 public interface ScaffoldsExporter {
 
 	public abstract List<SimpleFasta> getAllSequencesBySpecies(
 			String speciesDefinition, Boolean maskSequence)
-			throws SpeciesRepoException, SequenceSliceException;
+			throws SequenceSliceException, CannotParseSpeciesDefinitionException;
 
 	public abstract List<SimpleFasta> getAllSequencesByChromosome(int chrId,
-			Boolean maskSequence) throws SpeciesRepoException,
-			SequenceSliceException;
+			Boolean maskSequence) throws SequenceSliceException;
 
 }

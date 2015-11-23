@@ -1,11 +1,11 @@
 package org.genomesmanager.services.sequences;
 
-import java.util.List;
-
 import org.genomesmanager.common.formats.ScaffoldInfo;
 import org.genomesmanager.common.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;
+
+import java.util.List;
 
 public interface ScaffoldsImporter {
 	public abstract void importScaffoldsWithInfo(List<ScaffoldInfo> scaffolds,

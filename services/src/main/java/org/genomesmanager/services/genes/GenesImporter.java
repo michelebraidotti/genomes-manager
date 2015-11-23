@@ -1,8 +1,8 @@
 package org.genomesmanager.services.genes;
 
-import java.util.List;
-
 import org.genomesmanager.domain.entities.Gene;
+
+import java.util.List;
 
 public interface GenesImporter {
 

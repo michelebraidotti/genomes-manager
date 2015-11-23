@@ -1,14 +1,10 @@
 package org.genomesmanager.services.repeats;
 
-import java.util.List;
-
 import org.genomesmanager.common.formats.AgiExportType;
-import org.genomesmanager.domain.entities.Chromosome;
-import org.genomesmanager.domain.entities.Repeat;
-import org.genomesmanager.domain.entities.RepeatsClassification;
-import org.genomesmanager.domain.entities.RepeatsOrder;
-import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
+import org.genomesmanager.domain.entities.*;
+
+import java.util.List;
 
 public interface RepeatsExporter {
 

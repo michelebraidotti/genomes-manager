@@ -1,8 +1,5 @@
 package org.genomesmanager.services.impl.snps;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genomesmanager.domain.entities.Individual;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Snp;
@@ -15,6 +12,9 @@ import org.genomesmanager.services.snp.SnpsImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("SnpsImporter")
 @Scope("prototype")

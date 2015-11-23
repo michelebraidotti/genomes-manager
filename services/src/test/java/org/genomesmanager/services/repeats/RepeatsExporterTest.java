@@ -21,9 +21,8 @@ import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
 import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
+import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.genomesmanager.services.impl.repeats.RepeatsExporterImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,13 +33,11 @@ import org.mockito.MockitoAnnotations;
 public class RepeatsExporterTest {
 	private List<Repeat> repeats = new ArrayList<Repeat>();
 	@Mock
-	private RepeatsList repeatsList;
+	private RepeatsService repeatsService;
 	@Mock
-	private RepeatRepo repeatRepo;
+	private SpeciesRepository speciesRepository;
 	@Mock
-	private SpeciesRepositoryCustom speciesRepo;
-	@Mock
-	private SequenceRepo seqRepo;
+	private SequenceRepository sequenceRepository;
 	@InjectMocks
 	private RepeatsExporter repeatsExporter = new RepeatsExporterImpl();
 	private Species sp;
@@ -82,9 +79,8 @@ public class RepeatsExporterTest {
 	}
 	
 	@Test
-	public void testExportByChrGff3() throws SpeciesRepoException, RepeatsExporterException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(repeatsList.getAllByChromosome(chr.getId())).thenReturn(repeats);
+	public void testExportByChrGff3() throws RepeatsExporterException {
+		when(repeatsService.getAllByChromosome(chr.getId())).thenReturn(repeats);
 		
 		repeatsExporter.loadRepeatsList(chr);
 		repeatsExporter.setFileContent(AgiExportType.GFF3);
@@ -93,21 +89,18 @@ public class RepeatsExporterTest {
 	}
 	
 	@Test
-	public void testExporByChrtGff3Plus() throws SpeciesRepoException, RepeatsExporterException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(repeatsList.getAllByChromosome(chr.getId())).thenReturn(repeats);
+	public void testExporByChrtGff3Plus() throws RepeatsExporterException {
+		when(repeatsService.getAllByChromosome(chr.getId())).thenReturn(repeats);
 		
 		repeatsExporter.loadRepeatsList(chr);
 		repeatsExporter.setFileContent(AgiExportType.GFF3PLUS);
-		for (String s:repeatsExporter.getFileContent()) System.out.print(s);
 		assertTrue(repeatsExporter.getFileContent().size() > 0);
 		assertEquals(repeatsExporter.getNOfRepeats(), repeats.size());
 	}
 	
 	@Test
-	public void testExportBySeqGff3() throws SpeciesRepoException, RepeatsExporterException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(repeatsList.getAllBySequence(seq.getId())).thenReturn(repeats);
+	public void testExportBySeqGff3() throws RepeatsExporterException {
+		when(repeatsService.getAllBySequence(seq.getId())).thenReturn(repeats);
 		
 		repeatsExporter.loadRepeatsList(seq);
 		repeatsExporter.setFileContent(AgiExportType.GFF3);

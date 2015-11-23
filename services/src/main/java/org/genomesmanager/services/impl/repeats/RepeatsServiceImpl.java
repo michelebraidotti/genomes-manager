@@ -2,7 +2,6 @@ package org.genomesmanager.services.impl.repeats;
 
 import org.genomesmanager.domain.entities.*;
 import org.genomesmanager.repositories.repeats.RepeatRepository;
-import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.genomesmanager.services.repeats.RepeatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

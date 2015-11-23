@@ -19,8 +19,7 @@ import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.genes.GeneRepository;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.genes.GenesImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +30,7 @@ import org.mockito.MockitoAnnotations;
 public class GenesImporterTest {
 	
 	@Mock
-	private SequenceRepo sequenceRepo;
+	private SequenceRepository sequenceRepo;
 	@Mock
 	private GeneRepository geneRepo;
 	@InjectMocks
@@ -84,14 +83,14 @@ public class GenesImporterTest {
 	}
 	
 	@Test
-	public void testImport() throws SequenceRepoException {
-		when(sequenceRepo.getLatest(anyString())).thenReturn(seq);
-		//for (String s:ggf3Content) System.out.println(s);
+	public void testImport() {
+		when(sequenceRepo.findLatest(anyString())).thenReturn(seq);
+
 		genesImporter.parseMipsGenePredictionGff3(gff3Content);
 		genesImporter.save();
 		assertTrue(genesImporter.getErrors().size() == 1);
 		assertTrue(genesImporter.getWarnings().size() == 0);
 		assertTrue(genesImporter.getGenes().size() > 0);
-		verify(geneRepo, times(genesImporter.getGenes().size())).insert((Gene) anyObject());
+		verify(geneRepo, times(genesImporter.getGenes().size())).save((Gene) anyObject());
 	}
 }

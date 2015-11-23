@@ -1,16 +1,8 @@
 package org.genomesmanager.services.impl.genes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genomesmanager.common.formats.AgiExportType;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
-import org.genomesmanager.domain.entities.Chromosome;
-import org.genomesmanager.domain.entities.Exon;
-import org.genomesmanager.domain.entities.Gene;
-import org.genomesmanager.domain.entities.Mrna;
-import org.genomesmanager.domain.entities.Scaffold;
-import org.genomesmanager.domain.entities.Species;
+import org.genomesmanager.domain.entities.*;
 import org.genomesmanager.repositories.genes.GeneRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
 import org.genomesmanager.services.genes.GenesExporter;
@@ -20,16 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service("GenesExporter")
 @Scope("prototype")
 public class GenesExporterImpl implements GenesExporter {
 	@Autowired
-	private GeneRepository genesList;
+	private GeneRepository geneRepository;
 	@Autowired
 	private SpeciesService speciesService;
 	@Autowired
 	private ScaffoldRepository scaffoldRepository;
-    private Boolean greedyLoad = true;
     private List<Gene> genes;
     private List<String> fileContent = null;
 
@@ -43,21 +37,13 @@ public class GenesExporterImpl implements GenesExporter {
 	public List<String> getFileContent() {
 		return fileContent;
 	}
-
-	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.genes.GenesExporter#setGreedyLoad(java.lang.Boolean)
-	 */
-	@Override
-	public void setGreedyLoad(Boolean greedyLoad) {
-		this.greedyLoad = greedyLoad;
-	}
 	
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.genes.GenesExporter#setGenesList(org.genomesmanager.domain.entities.Chromosome)
 	 */
 	@Override
 	public void setGenesList(Chromosome chr) {
-		genes = genesList.findBySequenceChromosome(chr);
+		genes = geneRepository.findBySequenceChromosome(chr);
 	}
 
 	/* (non-Javadoc)
@@ -65,7 +51,7 @@ public class GenesExporterImpl implements GenesExporter {
 	 */
 	@Override
 	public void setGenesList(Species sp) {
-		genes = genesList.findBySequenceChromosomeSpecies(sp);
+		genes = geneRepository.findBySequenceChromosomeSpecies(sp);
 		
 	}
 
@@ -75,7 +61,7 @@ public class GenesExporterImpl implements GenesExporter {
 	@Override
 	public void setGenesList(String speciesDefinition) throws CannotParseSpeciesDefinitionException {
 		Species sp = speciesService.get(speciesDefinition);
-		genes = genesList.findBySequenceChromosomeSpecies(sp);
+		genes = geneRepository.findBySequenceChromosomeSpecies(sp);
 	}
 
 	/* (non-Javadoc)

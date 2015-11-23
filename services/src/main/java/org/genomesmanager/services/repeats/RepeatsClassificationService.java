@@ -1,9 +1,9 @@
 package org.genomesmanager.services.repeats;
 
-import java.util.List;
-
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsClassificationException;
+
+import java.util.List;
 
 public interface RepeatsClassificationService {
 

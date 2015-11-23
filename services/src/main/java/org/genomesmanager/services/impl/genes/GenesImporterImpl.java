@@ -1,8 +1,5 @@
 package org.genomesmanager.services.impl.genes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genomesmanager.common.parsers.Gff3LineParser;
 import org.genomesmanager.common.parsers.Gff3LineParserException;
 import org.genomesmanager.domain.entities.Exon;
@@ -15,6 +12,9 @@ import org.genomesmanager.services.genes.GenesImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("GenesImporter")
 @Scope("prototype")

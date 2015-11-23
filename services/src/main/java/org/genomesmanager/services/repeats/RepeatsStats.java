@@ -1,9 +1,9 @@
 package org.genomesmanager.services.repeats;
 
-import java.util.List;
-
 import org.genomesmanager.domain.dtos.LtrRepeatsPresenceInSativaStats;
 import org.genomesmanager.domain.dtos.RepeatsStatsByClassification;
+
+import java.util.List;
 
 public interface RepeatsStats {
 

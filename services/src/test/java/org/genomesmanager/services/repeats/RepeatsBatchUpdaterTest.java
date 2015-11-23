@@ -1,9 +1,9 @@
 package org.genomesmanager.services.repeats;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.genomesmanager.batch.repeats.RepeatsBatchUpdater;
-import org.genomesmanager.repositories.jpa.AbstractIntegrationTest;
+
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -13,7 +13,8 @@ public class RepeatsBatchUpdaterTest {
 
 	@Test
 	public void test() throws Exception {
+		// TODO
 		repeatsBatchUpdater.updateRepatsParent();
-		assertEquals(true, false);
+		assertTrue(false);
 	}
 }

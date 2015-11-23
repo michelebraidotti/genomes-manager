@@ -1,13 +1,13 @@
 package org.genomesmanager.services.impl.repeats;
 
-import java.util.List;
-
 import org.genomesmanager.domain.dtos.LtrRepeatsPresenceInSativaStats;
 import org.genomesmanager.domain.dtos.RepeatsStatsByClassification;
 import org.genomesmanager.repositories.repeats.RepeatsStatsRepository;
 import org.genomesmanager.services.repeats.RepeatsStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service("RepeatsStats")
 public class RepeatsStatsImpl implements RepeatsStats {

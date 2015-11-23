@@ -1,13 +1,13 @@
 package org.genomesmanager.services.impl.repeats;
 
-import java.util.List;
-
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsClassificationException;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.services.repeats.RepeatsClassificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service("RepeatsClassificationService")
 public class RepeatsClassificationServiceImpl implements RepeatsClassificationService {

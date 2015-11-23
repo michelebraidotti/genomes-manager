@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.genomesmanager.common.formats.AgiExportType;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Exon;
 import org.genomesmanager.domain.entities.Gene;
@@ -20,11 +21,10 @@ import org.genomesmanager.domain.entities.objectmothers.GenesOM;
 import org.genomesmanager.domain.entities.objectmothers.MrnasOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.genes.GenesList;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.genes.GeneRepository;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.genes.GenesExporterImpl;
+import org.genomesmanager.services.species.SpeciesService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -33,18 +33,17 @@ import org.mockito.MockitoAnnotations;
 
 public class GenesExporterTest {
 	@Mock
-	private GenesList genesList;
+	private GeneRepository geneRepository;
 	@Mock
-	private SpeciesRepositoryCustom speciesRepo;
+	private SpeciesService speciesService;
 	@Mock
-	private SequenceRepo seqRepo;
+	private SequenceRepository sequenceRepository;
 	@InjectMocks
 	private GenesExporter genesExporter = new GenesExporterImpl();
 	private Species sp;
 	private Chromosome chr;
 	private Random generator;
 	private ArrayList<Gene> genes;
-	private boolean greedyness;
 
 	@Before 
 	public void initMocks() {
@@ -55,7 +54,7 @@ public class GenesExporterTest {
 		int nOfMRnas = 3;
 		int nOfExons = 2;
 		sp = SpeciesOM.Generate(1).get(0);
-		speciesRepo.insert(sp);
+		speciesService.save(sp);
 		chr = ChromosomesOM.Generate(1, sp).get(0);
 		chr.setId(generator.nextInt());
 		Sequence seq = SequencesOM.Generate(1, chr).get(0);
@@ -80,50 +79,41 @@ public class GenesExporterTest {
 			}
 			genes.add(gene);
 		}
-		greedyness = false;
 	}
 	
 	@Test
-	public void testExportByChr() throws GenesExporterException, SpeciesRepoException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(genesList.getAllByChromosome(chr.getId(), greedyness)).thenReturn(genes);
-		
-		genesExporter.setGreedyLoad(greedyness);
+	public void testExportByChr() throws GenesExporterException {
+		when(geneRepository.findBySequenceChromosome(chr)).thenReturn(genes);
+
 		genesExporter.setGenesList(chr);
 		genesExporter.setFileContent(AgiExportType.GFF3PLUS, false);
 		assertTrue(genesExporter.getFileContent().size() > 0);
 	}
 	
 	@Test
-	public void testExportByChrNormalGff3() throws GenesExporterException, SpeciesRepoException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(genesList.getAllByChromosome(chr.getId(), greedyness)).thenReturn(genes);
+	public void testExportByChrNormalGff3() throws GenesExporterException {
+		when(geneRepository.findBySequenceChromosome(chr)).thenReturn(genes);
 		
-		genesExporter.setGreedyLoad(greedyness);
 		genesExporter.setGenesList(chr);
 		genesExporter.setFileContent(AgiExportType.GFF3, false);
 		assertTrue(genesExporter.getFileContent().size() > 0);
 	} 
 	
 	@Test
-	public void testExportBySpecies() throws GenesExporterException, SpeciesRepoException {
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(genesList.getAllBySpecies(sp.getId(), greedyness)).thenReturn(genes);
+	public void testExportBySpecies() throws GenesExporterException {
+		when(geneRepository.findBySequenceChromosomeSpecies(sp)).thenReturn(genes);
 		
-		genesExporter.setGreedyLoad(greedyness);
 		genesExporter.setGenesList(sp);
 		genesExporter.setFileContent(AgiExportType.GFF3PLUS, false);
 		assertTrue(genesExporter.getFileContent().size() > 0);
 	}
 	
 	@Test
-	public void testExportBySpeciesDefinition() throws GenesExporterException, SpeciesRepoException {
+	public void testExportBySpeciesDefinition() throws GenesExporterException, CannotParseSpeciesDefinitionException {
 		String speciesDefinition = "dummy";
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
-		when(speciesRepo.get(speciesDefinition)).thenReturn(sp);
-		when(genesList.getAllBySpecies(sp.getId(), greedyness)).thenReturn(genes);
+		when(speciesService.get(speciesDefinition)).thenReturn(sp);
+		when(geneRepository.findBySequenceChromosomeSpecies(sp)).thenReturn(genes);
 		
-		genesExporter.setGreedyLoad(greedyness);
 		genesExporter.setGenesList(speciesDefinition);
 		genesExporter.setFileContent(AgiExportType.GFF3PLUS, false);
 		assertTrue(genesExporter.getFileContent().size() > 0);

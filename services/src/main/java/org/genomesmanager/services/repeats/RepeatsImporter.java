@@ -1,8 +1,8 @@
 package org.genomesmanager.services.repeats;
 
-import java.util.List;
-
 import org.genomesmanager.domain.entities.Repeat;
+
+import java.util.List;
 
 public interface RepeatsImporter {
 

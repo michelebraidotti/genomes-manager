@@ -1,50 +1,33 @@
 package org.genomesmanager.services.repeats;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import org.genomesmanager.domain.entities.Chromosome;
-import org.genomesmanager.domain.entities.LtrRepeat;
-import org.genomesmanager.domain.entities.Repeat;
-import org.genomesmanager.domain.entities.RepeatsClassification;
-import org.genomesmanager.domain.entities.RepeatsOrder;
-import org.genomesmanager.domain.entities.Sequence;
-import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationException;
+import org.genomesmanager.domain.entities.*;
+import org.genomesmanager.domain.entities.objectmothers.*;
+import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.repeats.RepeatsImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class RepeatsImporterTest {
 	@Mock
-	private RepeatRepo repeatRepo;
+	private RepeatRepository repeatRepository;
 	@Mock
 	private RepeatsClassificationRepository repeatsClassRepo;
 	@Mock
-	private SequenceRepo sequenceRepo;
+	private SequenceRepository sequenceRepository;
 	@InjectMocks
 	private RepeatsImporter repeatsImporter = new RepeatsImporterImpl();
 	private List<String> gff3Content = new ArrayList<String>();
@@ -96,60 +79,18 @@ public class RepeatsImporterTest {
 	}
 	
 	@Test
-	public void testImport() throws SequenceRepoException, RepeatRepoException, RepeatsImporterException, RepeatsClassificationException {
-		when(sequenceRepo.getLatest(anyString())).thenReturn(seq);
-		when(repeatRepo.get(ltrRepeat.getId())).thenReturn(ltrRepeat);
-		when(repeatRepo.getNew(isA(RepeatsClassification.class))).thenAnswer(
-				new Answer<Repeat>() {
-
-					@Override
-					public Repeat answer(InvocationOnMock invocation) throws Throwable {
-						RepeatsClassification repClass = (RepeatsClassification) invocation.getArguments()[0];
-						if (repClass.getId().getOrder().equals(RepeatsOrder.LTR.getLabel()))
-							return RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
-						else if (repClass.getId().getOrder().equals(RepeatsOrder.HEL.getLabel()))
-							return RepeatsOM.GenerateHelitrons(1, repClass, seq).get(0);
-						else if (repClass.getId().getOrder().equals(RepeatsOrder.DNATE.getLabel()))
-							return RepeatsOM.GenerateDnaTes(1, repClass, seq).get(0);
-						else 
-							return null;
-					}
-					
-				}
-		);
-		when(repeatsClassRepo.generate(isA(String.class), isA(String.class))).thenAnswer(
-				new Answer<RepeatsClassification>() {
-
-					@Override
-					public RepeatsClassification answer(InvocationOnMock invocation) throws Throwable {
-						String order = (String) invocation.getArguments()[0];
-						if (order.equals("LTR_retrotransposon"))
-							return RepeatsClassificationOM.Generate("I, I, LTR, test, test");
-						else if (order.equals("helitron"))
-							return RepeatsClassificationOM.Generate("II, II, Helitron, test, test");
-						else if (order.equals("terminal_inverted_repeat_element"))
-							return RepeatsClassificationOM.Generate("II, I, DNA_TE, test, test");
-						else 
-							return null;
-					}
-					
-				}
-		);
+	public void testImport() throws RepeatsImporterException, RepeatException {
+		when(sequenceRepository.findLatest(anyString())).thenReturn(seq);
+		when(repeatRepository.findOne(ltrRepeat.getId())).thenReturn(ltrRepeat);
 		
 		repeatsImporter.parseAgiGff3(gff3Content);
-//		System.out.println("WARNS:");
-//		for (String s:repeatsImporter.getWarningLines()) System.out.println(s);
-//		System.out.println("WRONGS:");
-//		for (String s:repeatsImporter.getWrongLines()) System.out.println(s);
 		assertEquals(3, repeatsImporter.getWarningLines().size());
 		assertEquals(1, repeatsImporter.getWrongLines().size());
 		assertEquals(gff3Content.size() - 1, repeatsImporter.getRepeatsSize());
 		repeatsImporter.saveList();
-		verify(repeatRepo, times(1)).update((Repeat) anyObject());
-		verify(repeatRepo, times(gff3Content.size() - 2)).insert((Repeat) anyObject());
-		verify(repeatRepo, atLeastOnce()).validatePosition((Repeat) anyObject());
-		
-		
+		verify(repeatRepository, times(1)).save((Repeat) anyObject());
+		verify(repeatRepository, times(gff3Content.size() - 2)).save((Repeat) anyObject());
+		verify(repeatRepository, atLeastOnce()).validatePosition((Repeat) anyObject());
 	}
 	
 }

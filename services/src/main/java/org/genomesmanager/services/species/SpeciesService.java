@@ -1,8 +1,8 @@
 package org.genomesmanager.services.species;
 
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 
 import java.util.List;
 

@@ -1,8 +1,5 @@
 package org.genomesmanager.services.impl.species;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.dtos.SpeciesDefinition;
 import org.genomesmanager.domain.entities.Chromosome;
@@ -11,6 +8,9 @@ import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("SpeciesService")
 public class SpeciesServiceImpl implements SpeciesService {

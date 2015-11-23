@@ -1,10 +1,5 @@
 package org.genomesmanager.services.impl.repeats;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-
 import org.genomesmanager.common.parsers.Gff3LineParser;
 import org.genomesmanager.common.parsers.Gff3LineParserException;
 import org.genomesmanager.domain.entities.*;
@@ -19,6 +14,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
 
 @Service("RepeatsImporter")
 @Scope("prototype")

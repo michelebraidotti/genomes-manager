@@ -1,12 +1,12 @@
 package org.genomesmanager.services.impl.repeats;
 
-import java.util.List;
-
 import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.services.repeats.RepeatsBatchUpdater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component("RepeatsBatchUpdater")
 public class RepeatsBatchUpdaterImpl implements RepeatsBatchUpdater {

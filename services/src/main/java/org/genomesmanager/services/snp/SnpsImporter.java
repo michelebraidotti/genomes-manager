@@ -1,11 +1,9 @@
 package org.genomesmanager.services.snp;
 
-import java.util.List;
-
 import org.genomesmanager.domain.entities.Individual;
 import org.genomesmanager.domain.entities.Snp;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.species.VarietyRepoException;
+
+import java.util.List;
 
 public interface SnpsImporter {
 
@@ -21,11 +19,9 @@ public interface SnpsImporter {
 
 	public abstract void reset();
 
-	public abstract void buildIndividuals(List<String> varieties, String descr)
-			throws VarietyRepoException;
+	public abstract void buildIndividuals(List<String> varieties, String descr);
 
-	public abstract void parseMipsSnps(List<String> lines)
-			throws SequenceRepoException;
+	public abstract void parseMipsSnps(List<String> lines);
 
 	public abstract void save();
 

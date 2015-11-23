@@ -1,8 +1,5 @@
 package org.genomesmanager.services.impl.sequences;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SequenceSliceException;
@@ -10,6 +7,9 @@ import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.sequences.SequencesExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("SequencesExporter")
 public class SequencesExporterImpl implements SequencesExporter {
