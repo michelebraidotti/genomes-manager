@@ -44,7 +44,7 @@ public class Pseudomolecule extends Sequence implements Serializable {
 		return isScaffoldDerived;
 	}
 
-	public void setIsScaffoldDerived(Boolean isScaffoldDerived) {
+	public void setScaffoldDerived(Boolean isScaffoldDerived) {
 		this.isScaffoldDerived = isScaffoldDerived;
 	}
 
@@ -54,7 +54,7 @@ public class Pseudomolecule extends Sequence implements Serializable {
 		return isUnplaced;
 	}
 
-	public void setIsUnplaced(Boolean isUnplaced) {
+	public void setUnplaced(Boolean isUnplaced) {
 		this.isUnplaced = isUnplaced;
 	}
 

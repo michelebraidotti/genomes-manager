@@ -36,14 +36,14 @@ public class DnaTeRepeatTest {
 
 	@Test
 	public void testValidate() throws IntervalFeatureException, RepeatException {
-		dnate.setTirX(dnate.length() + 1);
+		dnate.setTirX(dnate.getX() - 1);
 		try {
 			dnate.validate();
 			assertTrue(false);
 		} catch (OutOfBoundsException e) {
 			assertTrue(true);
 		}
-		dnate.setTirY(dnate.length() + 1);
+		dnate.setTirY(dnate.getY() + 1);
 		try {
 			dnate.validate();
 			assertTrue(false);

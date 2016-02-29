@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.genomesmanager.common.formats.SimpleFasta;
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
@@ -20,10 +21,11 @@ import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
 import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.sequences.ScaffoldsList;
-import org.genomesmanager.repositories.species.SpeciesRepositoryCustom;
-import org.genomesmanager.repositories.species.SpeciesRepoException;
+import org.genomesmanager.repositories.sequences.ChromosomeRepository;
+import org.genomesmanager.repositories.sequences.ScaffoldRepository;
+import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.genomesmanager.services.impl.sequences.ScaffoldsExporterImpl;
+import org.genomesmanager.services.species.SpeciesService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -32,10 +34,11 @@ import org.mockito.MockitoAnnotations;
 
 public class ScaffoldsExporterTest {
 	@Mock
-	private ScaffoldsList scaffoldsList;
-	// Species s = speciesRepo.get(speciesDefinition);
+	private ScaffoldRepository scaffoldRepository;
 	@Mock
-	private SpeciesRepositoryCustom speciesRepo;
+	private SpeciesService speciesService;
+	@Mock
+	private ChromosomeRepository chromosomeRepository;
 	@InjectMocks
 	private ScaffoldsExporter scaffoldsExporter = new ScaffoldsExporterImpl();	
 	private Random generator;
@@ -69,16 +72,17 @@ public class ScaffoldsExporterTest {
 	}
 	
 	@Test
-	public void getAllScaffoldsTest() throws SpeciesRepoException, SequenceSliceException {
-		when(scaffoldsList.getAllByChromosome(chr.getId())).thenReturn(seqs);
-		when(scaffoldsList.getAllBySpecies(sp.getId())).thenReturn(seqs);
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
+	public void getAllScaffoldsTest() throws SequenceSliceException, CannotParseSpeciesDefinitionException {
+		when(scaffoldRepository.findByChromosome(chr)).thenReturn(seqs);
+		when(scaffoldRepository.findByChromosomeSpecies(sp)).thenReturn(seqs);
+		when(chromosomeRepository.findOne(chr.getId())).thenReturn(chr);
+		when(speciesService.get(sp.toString(" "))).thenReturn(sp);
 		
 		Boolean maskSequence = false;
 		List<SimpleFasta> fastaContent = scaffoldsExporter
 				.getAllSequencesByChromosome(chr.getId(), maskSequence );
 		assertEquals(seqs.size(), fastaContent.size());
-		fastaContent = scaffoldsExporter.getAllSequencesBySpecies(sp.toString(), maskSequence );
+		fastaContent = scaffoldsExporter.getAllSequencesBySpecies(sp.toString(" "), maskSequence );
 		assertEquals(seqs.size(), fastaContent.size());
 	}
 	
@@ -89,9 +93,10 @@ public class ScaffoldsExporterTest {
 			Repeat repeat = RepeatsOM.Generate(1, repClass, seq).get(0);
 			seq.getRepeats().add(repeat);
 		}
-		when(scaffoldsList.getAllByChromosome(chr.getId())).thenReturn(seqs);
-		when(scaffoldsList.getAllBySpecies(sp.getId())).thenReturn(seqs);
-		when(speciesRepo.get(sp.toString())).thenReturn(sp);
+		when(scaffoldRepository.findByChromosome(chr)).thenReturn(seqs);
+		when(scaffoldRepository.findByChromosomeSpecies(sp)).thenReturn(seqs);
+		when(chromosomeRepository.findOne(chr.getId())).thenReturn(chr);
+		when(speciesService.get(sp.toString(" "))).thenReturn(sp);
 		
 		Boolean maskSequence = true;
 		List<SimpleFasta> fastaContent = scaffoldsExporter

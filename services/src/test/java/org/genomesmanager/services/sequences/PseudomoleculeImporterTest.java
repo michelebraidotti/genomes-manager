@@ -16,8 +16,7 @@ import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
-import org.genomesmanager.repositories.sequences.ChromosomeRepoException;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.sequences.PseudomoleculeImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class PseudomoleculeImporterTest {
 	@Mock
 	private ChromosomeRepository chrRepo;
 	@Mock
-	private SequenceRepo seqRepo;
+	private SequenceRepository seqRepo;
 	@InjectMocks
 	private PseudomoleculeImporter pseudomoleculeImporter = new PseudomoleculeImporterImpl();
 
@@ -39,18 +38,17 @@ public class PseudomoleculeImporterTest {
 	}
 
 	@Test
-	public void test() throws PseudomoleculeImporterException, 
-			ChromosomeRepoException {
+	public void test() throws PseudomoleculeImporterException {
 
 		Species sp = SpeciesOM.Generate(1).get(0);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		when(chrRepo.get(chr.getId())).thenReturn(chr);
+		when(chrRepo.findOne(chr.getId())).thenReturn(chr);
 
 		pseudomoleculeImporter
 				.importPseudomolecule(chr.getId(),
 						SequencesOM.GenererateSequence(1000000),
 						"NewPseudommol", "1.0");
-		verify(seqRepo).insert((Pseudomolecule) anyObject());
+		verify(seqRepo).save((Pseudomolecule) anyObject());
 	}
 	
 //	public abstract void importPseudomolecule(int chrId,
@@ -58,12 +56,11 @@ public class PseudomoleculeImporterTest {
 //			throws PseudomoleculeImporterException;
 	
 	@Test
-	public void importPseudomoleculeFasta() throws PseudomoleculeImporterException,
-			ChromosomeRepoException {
+	public void importPseudomoleculeFasta() throws PseudomoleculeImporterException {
 
 		Species sp = SpeciesOM.Generate(1).get(0);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		when(chrRepo.get(chr.getId())).thenReturn(chr);
+		when(chrRepo.findOne(chr.getId())).thenReturn(chr);
 
 		List<SimpleFasta> fastas = new ArrayList<SimpleFasta>();
 		for (int i = 1; i < 3 ; i++) 
@@ -72,6 +69,6 @@ public class PseudomoleculeImporterTest {
 		
 		pseudomoleculeImporter
 				.importPseudomolecule(chr.getId(), fastas, "1.0");
-		verify(seqRepo, times(fastas.size())).insert((Pseudomolecule) anyObject());
+		verify(seqRepo, times(fastas.size())).save((Pseudomolecule) anyObject());
 	}
 }

@@ -52,8 +52,8 @@ public class SequencesOM {
 			seq.setLength(seqText.length());
 			seq.setVersion("Version" + i);
 			seq.setName("PseudomolName" + i);
-			seq.setIsScaffoldDerived(true);
-			seq.setIsUnplaced(false);
+			seq.setScaffoldDerived(true);
+			seq.setUnplaced(false);
 			sequences.add(seq);
 		}
 		return sequences;

@@ -21,8 +21,7 @@ import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
 import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
-import org.genomesmanager.repositories.sequences.SequencesList;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.sequences.SequencesExporterImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +31,7 @@ import org.mockito.MockitoAnnotations;
 
 public class SequenceExporterTest {
 	@Mock
-	private SequencesList sequencesList;
+	private SequenceRepository sequenceRepository;
 	@InjectMocks
 	private SequencesExporter sequencesExporter = new SequencesExporterImpl();	
 	private Random generator;
@@ -47,12 +46,12 @@ public class SequenceExporterTest {
 		
 		Species sp = SpeciesOM.Generate(1).get(0);
 		chr = ChromosomesOM.Generate(1, sp).get(0);
-		seqs = new ArrayList<Sequence>();
+		seqs = new ArrayList<>();
 		
 		Pseudomolecule pseudomol = SequencesOM.GeneratePseudomolecule(1,chr).get(0);
 		pseudomol.setId(generator.nextInt());
-		pseudomol.setIsScaffoldDerived(false);
-		pseudomol.setIsUnplaced(false);
+		pseudomol.setScaffoldDerived(false);
+		pseudomol.setUnplaced(false);
 		seqs.add(pseudomol);
 		int i = 1;
 		int lastId = generator.nextInt();
@@ -71,8 +70,8 @@ public class SequenceExporterTest {
 	}
 	
 	@Test
-	public void getFastaTest() throws SequenceRepoException, SequenceSliceException {
-		when(sequencesList.getAllByChromosome(chr.getId())).thenReturn(seqs);
+	public void getFastaTest() throws SequenceSliceException {
+		when(sequenceRepository.findByChromosome(chr)).thenReturn(seqs);
 		
 		List<String> fastaContent = sequencesExporter.getFastaContent(chr);
 		assertEquals(seqs.size(), fastaContent.size()/2);
@@ -85,7 +84,7 @@ public class SequenceExporterTest {
 			Repeat repeat = RepeatsOM.Generate(1, repClass, seq).get(0);
 			seq.getRepeats().add(repeat);
 		}
-		when(sequencesList.getAllByChromosome(chr.getId())).thenReturn(seqs);
+		when(sequenceRepository.findByChromosome(chr)).thenReturn(seqs);
 		
 		List<String> fastaContent = sequencesExporter.getMaskedFastaContent(chr);
 		assertEquals(seqs.size(), fastaContent.size()/2);

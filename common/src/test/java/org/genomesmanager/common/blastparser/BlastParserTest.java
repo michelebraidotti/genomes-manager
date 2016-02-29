@@ -47,11 +47,11 @@ public class BlastParserTest {
     public void testParseString() {
         System.out.println("parseString");
         String xmlString = staticVars.getBlastOutputXmlString();
-        BlastParser instance = new BlastParser();
+        BlastParser blastParser = new BlastParser();
 
-        BlastOutput result = instance.parseString(xmlString);
+        BlastOutput blastOutput = blastParser.parseString(xmlString);
 
-        assertEquals("blastn", result.BlastOutput_program);
+        assertEquals("blastn", blastOutput.BlastOutput_program);
     }
 
     /**

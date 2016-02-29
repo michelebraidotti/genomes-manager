@@ -23,7 +23,7 @@ public class PseudomoleculeExporterImpl implements PseudomoleculeExporter {
 	public Pseudomolecule get(int id, boolean masked) throws SequenceSliceException {
     	Pseudomolecule p = pseudomoleculeRepository.findOne(id);
     	if ( p.isScaffoldDerived() ) {
-    		StringBuilder seq = new StringBuilder();
+    		StringBuilder seq;
     		if ( p.isUnplaced() ) {
     			seq = getFromChromosomeUnplaced(p.getChromosome(), masked);
     		}

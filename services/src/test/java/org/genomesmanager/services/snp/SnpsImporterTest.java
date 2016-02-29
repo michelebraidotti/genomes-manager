@@ -22,12 +22,10 @@ import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.domain.entities.objectmothers.VarietiesOM;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.repositories.snps.SnpRepository;
 import org.genomesmanager.repositories.species.IndividualRepository;
 import org.genomesmanager.repositories.species.VarietyRepository;
-import org.genomesmanager.repositories.species.VarietyRepoException;
 import org.genomesmanager.services.impl.snps.SnpsImporterImpl;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -38,20 +36,20 @@ import org.mockito.stubbing.Answer;
 
 public class SnpsImporterTest {
 	@Mock
-	private VarietyRepository varietyRepo;
+	private VarietyRepository varietyRepository;
 	@Mock
-	private SequenceRepo sequenceRepo;
+	private SequenceRepository sequenceRepository;
 	@Mock
-	private IndividualRepository indRepo;
+	private IndividualRepository individualRepository;
 	@Mock
-	private SnpRepository snpRepo;
+	private SnpRepository snpRepository;
 	@InjectMocks
 	private SnpsImporter snpsImporter = new SnpsImporterImpl();
 	private List<Variety> varieties;
 	
 	
 	@Test
-	public void test() throws VarietyRepoException, SequenceRepoException {
+	public void test() {
 		MockitoAnnotations.initMocks(this);
 		int nOfSnps = 7;
 		Random generator = new Random();
@@ -62,8 +60,8 @@ public class SnpsImporterTest {
 		scaffold.setId(generator.nextInt(1000));
 		varieties = VarietiesOM.Generate(nOfSnps, sp);
 		
-		when(sequenceRepo.getLatest(anyString())).thenReturn(scaffold);
-		when(varietyRepo.get(isA(String.class))).thenAnswer(
+		when(sequenceRepository.findLatest(anyString())).thenReturn(scaffold);
+		when(varietyRepository.findByName(isA(String.class))).thenAnswer(
 				new Answer<Variety>() {
 
 					@Override
@@ -93,7 +91,7 @@ public class SnpsImporterTest {
 		assertEquals(nOfSnps, snpsImporter.getSnps().size());
 		assertEquals(0, snpsImporter.getWarnings().size());
 		snpsImporter.save();
-		verify(indRepo, times(nOfSnps)).insert((Individual) anyObject());
-		verify(snpRepo, times(nOfSnps)).insert((Snp) anyObject());
+		verify(individualRepository, times(nOfSnps)).save((Individual) anyObject());
+		verify(snpRepository, times(nOfSnps)).save((Snp) anyObject());
 	}
 }

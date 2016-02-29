@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ConfigurationRepositoryTest extends AbstractIntegrationTest {
 	@Autowired
-	private ConfigurationRepository configurationRepo;
+	private ConfigurationRepository configurationRepository;
 	
 	@Test
 	public void getSetValue() {
 		String category = "c";
 		String key = "k";
 		String value = "v";
-		configurationRepo.setValue(category, key, value);
-		assertEquals(value, configurationRepo.getValue(category, key));
+		configurationRepository.setValue(category, key, value);
+		assertEquals(value, configurationRepository.getValue(category, key));
 	}
 
 }

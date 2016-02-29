@@ -25,6 +25,8 @@ public class RepeatsImporterTest {
 	@Mock
 	private RepeatRepository repeatRepository;
 	@Mock
+	private RepeatsService repeatsService;
+	@Mock
 	private RepeatsClassificationRepository repeatsClassRepo;
 	@Mock
 	private SequenceRepository sequenceRepository;
@@ -38,6 +40,7 @@ public class RepeatsImporterTest {
 	@Before
 	public void initMocks() throws Exception {
 		MockitoAnnotations.initMocks(this);
+
 		generator = new Random();
 		Species sp = SpeciesOM.Generate(1).get(0);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
@@ -62,13 +65,13 @@ public class RepeatsImporterTest {
 		gff3Content.add(seq.getId() +"\tagi_genomes_db	LTR_retrotransposon	38	55	.	-	.	ID=0;rclass=I;subclass=I;rorder=LTR;superfamily=test;family=test;notes=genreatedRepeat4;is_complete=true;ltr_5_length=7;ltr_3_length=6;pbs_x=39;pbs_y=54;ppt_x=39;ppt_y=54;rt_presence=true;rt_sequence=CCAATTGG;int_presence=true;int_sequence=AACCTTGG;ltr_comparison_similarity=11;ltr_comparison_nuc_distance=10;ltr_comparison_mutation_ca=6;ltr_comparison_mutation_ct=8;ltr_comparison_mutation_at=5;ltr_comparison_mutation_cg=7;ltr_comparison_insertion_time=8;tsd_sequence=GGAATTCC;gc_content_5=4;gc_content_3=4;rt_stop_codons_count=12;int_stop_codons_count=5;presence_in_sativa=PresenceInSativa4");
 		gff3Content.add(seq.getId() +"\tagi_genomes_db	LTR_retrotransposon	2	22	.	-	.	ID=0;rclass=I;subclass=I;rorder=LTR;superfamily=test;family=test;notes=genreatedRepeat5;is_complete=true;ltr_5_length=8;ltr_3_length=7;pbs_x=3;pbs_y=21;ppt_x=3;ppt_y=21;rt_presence=true;rt_sequence=CCAATTGG;int_presence=true;int_sequence=AACCTTGG;ltr_comparison_similarity=12;ltr_comparison_nuc_distance=11;ltr_comparison_mutation_ca=7;ltr_comparison_mutation_ct=9;ltr_comparison_mutation_at=6;ltr_comparison_mutation_cg=8;ltr_comparison_insertion_time=9;tsd_sequence=GGAATTCC;gc_content_5=5;gc_content_3=5;rt_stop_codons_count=13;int_stop_codons_count=6;presence_in_sativa=PresenceInSativa5");
 		gff3Content.add(seq.getId() +"\tagi_genomes_db	LTR_retrotransposon	16	25	.	+	.	ID=0;rclass=I;subclass=I;rorder=LTR;superfamily=test;family=test;notes=genreatedRepeat6;is_complete=true;ltr_5_length=9;ltr_3_length=8;pbs_x=17;pbs_y=24;ppt_x=17;ppt_y=24;rt_presence=true;rt_sequence=CCAATTGG;int_presence=true;int_sequence=AACCTTGG;ltr_comparison_similarity=13;ltr_comparison_nuc_distance=12;ltr_comparison_mutation_ca=8;ltr_comparison_mutation_ct=10;ltr_comparison_mutation_at=7;ltr_comparison_mutation_cg=9;ltr_comparison_insertion_time=10;tsd_sequence=GGAATTCC;gc_content_5=6;gc_content_3=6;rt_stop_codons_count=14;int_stop_codons_count=7;presence_in_sativa=PresenceInSativa6");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	helitron	21	50	.	+	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat0;orf_greater_than_50aa=1;is_potentially_autonomus=true;end_3=TT;end_5=GG");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	helitron	54	85	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat1;potential_cds_count=1;orf_greater_than_50aa=2;is_potentially_autonomus=true;end_3=TT;end_5=GG");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	helitron	36	97	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat2;potential_cds_count=2;orf_greater_than_50aa=3;is_potentially_autonomus=true;end_3=TT;end_5=GG");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	helitron	54	60	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat3;potential_cds_count=3;orf_greater_than_50aa=4;is_potentially_autonomus=true;end_3=TT;end_5=GG");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	helitron	60	64	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat4;potential_cds_count=4;orf_greater_than_50aa=5;is_potentially_autonomus=true;end_3=TT;end_5=GG");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	helitron	37	41	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat5;potential_cds_count=5;orf_greater_than_50aa=6;is_potentially_autonomus=true;end_3=TT;end_5=GG");
-		gff3Content.add(seq.getId() +"\tagi_genomes_db	helitron	50	80	.	+	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat6;potential_cds_count=6;orf_greater_than_50aa=7;is_potentially_autonomus=true;end_3=TT;end_5=GG");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	HELITRON	21	50	.	+	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat0;orf_greater_than_50aa=1;is_potentially_autonomus=true;end_3=TT;end_5=GG");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	HELITRON	54	85	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat1;potential_cds_count=1;orf_greater_than_50aa=2;is_potentially_autonomus=true;end_3=TT;end_5=GG");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	HELITRON	36	97	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat2;potential_cds_count=2;orf_greater_than_50aa=3;is_potentially_autonomus=true;end_3=TT;end_5=GG");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	HELITRON	54	60	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat3;potential_cds_count=3;orf_greater_than_50aa=4;is_potentially_autonomus=true;end_3=TT;end_5=GG");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	HELITRON	60	64	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat4;potential_cds_count=4;orf_greater_than_50aa=5;is_potentially_autonomus=true;end_3=TT;end_5=GG");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	HELITRON	37	41	.	-	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat5;potential_cds_count=5;orf_greater_than_50aa=6;is_potentially_autonomus=true;end_3=TT;end_5=GG");
+		gff3Content.add(seq.getId() +"\tagi_genomes_db	HELITRON	50	80	.	+	.	ID=0;rclass=II;subclass=II;rorder=Helitron;superfamily=test;family=test;notes=genreatedRepeat6;potential_cds_count=6;orf_greater_than_50aa=7;is_potentially_autonomus=true;end_3=TT;end_5=GG");
 		gff3Content.add(seq.getId() +"\tagi_genomes_db	terminal_inverted_repeat_element	42	75	.	-	.	ID=0;rclass=II;subclass=I;rorder=DNA_TE;superfamily=test;family=test;notes=genreatedRepeat0;tir_x=43;tir_y=44;trans_presence=true;trans_sequence=AA;tsd_sequence=CC");
 		gff3Content.add(seq.getId() +"\tagi_genomes_db	terminal_inverted_repeat_element	40	65	.	+	.	ID=0;rclass=II;subclass=I;rorder=DNA_TE;superfamily=test;family=test;notes=genreatedRepeat1;tir_x=41;tir_y=54;trans_presence=true;trans_sequence=AA;tsd_sequence=CC");
 		gff3Content.add(seq.getId() +"\tagi_genomes_db	terminal_inverted_repeat_element	44	66	.	+	.	ID=0;rclass=II;subclass=I;rorder=DNA_TE;superfamily=test;family=test;notes=genreatedRepeat2;tir_x=45;tir_y=65;trans_presence=true;trans_sequence=AA;tsd_sequence=CC");
@@ -79,17 +82,17 @@ public class RepeatsImporterTest {
 	}
 	
 	@Test
-	public void testImport() throws RepeatsImporterException, RepeatException {
+	public void testImport() throws RepeatsImporterException, RepeatException, OutOfBoundsException, IntervalFeatureException {
 		when(sequenceRepository.findLatest(anyString())).thenReturn(seq);
 		when(repeatRepository.findOne(ltrRepeat.getId())).thenReturn(ltrRepeat);
+		when(repeatsService.save(any(Repeat.class))).thenReturn(ltrRepeat);
 		
 		repeatsImporter.parseAgiGff3(gff3Content);
 		assertEquals(3, repeatsImporter.getWarningLines().size());
 		assertEquals(1, repeatsImporter.getWrongLines().size());
 		assertEquals(gff3Content.size() - 1, repeatsImporter.getRepeatsSize());
 		repeatsImporter.saveList();
-		verify(repeatRepository, times(1)).save((Repeat) anyObject());
-		verify(repeatRepository, times(gff3Content.size() - 2)).save((Repeat) anyObject());
+		verify(repeatsService, times(gff3Content.size() - 1)).save((Repeat) anyObject());
 		verify(repeatRepository, atLeastOnce()).validatePosition((Repeat) anyObject());
 	}
 	

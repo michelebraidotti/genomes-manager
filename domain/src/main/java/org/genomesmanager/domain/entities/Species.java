@@ -1,5 +1,8 @@
 package org.genomesmanager.domain.entities;
 
+import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
+import org.genomesmanager.domain.dtos.SpeciesDefinition;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -127,6 +130,11 @@ public class Species implements Serializable {
 	@Override
 	public String toString() {
 		return  getGenus() + " " +  getSpecies() + " "  + getSubspecies();
+	}
+
+	@Transient
+	public SpeciesDefinition getSpeciesDefinition() throws CannotParseSpeciesDefinitionException {
+		return new SpeciesDefinition(toString(" "));
 	}
 	
 	@Transient

@@ -1,8 +1,10 @@
 package org.genomesmanager.services.sequences;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -16,8 +18,8 @@ import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
 import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
-import org.genomesmanager.repositories.sequences.SequenceRepo;
-import org.genomesmanager.repositories.sequences.SequenceRepoException;
+import org.genomesmanager.repositories.sequences.ScaffoldRepository;
+import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.sequences.ScaffoldsImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +31,7 @@ public class ScaffoldsImporterTest {
 	@Mock
 	private ChromosomeRepository chromosomeRepo;
 	@Mock
-	private SequenceRepo sequenceRepo;
+	private ScaffoldRepository scaffoldRepository;
 	@InjectMocks
 	private ScaffoldsImporter scaffoldsImporter = new ScaffoldsImporterImpl();	
 	private Chromosome chr;
@@ -40,7 +42,7 @@ public class ScaffoldsImporterTest {
 	
 	
 	@Before 
-	public void initMocks() throws SequenceRepoException {
+	public void initMocks() {
 		MockitoAnnotations.initMocks(this); 
 		
 		sp = SpeciesOM.Generate(1).get(0);
@@ -49,8 +51,9 @@ public class ScaffoldsImporterTest {
 		manifest = ScaffoldsImporterOM.GenerateManifest(20, chr);
 		fastaContent = ScaffoldsImporterOM.GenerateFasta(manifest);
 		
-		when(chromosomeRepo.get(chr.getNumber(), sp)).thenReturn(chr);
-		when(sequenceRepo.get(anyString())).thenReturn(dummySequence);
+		when(chromosomeRepo.findByChromosomeNumberAndSpecies(chr.getNumber(), sp)).thenReturn(chr);
+		when(scaffoldRepository.save(isA(Scaffold.class))).thenReturn(dummySequence);
+		// existing = (Scaffold) scaffoldRepository.findByName(s.descr());
 	}
 
 	@Test
@@ -79,7 +82,7 @@ public class ScaffoldsImporterTest {
 		scaffoldsImporter.importScaffolds(manifest, fastaContent, sp);
 		scaffoldsImporter.save();
 		int nOfScaffolds = scaffoldsImporter.countScaffolds();
-		verify(sequenceRepo, times(nOfScaffolds)).insert((Scaffold) anyObject());
+		verify(scaffoldRepository, times(nOfScaffolds)).save((Scaffold) anyObject());
 	}	
 	
 	@Test
