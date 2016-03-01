@@ -2,13 +2,12 @@ package org.genomesmanager.services.sequences;
 
 import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.isA;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.genomesmanager.domain.entities.Chromosome;
@@ -38,8 +37,6 @@ public class ScaffoldsImporterTest {
 	private List<String> manifest;
 	private List<String> fastaContent;
 	private Species sp;
-	private Scaffold dummySequence;
-	
 	
 	@Before 
 	public void initMocks() {
@@ -47,13 +44,11 @@ public class ScaffoldsImporterTest {
 		
 		sp = SpeciesOM.Generate(1).get(0);
 		chr = ChromosomesOM.Generate(1, sp).get(0);
-		dummySequence = SequencesOM.GenerateScaffold(1, chr).get(0);
 		manifest = ScaffoldsImporterOM.GenerateManifest(20, chr);
 		fastaContent = ScaffoldsImporterOM.GenerateFasta(manifest);
 		
 		when(chromosomeRepo.findByChromosomeNumberAndSpecies(chr.getNumber(), sp)).thenReturn(chr);
-		when(scaffoldRepository.save(isA(Scaffold.class))).thenReturn(dummySequence);
-		// existing = (Scaffold) scaffoldRepository.findByName(s.descr());
+		when(scaffoldRepository.findByName(anyString())).thenReturn(new ArrayList<Scaffold>());
 	}
 
 	@Test
@@ -69,7 +64,7 @@ public class ScaffoldsImporterTest {
 		assertEquals(0, scaffoldsImporter.getWrongLines().size());
 		assertEquals(0, scaffoldsImporter.getWarningLines().size());
 	}
-	
+
 	@Test
 	public void resetImporterTest() throws ScaffoldsImporterException {
 		scaffoldsImporter.importScaffolds(manifest, fastaContent, sp);
@@ -79,6 +74,8 @@ public class ScaffoldsImporterTest {
 	
 	@Test
 	public void saveImporterTest() throws ScaffoldsImporterException {
+		when(scaffoldRepository.save((Scaffold) anyObject())).thenReturn(new Scaffold());
+
 		scaffoldsImporter.importScaffolds(manifest, fastaContent, sp);
 		scaffoldsImporter.save();
 		int nOfScaffolds = scaffoldsImporter.countScaffolds();

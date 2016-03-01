@@ -139,9 +139,14 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	}
 
 	private boolean isDuplicated(Scaffold s) {
-		Scaffold existing = null;
-		existing = (Scaffold) scaffoldRepository.findByName(s.descr());
-		return existing.equals(s);
+		List<Scaffold> existing = scaffoldRepository.findByName(s.descr());
+		if ( existing == null ) {
+			return false;
+		}
+		if ( existing.size() == 0) {
+			return false;
+		}
+		return existing.get(0).equals(s);
 
 	}
 
@@ -150,9 +155,9 @@ public class ScaffoldsImporterImpl implements ScaffoldsImporter {
 	 */
 	@Override
 	public void reset() {
-		scaffolds = new ArrayList<Scaffold>();
-		wrongLines = new ArrayList<String>();
-		warningLines = new ArrayList<String>();
+		scaffolds = new ArrayList<>();
+		wrongLines = new ArrayList<>();
+		warningLines = new ArrayList<>();
 	}
 
 	/* (non-Javadoc)

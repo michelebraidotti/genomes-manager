@@ -27,6 +27,7 @@ import org.genomesmanager.repositories.snps.SnpRepository;
 import org.genomesmanager.repositories.species.IndividualRepository;
 import org.genomesmanager.repositories.species.VarietyRepository;
 import org.genomesmanager.services.impl.snps.SnpsImporterImpl;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -46,38 +47,32 @@ public class SnpsImporterTest {
 	@InjectMocks
 	private SnpsImporter snpsImporter = new SnpsImporterImpl();
 	private List<Variety> varieties;
-	
-	
-	@Test
-	public void test() {
+	private static final int nOfSnps = 7;
+	private Random generator;
+	private Scaffold scaffold;
+
+	@Before
+	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		int nOfSnps = 7;
-		Random generator = new Random();
+
+		generator = new Random();
 		Species sp = SpeciesOM.Generate(1).get(0);
 		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
 		chr.setId(generator.nextInt(1000));
-		Scaffold scaffold = SequencesOM.GenerateScaffold(1, chr).get(0);
+		scaffold = SequencesOM.GenerateScaffold(1, chr).get(0);
 		scaffold.setId(generator.nextInt(1000));
 		varieties = VarietiesOM.Generate(nOfSnps, sp);
-		
-		when(sequenceRepository.findLatest(anyString())).thenReturn(scaffold);
-		when(varietyRepository.findByName(isA(String.class))).thenAnswer(
-				new Answer<Variety>() {
 
-					@Override
-					public Variety answer(InvocationOnMock invocation) throws Throwable {
-						String name = (String) invocation.getArguments()[0];
-						for (Variety v:varieties) {
-							if ( v.getName().equals(name) ) return v;
-						}
-						return null;
-					}
-					
-				}
-		);
-		
+		when(sequenceRepository.findLatest(anyString())).thenReturn(scaffold);
+		when(varietyRepository.findByName(isA(String.class))).thenReturn(varieties);
+	}
+
+	@Test
+	public void test() {
 		List<String> varietiesNames = new ArrayList<String>();
-		for (Variety v:varieties) varietiesNames.add(v.getName());
+		for (Variety v:varieties) {
+			varietiesNames.add(v.getName());
+		}
 		snpsImporter.buildIndividuals(varietiesNames, "IndividualsDescr");
 		assertEquals(varietiesNames.size(), snpsImporter.getIndividuals().size());
 		

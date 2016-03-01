@@ -43,7 +43,11 @@ public class ChromosomeRepositoryTest extends AbstractIntegrationTest {
 
 	@Test
 	public void testFindByChromosomeNumberAndSpecies() {
-		chromosomeRepo.findByChromosomeNumberAndSpecies("", null);
-		assertTrue(false);
+		Species sp = SpeciesOM.Generate(1).get(0);
+		speciesRepo.save(sp);
+		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		chr = chromosomeRepo.save(chr);
+		Chromosome chrPost = chromosomeRepo.findByChromosomeNumberAndSpecies(chr.getNumber(), sp);
+		assertEquals(chr, chrPost);
 	}
 }

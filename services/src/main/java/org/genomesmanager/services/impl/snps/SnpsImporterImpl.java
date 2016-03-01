@@ -92,14 +92,14 @@ public class SnpsImporterImpl implements SnpsImporter {
 	 * @see org.genomesmanager.services.impl.snps.SnpsImporter#buildIndividuals(java.util.List, java.lang.String)
 	 */
 	@Override
-	public void buildIndividuals(List<String> varieties, 
-			String descr) {
-		for (String v:varieties) {
-			Variety var = varietyRepository.findByName(v).get(0);
-			Individual i = new Individual();
-			i.setVariety(var);
-			i.setDescription(descr);
-			individuals.add(i);
+	public void buildIndividuals(List<String> varietyNames,
+			String description) {
+		for (String varietyName:varietyNames) {
+			Variety variety = varietyRepository.findByName(varietyName).get(0);
+			Individual individual = new Individual();
+			individual.setVariety(variety);
+			individual.setDescription(description);
+			individuals.add(individual);
 		}
 	}
 	
