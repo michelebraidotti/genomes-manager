@@ -53,3 +53,4 @@ local.properties
 
 # Project specific
 /domain/src/main/generated/*
+/common/src/main/generated/*
