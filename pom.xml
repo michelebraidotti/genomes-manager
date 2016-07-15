@@ -21,7 +21,7 @@
 		<javax.xml.bind.version>2.0</javax.xml.bind.version>
 		<joda-time.version>2.1</joda-time.version>
 		<junit.version>4.10</junit.version>
-		<java.version>1.6</java.version>
+		<java.version>1.8</java.version>
 		<hsqldb.version>2.2.8</hsqldb.version>
 		<log4j.version>1.2.16</log4j.version>
 		<easymock.version>3.1</easymock.version>
@@ -48,6 +48,7 @@
 
 		<maven-compiler-version>2.5</maven-compiler-version>
 		<maven-release-plugin-version>2.3.2</maven-release-plugin-version>
+		<jaxb2-maven-plugin-version>2.2</jaxb2-maven-plugin-version>
 		<spring.modules.cache.version>0.7</spring.modules.cache.version>
 		<ehcache-version>1.2.3</ehcache-version>
 		<jetty-maven-plugin-version>8.1.4.v20120524</jetty-maven-plugin-version>
@@ -58,7 +59,7 @@
 
 
 		<javax.mail.version>1.4</javax.mail.version>
-		<biojava3.version>3.0.4</biojava3.version>
+		<biojava3.version>3.0</biojava3.version>
 
 		<gmavenVersion>1.4</gmavenVersion>
 		<gmavenProviderSelection>2.0</gmavenProviderSelection>
@@ -673,10 +674,10 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
-					<configuration>
-						<downloadSources>true</downloadSources>
-						<downloadJavadocs>true</downloadJavadocs>
-					</configuration>
+					<!--<configuration>-->
+						<!--<downloadSources>true</downloadSources>-->
+						<!--<downloadJavadocs>true</downloadJavadocs>-->
+					<!--</configuration>-->
 					<version>1.7</version>
 					<executions>
 						<execution>

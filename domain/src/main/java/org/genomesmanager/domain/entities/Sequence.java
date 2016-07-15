@@ -33,7 +33,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.biojava3.core.sequence.DNASequence;
-import org.biojava3.core.sequence.views.ComplementSequenceView;
 import org.hibernate.annotations.Type;
 
 
@@ -288,8 +287,7 @@ public class Sequence implements Serializable {
 	@Transient
 	public String getReverseComplementSlice(int start, int end) throws SequenceSliceException {
 		DNASequence sequence = new DNASequence(getSlice(start, end));
-		ComplementSequenceView complReverse = (ComplementSequenceView) sequence.getReverseComplement();
-		return complReverse.getSequenceAsString();
+		return sequence.getReverseComplement().getViewedSequence().getSequenceAsString();
     }
 	
 	@Transient

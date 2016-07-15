@@ -14,7 +14,6 @@
 
 	<properties>
 		<jpa.metamodel.folder>src/main/generated</jpa.metamodel.folder>
-		<jaxb.output.folder>src/main/generated</jaxb.output.folder>
 	</properties>
 
 	<dependencies>
