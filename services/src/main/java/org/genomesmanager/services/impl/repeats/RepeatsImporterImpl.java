@@ -1,7 +1,7 @@
 package org.genomesmanager.services.impl.repeats;
 
-import org.genomesmanager.common.parsers.Gff3LineParser;
-import org.genomesmanager.common.parsers.Gff3LineParserException;
+import org.genomesmanager.bioprograms.parsers.Gff3LineParser;
+import org.genomesmanager.bioprograms.parsers.Gff3LineParserException;
 import org.genomesmanager.domain.entities.*;
 import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;

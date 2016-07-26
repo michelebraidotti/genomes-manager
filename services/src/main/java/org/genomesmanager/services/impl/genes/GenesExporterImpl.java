@@ -1,6 +1,6 @@
 package org.genomesmanager.services.impl.genes;
 
-import org.genomesmanager.common.formats.AgiExportType;
+import org.genomesmanager.bioprograms.formats.AgiExportType;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.*;
 import org.genomesmanager.repositories.genes.GeneRepository;
@@ -65,7 +65,7 @@ public class GenesExporterImpl implements GenesExporter {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.genes.GenesExporter#setFileContent(org.genomesmanager.common.formats.AgiExportType, java.lang.Boolean)
+	 * @see org.genomesmanager.services.impl.genes.GenesExporter#setFileContent(org.genomesmanager.bioprograms.formats.AgiExportType, java.lang.Boolean)
 	 */
 	@Override
 	public void setFileContent(AgiExportType expType, 

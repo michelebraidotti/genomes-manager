@@ -1,6 +1,6 @@
 package org.genomesmanager.services.impl.genes;
 
-import org.genomesmanager.common.formats.AgiExportType;
+import org.genomesmanager.bioprograms.formats.AgiExportType;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Rna;
@@ -71,7 +71,7 @@ public class RnasExporterImpl implements RnasExporter  {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.genes.RnasExporter#setFileContent(org.genomesmanager.common.formats.AgiExportType, java.lang.Boolean)
+	 * @see org.genomesmanager.services.impl.genes.RnasExporter#setFileContent(org.genomesmanager.bioprograms.formats.AgiExportType, java.lang.Boolean)
 	 */
 	@Override
 	public void setFileContent(AgiExportType expType, 

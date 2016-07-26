@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.genomesmanager.common.formats.SimpleFasta;
+import org.genomesmanager.bioprograms.formats.SimpleFasta;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Repeat;
@@ -23,7 +23,6 @@ import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
 import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
-import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.genomesmanager.services.impl.sequences.ScaffoldsExporterImpl;
 import org.genomesmanager.services.species.SpeciesService;
 import org.junit.Before;

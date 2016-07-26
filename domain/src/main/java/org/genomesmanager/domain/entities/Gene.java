@@ -26,7 +26,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.genomesmanager.common.formats.Gff3Line;
+import org.genomesmanager.bioprograms.formats.Gff3Line;
 
 /**
  * The persistent class for the genes database table.

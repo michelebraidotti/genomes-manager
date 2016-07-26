@@ -1,7 +1,7 @@
 package org.genomesmanager.services.impl.genes;
 
-import org.genomesmanager.common.parsers.Gff3LineParser;
-import org.genomesmanager.common.parsers.Gff3LineParserException;
+import org.genomesmanager.bioprograms.parsers.Gff3LineParser;
+import org.genomesmanager.bioprograms.parsers.Gff3LineParserException;
 import org.genomesmanager.domain.entities.Rna;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.repositories.genes.RnaRepository;

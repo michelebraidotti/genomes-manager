@@ -1,6 +1,6 @@
 package org.genomesmanager.services.impl.sequences;
 
-import org.genomesmanager.common.formats.SimpleFasta;
+import org.genomesmanager.bioprograms.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;

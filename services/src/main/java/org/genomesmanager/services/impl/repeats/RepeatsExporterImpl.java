@@ -1,6 +1,6 @@
 package org.genomesmanager.services.impl.repeats;
 
-import org.genomesmanager.common.formats.AgiExportType;
+import org.genomesmanager.bioprograms.formats.AgiExportType;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.*;
 import org.genomesmanager.repositories.repeats.RepeatRepository;
@@ -143,7 +143,7 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setFileContent(org.genomesmanager.common.formats.AgiExportType)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setFileContent(org.genomesmanager.bioprograms.formats.AgiExportType)
 	 */
 	@Override
 	public void setFileContent(AgiExportType expType) throws RepeatsExporterException {
@@ -175,7 +175,7 @@ public class RepeatsExporterImpl implements RepeatsExporter {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setFileContent(org.genomesmanager.common.formats.AgiExportType, java.lang.Boolean)
+	 * @see org.genomesmanager.services.impl.repeats.RepeatsExporter#setFileContent(org.genomesmanager.bioprograms.formats.AgiExportType, java.lang.Boolean)
 	 */
 	@Override
 	public void setFileContent(AgiExportType expType, 

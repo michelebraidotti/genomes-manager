@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.genomesmanager.common.formats.SimpleFasta;
+import org.genomesmanager.bioprograms.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.domain.entities.Species;

@@ -14,10 +14,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
-import org.genomesmanager.common.formats.ScaffoldInfo;
-import org.genomesmanager.common.formats.ScaffoldInfoException;
-import org.genomesmanager.common.formats.SimpleFasta;
-import org.genomesmanager.common.parsers.FastaLinesToSimpleFasta;
+import org.genomesmanager.bioprograms.formats.ScaffoldInfo;
+import org.genomesmanager.bioprograms.formats.ScaffoldInfoException;
+import org.genomesmanager.bioprograms.formats.SimpleFasta;
+import org.genomesmanager.bioprograms.parsers.FastaLinesToSimpleFasta;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;

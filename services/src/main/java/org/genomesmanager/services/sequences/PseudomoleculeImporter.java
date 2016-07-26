@@ -1,6 +1,6 @@
 package org.genomesmanager.services.sequences;
 
-import org.genomesmanager.common.formats.SimpleFasta;
+import org.genomesmanager.bioprograms.formats.SimpleFasta;
 
 import java.util.List;
 

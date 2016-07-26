@@ -14,8 +14,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
-import org.genomesmanager.common.formats.SimpleFasta;
-import org.genomesmanager.common.parsers.FastaLinesToSimpleFasta;
+import org.genomesmanager.bioprograms.formats.SimpleFasta;
+import org.genomesmanager.bioprograms.parsers.FastaLinesToSimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.presentation.FileUpload;

@@ -1,7 +1,7 @@
 package org.genomesmanager.services.sequences;
 
-import org.genomesmanager.common.formats.ScaffoldInfo;
-import org.genomesmanager.common.formats.SimpleFasta;
+import org.genomesmanager.bioprograms.formats.ScaffoldInfo;
+import org.genomesmanager.bioprograms.formats.SimpleFasta;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;
 

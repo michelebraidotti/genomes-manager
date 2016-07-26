@@ -13,6 +13,12 @@
 
     <properties>
         <jaxb.output.folder>src/main/generated</jaxb.output.folder>
+        <jaxb.blast.dtd.source>src/main/resources/blast/NCBI_BlastOutput.dtd</jaxb.blast.dtd.source>
+        <!-- retrieved
+            NCBI_BlastOutput.dtd,
+            NCBI_BlastOutput.mod.dtd,
+            NCBI_Entity.mod.dtd
+        from http://www.ncbi.nlm.nih.gov/dtd/ on July 2016-->
     </properties>
 
 	<dependencies>
@@ -123,16 +129,11 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <packageName>org.genomesmanager.common.blast</packageName>
+                    <packageName>org.genomesmanager.bioprograms.blast</packageName>
                     <sourceType>dtd</sourceType>
                     <outputDirectory>${jaxb.output.folder}</outputDirectory>
                     <sources>
-                        <source>src/main/resources/NCBI_BlastOutput.dtd</source>
-                        <!-- retrieved
-                            NCBI_BlastOutput.dtd,
-                            NCBI_BlastOutput.mod.dtd,
-                            NCBI_Entity.mod.dtd
-                        from http://www.ncbi.nlm.nih.gov/dtd/-->
+                        <source>${jaxb.blast.dtd.source}</source>
                     </sources>
                 </configuration>
 
