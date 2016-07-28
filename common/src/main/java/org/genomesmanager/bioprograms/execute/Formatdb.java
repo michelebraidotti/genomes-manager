@@ -2,14 +2,16 @@ package org.genomesmanager.bioprograms.execute;
 
 import org.genomesmanager.bioprograms.Configuration;
 
+import java.io.File;
+
 /**
  * @author Kristofer
  */
 public class Formatdb extends Execute {
 
-    private String title;		//Optional
-    private String inputFile;	//Required
-    private String baseName;	//Optional
+    private String title;
+    private String inputFile;
+    private String baseName;
 
     public Formatdb() {
         setProgram(Configuration.getFormatdbExecutablePath());
@@ -47,19 +49,28 @@ public class Formatdb extends Execute {
             tempParams = "-t " + title + " ";
         }
         if (inputFile != null) {
-            tempParams = tempParams + "-i \"" + inputFile + "\" ";
+            if ( inputFile.contains(" ") ) {
+                tempParams = tempParams + "-i '" + inputFile + "' ";
+            }
+            else {
+                tempParams = tempParams + "-i " + inputFile + " ";
+            }
         } else {
             System.out.println(program + ".run InputFile is null!");
             return false;
         }
         if (baseName != null) {
-            tempParams = tempParams + "-n \"" + baseName + "\" ";
+            if (baseName.contains(" ")) {
+                tempParams = tempParams + "-n '" + baseName + "' ";
+            }
+            else {
+                tempParams = tempParams + "-n " + baseName + " ";
+            }
         }
         tempParams = tempParams + "-p F";
         this.parameters += " " + tempParams;
 
-        String OutputDirPath = getParentDirectory(inputFile);
-        changeWorkingDirectory(OutputDirPath);
         return runProgram();
     }
+
 }

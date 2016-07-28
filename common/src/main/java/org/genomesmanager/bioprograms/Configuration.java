@@ -7,8 +7,10 @@ import  java.util.prefs.*;
 public class Configuration {
     private static final String BLASTP_EXECUTABLE_PATH = "blastp_exec_path";
     private static final String BLASTP_DEFAULT_EXECUTABLE_PATH = "/usr/bin/blastp";
+
     private static final String BLASTN_EXECUTABLE_PATH = "blastn_exec_path";
     private static final String BLASTN_DEFAULT_EXECUTABLE_PATH = "/usr/bin/blastn";
+
     private static final String BLASTALL_EXECUTABLE_PATH = "blastall_exec_path";
     private static final String BLASTALL_DEFAULT_EXECUTABLE_PATH = "/usr/bin/blastall";
 
@@ -102,5 +104,17 @@ public class Configuration {
 
     public static String getSffinfoExecutablePath() {
         return preferences.get(SFFINFO_EXECUTABLE_PATH, SFFINFO_DEFAULT_EXECUTABLE_PATH);
+    }
+
+    public static void resetToDefaults() {
+        preferences.put(BLASTP_EXECUTABLE_PATH, BLASTP_DEFAULT_EXECUTABLE_PATH);
+        preferences.put(BLASTN_EXECUTABLE_PATH, BLASTN_DEFAULT_EXECUTABLE_PATH);
+        preferences.put(BLASTALL_EXECUTABLE_PATH, BLASTALL_DEFAULT_EXECUTABLE_PATH);
+        preferences.put(CROSS_MATCH_EXECUTABLE_PATH, CROSS_MATCH_DEFAULT_EXECUTABLE_PATH);
+        preferences.put(FORMATDB_EXECUTABLE_PATH, FORMATDB_DEFAULT_EXECUTABLE_PATH);
+        preferences.put(LUCY_EXECUTABLE_PATH, LUCY_DEFAULT_EXECUTABLE_PATH);
+        preferences.put(PHRED_EXECUTABLE_PATH, PHRED_DEFAULT_EXECUTABLE_PATH);
+        preferences.put(SFFFILE_EXECUTABLE_PATH, SFFFILE_DEFAULT_EXECUTABLE_PATH);
+        preferences.put(SFFINFO_EXECUTABLE_PATH, SFFINFO_DEFAULT_EXECUTABLE_PATH);
     }
 }

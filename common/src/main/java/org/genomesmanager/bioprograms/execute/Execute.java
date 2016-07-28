@@ -31,9 +31,7 @@ public class Execute {
         workingDirectory = null;
     }
 
-    public void setParameters(String parameters) throws Exception {
-        this.parameters = parameters;
-    }
+    public void setParameters(String parameters) { this.parameters = parameters; }
 
     public String getParameters() {
         return this.parameters;
@@ -47,6 +45,10 @@ public class Execute {
         return this.program;
     }
 
+    public String getWorkingDirectory() { return workingDirectory; }
+
+    public void setWorkingDirectory(String workingDirectory) { this.workingDirectory = workingDirectory; }
+
     public String getLastRunError() {
         return lastRunError;
     }
@@ -55,10 +57,7 @@ public class Execute {
         return lastRunOutput;
     }
 
-    public int getLastExitValue() {
-        int ret = lastExitValue;
-        return ret;
-    }
+    public int getLastExitValue() { return lastExitValue; }
 
     public String getExecutedCommand() {
         return this.executedCommand;
@@ -126,13 +125,4 @@ public class Execute {
         return output;
     }
 
-    protected void changeWorkingDirectory(String WorkingDirectory) {
-        workingDirectory = WorkingDirectory;
-    }
-
-    protected String getParentDirectory(String FilePath) {
-        File fileFile = new File(FilePath);
-        String parentDir = new String(fileFile.getParent());
-        return parentDir;
-    }
 }

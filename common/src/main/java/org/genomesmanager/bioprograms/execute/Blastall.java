@@ -61,14 +61,6 @@ public class Blastall extends Execute {
         return xmlResults;
     }
 
-    @Override
-    public void setParameters(String blastParams) throws BlastError {
-        if (blastParams.contains("-m ")) {
-            throw new BlastError("");
-        }
-        this.parameters = blastParams;
-    }
-
     public void run() throws BlastError, FileNotFoundException {
         // Create input file if needed
         if (inputFile == null) {

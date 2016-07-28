@@ -5,7 +5,6 @@ package org.genomesmanager.bioprograms.execute;
 import static org.junit.Assert.fail;
 
 import org.genomesmanager.bioprograms.blast.BlastOutput;
-import org.genomesmanager.bioprograms.blastparser.TestVariables;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,22 +14,12 @@ import org.junit.Test;
  */
 public class BlastAllTest {
 
-    TestVariables staticVars;
-
-    public BlastAllTest() {
-    }
-
-    @Before
-    public void setUp() {
-        staticVars = new TestVariables();
-    }
-
     @Test
     public void testRun() throws Exception {
         System.out.println("Run");
         Blastall blastall = new Blastall();
-        blastall.setDatabase(staticVars.getDatabaseName());
-        blastall.setInputFile(staticVars.getQueryFileName());
+        //blastall.setDatabase(staticVars.getDatabaseName());
+        //blastall.setInputFile(staticVars.getQueryFileName());
         blastall.setParameters(" -e 1e-10 ");
         //instance.setOutputFile(staticVars.getOutputFileName());
         // ^ Optional

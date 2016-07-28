@@ -3,7 +3,6 @@ package org.genomesmanager.bioprograms;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
 
 /**
  * Created by michele on 7/26/16.
@@ -41,5 +40,8 @@ public class ConfigurationTest {
 
         Configuration.setSffinfoExecutablePath("testSffinfo");
         assertEquals("testSffinfo", Configuration.getSffinfoExecutablePath());
+
+        // Configuration is persisted! Need to revert everything to defaults!
+        Configuration.resetToDefaults();
     }
 }
