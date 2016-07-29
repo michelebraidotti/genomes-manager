@@ -4,66 +4,56 @@ import org.genomesmanager.bioprograms.Configuration;
 
 public class Lucy extends Execute {
 
-    private String output1;
-    private String output2;
-    private String input1;
-    private String input2;
+    private String seqFileOut;
+    private String qualFileOut;
+    private String seqFile;
+    private String qualFile;
 
     public Lucy() {
         setProgram(Configuration.getLucyExecutablePath());
     }
 
-    public Lucy(String Output1, String Output2, String Input1, String Input2) {
-        this();
-        setOutput1(Output1);
-        setOutput2(Output2);
-        setInput1(Input1);
-        setInput2(Input2);
+    public String getSeqFile() {
+        return seqFile;
     }
 
-    public void setOutput1(String Output1) {
-        output1 = Output1;
+    public void setSeqFile(String seqFile) {
+        seqFileOut = seqFile + ".lucy";
+        this.seqFile = seqFile;
     }
 
-    public void setOutput2(String Output2) {
-        output2 = Output2;
+    public String getQualFile() {
+        return qualFile;
     }
 
-    public void setInput1(String Input1) {
-        input1 = Input1;
+    public void setQualFile(String qualFile) {
+        qualFileOut = qualFile + ".lucy";
+        this.qualFile = qualFile;
     }
 
-    public void setInput2(String Input2) {
-        input2 = Input2;
+    public String getSeqFileOut() {
+        return seqFileOut;
+    }
+
+    public String getQualFileOut() {
+        return qualFileOut;
     }
 
     public Boolean run() {
         String tempParams = new String("");
-        if (output1 == null) {
-            System.out.println("output1 is null");
-            return false;
-        } else {
-            tempParams = tempParams + "-output \"" + output1 + "\" ";
-        }
-        if (output2 == null) {
-            System.out.println("output2 is null");
-            return false;
-        } else {
-            tempParams = tempParams + "\"" + output2 + "\" ";
-        }
-        if (input1 == null) {
-            System.out.println("input1 is null");
-            return false;
-        } else {
-            tempParams = tempParams + "\"" + input1 + "\" ";
-        }
-        if (input2 == null) {
-            System.out.println("input2 is null");
-            return false;
-        } else {
-            tempParams = tempParams + "\"" + input2 + "\" ";
-        }
+        tempParams = tempParams + "-output " + seqFileOut + " ";
+        tempParams = tempParams + " " + qualFileOut + " ";
 
+        if (seqFile == null) {
+            return false;
+        } else {
+            tempParams = tempParams + " " + seqFile + " ";
+        }
+        if (qualFile == null) {
+            return false;
+        } else {
+            tempParams = tempParams + " " + qualFile + " ";
+        }
         this.parameters += " " + tempParams;
         return runProgram();
     }

@@ -48,12 +48,6 @@ public class Crossmatch extends Execute {
     	tempParams = tempParams+"-screen";
     	this.parameters += " " + tempParams;
     	
-    	/*If there are problems with file output directory, easily change
-    	 * the environment directory to the same directory as an input file
-    	 * by un-commenting the next line.
-    	 */
-    	//changeWorkingDirectory(getParentDirectory(sequence));
-    	
     	return runProgram();
     }
 }

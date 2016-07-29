@@ -1,7 +1,6 @@
 package org.genomesmanager.bioprograms.execute;
 
-import static org.junit.Assert.*;
-//import org.junit.Before;
+import static org.junit.Assert.*;//import org.junit.Before;
 import org.junit.Test;
 
 public class CrossmatchTest {
@@ -11,13 +10,14 @@ public class CrossmatchTest {
         System.out.println("testRun");
         String seqeunce = "hjb0001aa01.b1.seq";
         String vector = "pBluescriptIIKS_plus.seq";
-        Crossmatch instance = new Crossmatch(seqeunce, vector);
-        Boolean ret = instance.run();
+        Crossmatch crossmatch = new Crossmatch(seqeunce, vector);
+        crossmatch.setWorkingDirectory(System.getProperty("java.io.tmpdir"));
+        Boolean ret = crossmatch.run();
         if (ret == false) {
-            fail();
+            String errorMessage = "Crossmatch output: " + crossmatch.getLastRunOutput() + "\n"
+                    + "Crossmatch error: " + crossmatch.getLastRunError() + "\n"
+                    + "Crossmatch code: " + crossmatch.getLastExitValue();
+            assertTrue(errorMessage, false);
         }
-        System.out.println("Crossmatch output: " + instance.getLastRunOutput());
-        System.out.println("Crossmatch error: " + instance.getLastRunError());
-        System.out.println("Crossmatch code: " + instance.getLastExitValue());
     }
 }

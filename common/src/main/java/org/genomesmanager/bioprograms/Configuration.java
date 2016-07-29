@@ -21,7 +21,7 @@ public class Configuration {
     private static final String FORMATDB_DEFAULT_EXECUTABLE_PATH = "/usr/bin/formatdb";
 
     private static final String LUCY_EXECUTABLE_PATH = "lucy_executable_path";
-    private static final String LUCY_DEFAULT_EXECUTABLE_PATH = "/usr/bin/lucy";
+    private static final String LUCY_DEFAULT_EXECUTABLE_PATH = "/usr/local/bin/lucy";
 
     private static final String PHRED_EXECUTABLE_PATH = "phred_executable_path";
     private static final String PHRED_DEFAULT_EXECUTABLE_PATH = "/usr/bin/phred";
