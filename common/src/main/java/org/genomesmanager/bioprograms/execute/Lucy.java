@@ -39,22 +39,22 @@ public class Lucy extends Execute {
         return qualFileOut;
     }
 
-    public Boolean run() {
+    public void run() throws ExecuteException {
         String tempParams = new String("");
         tempParams = tempParams + "-output " + seqFileOut + " ";
         tempParams = tempParams + " " + qualFileOut + " ";
 
         if (seqFile == null) {
-            return false;
+            throw new ExecuteException("Missing sequence information.");
         } else {
             tempParams = tempParams + " " + seqFile + " ";
         }
         if (qualFile == null) {
-            return false;
+            throw new ExecuteException("Missing quality information.");
         } else {
             tempParams = tempParams + " " + qualFile + " ";
         }
         this.parameters += " " + tempParams;
-        return runProgram();
+        runProgram();
     }
 }

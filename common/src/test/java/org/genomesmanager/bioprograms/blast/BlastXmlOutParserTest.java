@@ -14,8 +14,13 @@ import java.net.URL;
  */
 public class BlastXmlOutParserTest {
 
-    // TODO!!! Find a way of setting javax.xml.accessExternalDTD=all
-    // somewhere else than the test java vm options.
+    //  The following runtime configuration is needed:
+    //    -Djavax.xml.accessExternalDTD=all
+    //    -Dhttp.proxyHost=<your proxy>
+    //    -Dhttp.proxyPort=<your proxy port>
+    // The first one is to allow fetching DTDs from external sources
+    // the second and the third are need in conjunction with the first
+    // if operating behind a proxy.
     @Test
     public void test() throws JAXBException {
         URL url = Thread.currentThread().getContextClassLoader().getResource("blastParserTest/blast_out_test.xml");

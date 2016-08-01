@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -32,10 +35,11 @@ import org.genomesmanager.bioprograms.blast.BlastOutput;
 public class Blastall extends Execute {
     private String database;
     private File inputFile;
-    private String xmlResults = "";
+    private String xmlResults;
+    private String blastProgram = "blastn";
 
     public Blastall() {
-        program = "blastall";
+        setProgram(Configuration.getBlastallExecutablePath());
     }
 
     public String getDatabase() {
@@ -46,14 +50,22 @@ public class Blastall extends Execute {
         this.database = database;
     }
 
+    public String getBlastProgram() {
+        return blastProgram;
+    }
+
+    public void setBlastProgram(String blastProgram) {
+        this.blastProgram = blastProgram;
+    }
+
     public String getInputFile() {
         return inputFile.getAbsolutePath();
     }
 
-    public void setInputFile(String inputFilePath) throws BlastError {
+    public void setInputFile(String inputFilePath) throws ExecuteException {
         this.inputFile = new File(inputFilePath);
         if (!inputFile.canRead()) {
-            throw new BlastError("Can't read input file: " + inputFilePath);
+            throw new ExecuteException("Can't read input file: " + inputFilePath);
         }
     }
 
@@ -61,41 +73,49 @@ public class Blastall extends Execute {
         return xmlResults;
     }
 
-    public void run() throws BlastError, FileNotFoundException {
-        // Create input file if needed
+    public void run() throws ExecuteException {
         if (inputFile == null) {
-            throw new BlastError("Blast input file null");
+            throw new ExecuteException("Blast input file null");
         }
         if (!inputFile.canRead()) {
-            throw new BlastError("Blast input file not readable");
+            throw new ExecuteException("Blast input file not readable");
         }
-        if (database.length() <= 0) {
-            throw new BlastError("Database parameter is empty.");
+        if (database == null || database.length() == 0) {
+            throw new ExecuteException("Database parameter is empty.");
         }
-        parameters += " -p " + Configuration.getBlastallExecutablePath()
-                + " -d " + database + " -i " + inputFile.getAbsolutePath() + " -m 7";
+        parameters += " -p " + blastProgram
+                + " -d " + database
+                + " -i " + inputFile.getAbsolutePath()
+                + " -m 7";
         runProgram();
         xmlResults = getLastRunOutput();
     }
 
     public String getXmlResultsAsHtml() throws TransformerException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                getClass().getClassLoader().getResourceAsStream(
-                "bioprograms/src/test/resources/blast/blast.xsl")));
+        URL url = Thread.currentThread().getContextClassLoader().getResource("blast/blast.xsl");
         String xsl = "";
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(
+//                getClass().getClassLoader().getResourceAsStream(url.getPath())));
+//        String xsl = "";
+//        try {
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                xsl += line + "\n";
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                reader.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         try {
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                xsl += line + "\n";
-            }
-        } catch (Exception e) {
+            byte[] encoded = Files.readAllBytes(Paths.get(url.getPath()));
+            xsl = new String(encoded);
+        } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return transform(xmlResults, xsl);
     }

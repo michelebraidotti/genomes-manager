@@ -37,34 +37,30 @@ public class Phred extends Execute {
         phd = Phd;
     }
 
-    public Boolean run() {
+    public void run() throws ExecuteException {
         String tempParams = new String("");
         if (chromatogram == null) {
-            System.out.println("chromatogram is null");
-            return false;
+            throw new ExecuteException("chromatogram is null");
         } else {
             tempParams = tempParams + "\"" + chromatogram + "\" ";
         }
         if (sequence == null) {
-            System.out.println("sequence is null");
-            return false;
+            throw new ExecuteException("sequence is null");
         } else {
             tempParams = tempParams + "-s \"" + sequence + "\" ";
         }
         if (quality == null) {
-            System.out.println("quality is null");
-            return false;
+            throw new ExecuteException("quality is null");
         } else {
             tempParams = tempParams + "-q \"" + quality + "\" ";
         }
         if (phd == null) {
-            System.out.println("phd is null");
-            return false;
+            throw new ExecuteException("phd is null");
         } else {
             tempParams = tempParams + "-p \"" + phd + "\" ";
         }
 
         this.parameters += " " + tempParams;
-        return runProgram();
+        runProgram();
     }
 }

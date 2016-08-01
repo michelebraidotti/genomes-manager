@@ -1,19 +1,14 @@
-//Kristofer Christakos
-//Dec 2009
 package org.genomesmanager.bioprograms.execute;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.InputStream;
-import java.io.File;
+import java.io.*;
 
 /**
  *
  * @author Kristofer
  */
-public class Execute {
+public abstract class Execute {
 
-    Process p;
+    private Process process;
     protected String program;
     protected String parameters = "";
     protected String lastRunOutput;
@@ -63,7 +58,9 @@ public class Execute {
         return this.executedCommand;
     }
 
-    protected Boolean runProgram() {
+    public abstract void run() throws ExecuteException;
+
+    protected void runProgram() throws ExecuteException {
         lastRunOutput = new String("");
         lastRunError = new String("");
         lastExitValue = -1;
@@ -83,28 +80,18 @@ public class Execute {
         }
         this.executedCommand = command;
         try {
-            p = Runtime.getRuntime().exec(command, null, workingDirObject);
-        } catch (java.io.IOException ex) {
-            //ex.printStackTrace();
-            System.out.print(ex.toString());
-            return false;
-        }
-        if (p == null) {
-            throw new java.lang.NullPointerException();
+            process = Runtime.getRuntime().exec(command, null, workingDirObject);
+            process.waitFor();
+        } catch (IOException e) {
+            throw new ExecuteException(e);
+        } catch (InterruptedException e) {
+            throw new ExecuteException(e);
         }
 
-        try {
-            p.waitFor();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }     //Commented out because it waited forever.
-        //Doesn't seem to be needed so far.
-
-        lastRunOutput = readStream(p.getInputStream());
-        lastRunError = readStream(p.getErrorStream());
-        //                      p.getOutputStream()
-        lastExitValue = p.exitValue();
-        return true;
+        lastRunOutput = readStream(process.getInputStream());
+        lastRunError = readStream(process.getErrorStream());
+        //                      process.getOutputStream()
+        lastExitValue = process.exitValue();
     }
 
     private String readStream(InputStream in) {

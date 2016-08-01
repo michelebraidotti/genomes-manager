@@ -30,49 +30,39 @@ public class Sffinfo extends Execute {
         fasta = Fasta;
     }
 
-    public Boolean run() {
+    public void run() throws ExecuteException {
         String tempParams = new String("");
         File fastaOutput;
 
         if (sff == null) {
-            System.out.println("sff is null");
-            return false;
+            throw new ExecuteException("sff is null");
         } else {
             tempParams = tempParams + "-s \"" + sff + "\"";
         }
 
         if (fasta == null) {
-            System.out.println("fasta is null");
-            return false;
+            throw new ExecuteException("fasta is null");
         } else {
             fastaOutput = new File(fasta);
             if ((fastaOutput.isFile() == false)
                     || (fastaOutput.canWrite() == false)
                     || (fastaOutput.exists() == false)) {
-                System.out.println("Can't write to fasta.");
-                return false;
+                throw new ExecuteException("Can't write to fasta.");
             }
         }
 
         this.parameters += " " + tempParams;
-        Boolean ret = runProgram();
-
-        if (ret == false) {
-            return false;
-        }
+        runProgram();
 
         String fastaOutputString = this.getLastRunOutput();
-
         if ((fastaOutputString != null) && (fastaOutputString.length() > 0)) {
             BufferedWriter out;
             try {
                 out = new BufferedWriter(new FileWriter(fastaOutput));
                 out.write(fastaOutputString);
             } catch (IOException ex) {
-                ex.printStackTrace();
+                throw  new ExecuteException("Failed writing out FASTA file.", ex);
             }
         }
-
-        return true;
     }
 }

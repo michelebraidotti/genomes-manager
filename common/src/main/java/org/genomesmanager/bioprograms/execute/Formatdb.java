@@ -2,8 +2,6 @@ package org.genomesmanager.bioprograms.execute;
 
 import org.genomesmanager.bioprograms.Configuration;
 
-import java.io.File;
-
 /**
  * @author Kristofer
  */
@@ -31,19 +29,21 @@ public class Formatdb extends Execute {
         setTitle(Title);
     }
 
-    public void setTitle(String Title) {
-        this.title = Title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setInputFile(String InputFile) {
-        this.inputFile = InputFile;
+    public void setInputFile(String inputFile) {
+        this.inputFile = inputFile;
     }
 
-    public void setBaseName(String BaseName) {
-        this.baseName = BaseName;
+    public void setBaseName(String baseName) {
+        this.baseName = baseName;
     }
 
-    public Boolean run() {
+    public String getBaseName() { return baseName; }
+
+    public void run() throws ExecuteException {
         String tempParams = new String("");
         if (title != null) {
             tempParams = "-t " + title + " ";
@@ -56,8 +56,7 @@ public class Formatdb extends Execute {
                 tempParams = tempParams + "-i " + inputFile + " ";
             }
         } else {
-            System.out.println(program + ".run InputFile is null!");
-            return false;
+            throw new ExecuteException(program + ".run InputFile is null!");
         }
         if (baseName != null) {
             if (baseName.contains(" ")) {
@@ -70,7 +69,7 @@ public class Formatdb extends Execute {
         tempParams = tempParams + "-p F";
         this.parameters += " " + tempParams;
 
-        return runProgram();
+        runProgram();
     }
 
 }

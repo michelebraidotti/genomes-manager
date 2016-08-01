@@ -3,6 +3,8 @@ package org.genomesmanager.bioprograms.execute;
 
 import org.genomesmanager.bioprograms.Configuration;
 
+import java.io.IOException;
+
 /**
  *
  * @author Kristofer
@@ -29,18 +31,16 @@ public class Crossmatch extends Execute {
     	vector = Vector;
     }
 
-    public Boolean run() {
+    public void run() throws ExecuteException {
     	String tempParams = new String("");
     	if (sequence == null) {
-    		System.out.println("sequence is null");
-    		return false;
+			throw new ExecuteException("sequence is null");
     	}
 		else {
     		tempParams = tempParams+"\""+sequence+"\" ";
     	}
     	if (vector == null) {
-    		System.out.println("vector is null");
-    		return false;
+			throw new ExecuteException("vector is null");
     	}
 		else {
     		tempParams = tempParams+"\""+vector+"\" ";
@@ -48,6 +48,6 @@ public class Crossmatch extends Execute {
     	tempParams = tempParams+"-screen";
     	this.parameters += " " + tempParams;
     	
-    	return runProgram();
+    	runProgram();
     }
 }

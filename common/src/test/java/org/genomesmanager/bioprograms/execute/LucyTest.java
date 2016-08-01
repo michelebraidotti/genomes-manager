@@ -28,12 +28,12 @@ public class LucyTest {
         assertEquals(lucy.getSeqFileOut(), lucy.getSeqFile() + ".lucy");
     }
     @Test
-    public void testRun() {
+    public void testRun() throws ExecuteException {
         Lucy lucy = new Lucy();
         lucy.setSeqFile(seqFile);
         lucy.setQualFile(qualFile);
-        Boolean ret = lucy.run();
-        if (ret == false) {
+        lucy.run();
+        if (lucy.getLastExitValue() != 0) {
             String errorMessage = "Lucy output:" + lucy.getLastRunOutput() + "\n"
                     + "Lucy error:" + lucy.getLastRunError() + "\n"
                     + "lucy exit value: " + lucy.getLastExitValue();

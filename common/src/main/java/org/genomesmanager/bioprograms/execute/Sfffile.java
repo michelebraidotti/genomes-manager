@@ -8,10 +8,10 @@ public class Sfffile extends Execute {
         setProgram(Configuration.getSfffileExecutablePath());
     }
 
-    public Boolean run() {
+    public void run() throws ExecuteException {
         String tempParams = new String("");
 
         this.parameters += " " + tempParams;
-        return runProgram();
+        runProgram();
     }
 }

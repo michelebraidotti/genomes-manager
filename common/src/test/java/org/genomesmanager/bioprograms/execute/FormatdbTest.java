@@ -7,8 +7,8 @@ import java.net.URL;
 
 public class FormatdbTest {
 
-    @Test
-    public void testRun() {
+    // This is need by blast tests.
+    public Formatdb runInTempDir() throws ExecuteException {
         Formatdb formatdb = new Formatdb();
         formatdb.setTitle("My_Awesome_Database");
         URL url = Thread.currentThread().getContextClassLoader().getResource("formatdbTest/someSequences.fa");
@@ -16,6 +16,12 @@ public class FormatdbTest {
         formatdb.setBaseName("MADDB");
         formatdb.setWorkingDirectory(System.getProperty("java.io.tmpdir"));
         formatdb.run();
+        return formatdb;
+    }
+
+    @Test
+    public void testRun() throws ExecuteException {
+        Formatdb formatdb = runInTempDir();
         if (formatdb.getLastExitValue() != 0) {
             String errorMessage = "Command: " + formatdb.getExecutedCommand() + "\n"
                     + "Return: " + formatdb.getLastExitValue() + "\n"
