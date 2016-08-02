@@ -57,9 +57,7 @@
 		<maven.jar.plugin.version>2.4</maven.jar.plugin.version>
 		<org.codehaus.mojo.hibernate3.plugin>3.0</org.codehaus.mojo.hibernate3.plugin>
 
-
 		<javax.mail.version>1.4</javax.mail.version>
-		<biojava3.version>3.0</biojava3.version>
 
 		<gmavenVersion>1.4</gmavenVersion>
 		<gmavenProviderSelection>2.0</gmavenProviderSelection>
@@ -413,7 +411,6 @@
 			</dependency>
 
 			<!-- jakarta commons -->
-			<!--TODO bme kick the old version out! -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
@@ -520,12 +517,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.biojava</groupId>
-				<artifactId>biojava3-core</artifactId>
-				<version>${biojava3.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.codehaus.groovy</groupId>
 				<artifactId>groovy-all</artifactId>
 				<version>${groovyVersion}</version>
@@ -598,15 +589,6 @@
 
 
 	</dependencyManagement>
-
-	<!-- Biojava repo -->
-	<repositories>
-		<repository>
-			<id>biojava-maven-repo</id>
-			<name>BioJava repository</name>
-			<url>http://www.biojava.org/download/maven/</url>
-		</repository>
-	</repositories>
 
 	<build>
 		<plugins>

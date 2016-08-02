@@ -1,13 +1,15 @@
 package org.genomesmanager.bioprograms.execute;
 
 import static org.junit.Assert.*;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class PhredTest {
 
+    @Ignore("phred not installed")
     @Test
     public void testRun() throws ExecuteException {
-        System.out.println("testRun");
         String chromatogram = "hjb0001aa01.b1";
         String sequence = "hjb0001aa01.b1.seq";
         String quality = "hjb0001aa01.b1.qual";

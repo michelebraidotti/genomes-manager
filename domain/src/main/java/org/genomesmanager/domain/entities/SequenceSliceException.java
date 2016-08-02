@@ -7,4 +7,7 @@ public class SequenceSliceException extends Exception {
 		super(message);
 	}
 
+	public SequenceSliceException(Exception e) {
+		super(e);
+	}
 }

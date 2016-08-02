@@ -3,10 +3,7 @@
 package org.genomesmanager.bioprograms.execute;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import org.genomesmanager.bioprograms.blast.BlastOutput;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;

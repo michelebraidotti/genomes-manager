@@ -73,10 +73,6 @@
 			<artifactId>commons-lang</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.biojava</groupId>
-			<artifactId>biojava3-core</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>hibernate3-maven-plugin</artifactId>
 		</dependency>

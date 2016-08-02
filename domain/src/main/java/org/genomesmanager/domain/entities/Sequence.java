@@ -32,7 +32,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.biojava3.core.sequence.DNASequence;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Type;
 
 
@@ -78,7 +78,6 @@ public class Sequence implements Serializable {
 
     public Sequence() {
     }
-
 
     @Id
 	@SequenceGenerator(name="SEQUENCES_ID_GENERATOR", sequenceName="sequence.sequences_id_seq", allocationSize=1)
@@ -286,8 +285,45 @@ public class Sequence implements Serializable {
 	
 	@Transient
 	public String getReverseComplementSlice(int start, int end) throws SequenceSliceException {
-		DNASequence sequence = new DNASequence(getSlice(start, end));
-		return sequence.getReverseComplement().getViewedSequence().getSequenceAsString();
+		// I should have used biojava like this:
+		//			DNASequence sequence = null;
+		//			try {
+		//				sequence = new DNASequence(getSlice(start, end));
+		//			} catch (CompoundNotFoundException e) {
+		//				throw  new SequenceSliceException(e);
+		//			}
+		//			return sequence.getReverseComplement().getViewedSequence().getSequenceAsString();
+		// But I could make the stupid thing to working and
+		// the reverse complement fo DNA is pretty straightforward
+		// so here's the trivial implementation of it
+		StringBuilder reverseComplement = new StringBuilder(getSlice(start, end));
+		reverseComplement = reverseComplement.reverse();
+		for(int i = 0, n = reverseComplement.length() ; i < n ; i++) {
+			char nucl = reverseComplement.charAt(i);
+			char compl;
+			switch (nucl) {
+				case 'A' : compl = 'T';
+					break;
+				case 'a' : compl = 't';
+					break;
+				case 'T' : compl = 'A';
+					break;
+				case 't' : compl = 'a';
+					break;
+				case 'C' : compl = 'G';
+					break;
+				case 'c' : compl = 'g';
+					break;
+				case 'G' : compl = 'C';
+					break;
+				case 'g' : compl = 'c';
+					break;
+				default: compl = nucl;
+					break;
+			}
+			reverseComplement.setCharAt(i, compl);
+		}
+		return reverseComplement.toString();
     }
 	
 	@Transient

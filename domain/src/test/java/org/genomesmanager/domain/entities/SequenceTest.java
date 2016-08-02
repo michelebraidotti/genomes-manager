@@ -199,6 +199,12 @@ public class SequenceTest {
 			seq.setSequenceText("ACTG");
 			String complementReverse = seq.getReverseComplementSlice(1, 4);
 			assertEquals("CAGT", complementReverse);
+			seq.setSequenceText("actg");
+			String complementReverse1 = seq.getReverseComplementSlice(1, 4);
+			assertEquals("cagt", complementReverse1);
+			seq.setSequenceText("AAACTGGGAAAZXCFNNNNAACTGgaagtttaaa");
+			String complementReverse2 = seq.getReverseComplementSlice(1, 34);
+			assertEquals("tttaaacttcCAGTTNNNNFGXZTTTCCCAGTTT", complementReverse2);
 		}
 		catch (SequenceSliceException sse) {
 			assertTrue(false);
