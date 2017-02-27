@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,8 +15,8 @@ public class ChromosomeTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		sp = SpeciesOM.Generate(1).get(0);
-		chr = ChromosomesOM.Generate(1, sp).get(0);
+		sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class ChromosomeTest {
 
 	@Test
 	public void testEquals() {
-		Chromosome otherChr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome otherChr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		otherChr.setNumber("somethingelse");
 		assertFalse(chr.equals(otherChr));
 		otherChr.setNumber(chr.getNumber());

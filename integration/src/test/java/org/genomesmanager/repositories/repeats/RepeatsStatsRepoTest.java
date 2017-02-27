@@ -18,15 +18,12 @@ import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SineRepeat;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.UnknownRepeat;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsClassificationTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
-import org.genomesmanager.repositories.repeats.RepeatRepository;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
-import org.genomesmanager.repositories.repeats.RepeatsStatsRepository;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.repositories.species.SpeciesRepository;
@@ -49,12 +46,12 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 
 	@Test
 	public void test() throws Exception {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		sp = speciesRepository.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepository.save(chr);
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
-		seq.setSequenceText(SequencesOM.GenererateSequence(1000).toString());
+		Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
+		seq.setSequenceText(SequencesTestObjectGenerator.GenererateSequence(1000).toString());
 		seq.setLength(1000);
 		seq = sequenceRepository.save(seq);
 		String[] repClassDefinitions = { "I, I, LINE, test, test",
@@ -66,19 +63,19 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		List<Repeat> repeats = new ArrayList<Repeat>();
 		/* 1. LINE */
 		String repClassDefinition = repClassDefinitions[0];
-		RepeatsClassification repClass = RepeatsClassificationOM
+		RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator
 				.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
-		for (LineRepeat l : RepeatsOM.GenerateLines(nOfRepeats, repClass, seq)) {
+		for (LineRepeat l : RepeatsTestObjectGenerator.GenerateLines(nOfRepeats, repClass, seq)) {
 			l = repeatRepo.save(l);
 			repeats.add(l);
 		}
 
 		/* 2. Helitron */
 		repClassDefinition = repClassDefinitions[1];
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
-		for (HelitronRepeat h : RepeatsOM.GenerateHelitrons(nOfRepeats,
+		for (HelitronRepeat h : RepeatsTestObjectGenerator.GenerateHelitrons(nOfRepeats,
 				repClass, seq)) {
 			h = repeatRepo.save(h);
 			repeats.add(h);
@@ -86,18 +83,18 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 
 		/* 3. Mite */
 		repClassDefinition = repClassDefinitions[2];
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
-		for (MiteRepeat m : RepeatsOM.GenerateMites(nOfRepeats, repClass, seq)) {
+		for (MiteRepeat m : RepeatsTestObjectGenerator.GenerateMites(nOfRepeats, repClass, seq)) {
 			m = repeatRepo.save(m);
 			repeats.add(m);
 		}
 
 		/* 3. DNATE */
 		repClassDefinition = repClassDefinitions[3];
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
-		for (DnaTeRepeat dnate : RepeatsOM.GenerateDnaTes(nOfRepeats, repClass,
+		for (DnaTeRepeat dnate : RepeatsTestObjectGenerator.GenerateDnaTes(nOfRepeats, repClass,
 				seq)) {
 			dnate = repeatRepo.save(dnate);
 			repeats.add(dnate);
@@ -105,18 +102,18 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 
 		/* 4. LTR */
 		repClassDefinition = repClassDefinitions[4];
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
-		for (LtrRepeat ltr : RepeatsOM.GenerateLtrs(nOfRepeats, repClass, seq)) {
+		for (LtrRepeat ltr : RepeatsTestObjectGenerator.GenerateLtrs(nOfRepeats, repClass, seq)) {
 			ltr = repeatRepo.save(ltr);
 			repeats.add(ltr);
 		}
 
 		/* 5. UNKN */
 		repClassDefinition = repClassDefinitions[5];
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
-		for (UnknownRepeat unkn : RepeatsOM.GenerateUnknowns(nOfRepeats,
+		for (UnknownRepeat unkn : RepeatsTestObjectGenerator.GenerateUnknowns(nOfRepeats,
 				repClass, seq)) {
 			unkn = repeatRepo.save(unkn);
 			repeats.add(unkn);
@@ -124,9 +121,9 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 
 		/* 6. Sine */
 		repClassDefinition = repClassDefinitions[6];
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
-		for (SineRepeat sine : RepeatsOM.GenerateSines(nOfRepeats, repClass,
+		for (SineRepeat sine : RepeatsTestObjectGenerator.GenerateSines(nOfRepeats, repClass,
 				seq)) {
 			sine = repeatRepo.save(sine);
 			repeats.add(sine);

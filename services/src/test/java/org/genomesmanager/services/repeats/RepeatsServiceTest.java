@@ -1,11 +1,10 @@
 package org.genomesmanager.services.repeats;
 
 import org.genomesmanager.domain.entities.*;
-import org.genomesmanager.domain.entities.objectmothers.*;
+import org.genomesmanager.domain.entities.testobjectgenerators.*;
 import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.services.impl.repeats.RepeatsServiceImpl;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,12 +26,12 @@ public class RepeatsServiceTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		Sequence seq = SequencesOM.Generate(1,chr).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
+		Sequence seq = SequencesTestObjectGenerator.Generate(1,chr).get(0);
 		String repClassDefinition = "TEST, TEST, TEST, test, test";
-		RepeatsClassification repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		repeat = RepeatsOM.Generate(1, repClass, seq).get(0);
+		RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
+		repeat = RepeatsTestObjectGenerator.Generate(1, repClass, seq).get(0);
 	}
 
 	@Test

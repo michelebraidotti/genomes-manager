@@ -1,7 +1,7 @@
 package org.genomesmanager.repositories.repeats;
 
 import org.genomesmanager.domain.entities.*;
-import org.genomesmanager.domain.entities.objectmothers.*;
+import org.genomesmanager.domain.entities.testobjectgenerators.*;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
@@ -29,11 +29,11 @@ public class RepeatRepositoryTest extends AbstractIntegrationTest {
 
     @Test
     public void test() throws Exception {
-        Species sp = SpeciesOM.Generate(1).get(0);
+        Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
         speciesRepository.save(sp);
-        Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+        Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
         chromosomeRepository.save(chr);
-        Sequence seq = SequencesOM.Generate(1, chr).get(0);
+        Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
         sequenceRepository.save(seq);
         String[] repClassDefinitions = { "I, I, LINE, test, test",
                 "II, II, Helitron, test, test", "II, III, MITE, test, test",
@@ -42,59 +42,59 @@ public class RepeatRepositoryTest extends AbstractIntegrationTest {
                 "I, I, SINE, test, test" };
 		/* 1. LINE */
         String repClassDefinition = repClassDefinitions[0];
-        RepeatsClassification repClass = RepeatsClassificationOM
+        RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator
                 .Generate(repClassDefinition);
         repeatsClassificationRepository.save(repClass);
-        LineRepeat line = RepeatsOM.GenerateLines(1, repClass, seq).get(0);
+        LineRepeat line = RepeatsTestObjectGenerator.GenerateLines(1, repClass, seq).get(0);
         line = repeatRepo.save(line);
         LineRepeat postLine = repeatRepo.findLineRepeat(line.getId());
         assertEquals(line, postLine);
 		/* 2. Helitron */
         repClassDefinition = repClassDefinitions[1];
-        repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+        repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
         repeatsClassificationRepository.save(repClass);
-        HelitronRepeat hel = RepeatsOM.GenerateHelitrons(1, repClass, seq).get(0);
+        HelitronRepeat hel = RepeatsTestObjectGenerator.GenerateHelitrons(1, repClass, seq).get(0);
         hel = repeatRepo.save(hel);
         HelitronRepeat postHel = repeatRepo.findHelitronRepeat(hel.getId());
         assertEquals(hel, postHel);
 		/* 3. Mite */
         repClassDefinition = repClassDefinitions[2];
-        repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+        repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
         repeatsClassificationRepository.save(repClass);
-        MiteRepeat mite = RepeatsOM.GenerateMites(1, repClass, seq).get(0);
+        MiteRepeat mite = RepeatsTestObjectGenerator.GenerateMites(1, repClass, seq).get(0);
         mite = repeatRepo.save(mite);
         MiteRepeat postMite = repeatRepo.findMiteRepeat(mite.getId());
         assertEquals(mite, postMite);
 		/* 3. DNATE */
         repClassDefinition = repClassDefinitions[3];
-        repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+        repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
         repeatsClassificationRepository.save(repClass);
-        DnaTeRepeat dnate = RepeatsOM.GenerateDnaTes(1, repClass, seq).get(0);
+        DnaTeRepeat dnate = RepeatsTestObjectGenerator.GenerateDnaTes(1, repClass, seq).get(0);
         dnate = repeatRepo.save(dnate);
         DnaTeRepeat postDnate = repeatRepo.findDnaTeRepeat(dnate.getId());
         assertEquals(dnate, postDnate);
 		/* 4. LTR */
         repClassDefinition = repClassDefinitions[4];
-        repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+        repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
         repeatsClassificationRepository.save(repClass);
-        LtrRepeat ltr = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
+        LtrRepeat ltr = RepeatsTestObjectGenerator.GenerateLtrs(1, repClass, seq).get(0);
         ltr = repeatRepo.save(ltr);
         LtrRepeat postLtr = repeatRepo.findLtrRepeat(ltr.getId());
         assertEquals(ltr, postLtr);
 		/* 5. UNKN */
         repClassDefinition = repClassDefinitions[5];
-        repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+        repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
         repeatsClassificationRepository.save(repClass);
-        UnknownRepeat unkn = RepeatsOM.GenerateUnknowns(1, repClass, seq)
+        UnknownRepeat unkn = RepeatsTestObjectGenerator.GenerateUnknowns(1, repClass, seq)
                 .get(0);
         unkn = repeatRepo.save(unkn);
         UnknownRepeat postUnkn = repeatRepo.findUnknRepeat(unkn.getId());
         assertEquals(unkn, postUnkn);
 		/* 6. Sine */
         repClassDefinition = repClassDefinitions[6];
-        repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+        repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
         repeatsClassificationRepository.save(repClass);
-        SineRepeat sine = RepeatsOM.GenerateSines(1, repClass, seq).get(0);
+        SineRepeat sine = RepeatsTestObjectGenerator.GenerateSines(1, repClass, seq).get(0);
         sine = repeatRepo.save(sine);
         SineRepeat postSine = repeatRepo.findSineRepeat(sine.getId());
         assertEquals(sine, postSine);

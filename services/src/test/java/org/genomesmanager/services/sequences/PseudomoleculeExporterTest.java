@@ -13,9 +13,9 @@ import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.SequenceSliceException;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.PseudomoleculeRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
 import org.genomesmanager.services.impl.sequences.PseudomoleculeExporterImpl;
@@ -44,9 +44,9 @@ public class PseudomoleculeExporterTest {
 	
 	@Test
 	public void exportPseudomolTest() throws SequenceSliceException {
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		Pseudomolecule pseudomol = SequencesOM.GeneratePseudomolecule(1,chr).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
+		Pseudomolecule pseudomol = SequencesTestObjectGenerator.GeneratePseudomolecule(1,chr).get(0);
 		pseudomol.setId(generator.nextInt());
 		pseudomol.setScaffoldDerived(false);
 		pseudomol.setUnplaced(false);
@@ -58,9 +58,9 @@ public class PseudomoleculeExporterTest {
 	
 	@Test
 	public void exportPseudomolTestScaffoldDerived() throws SequenceSliceException {
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		Pseudomolecule pseudomol = SequencesOM.GeneratePseudomolecule(1,chr).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
+		Pseudomolecule pseudomol = SequencesTestObjectGenerator.GeneratePseudomolecule(1,chr).get(0);
 		pseudomol.setId(generator.nextInt());
 		pseudomol.setScaffoldDerived(true);
 		pseudomol.setUnplaced(true);
@@ -68,13 +68,13 @@ public class PseudomoleculeExporterTest {
 		List<Scaffold> scaffoldsPlaced = new ArrayList<Scaffold>();
 		List<Scaffold> scaffoldsUnplaced = new ArrayList<Scaffold>();
 		int lastId = generator.nextInt();
-		for (Scaffold scaffold:SequencesOM.GenerateScaffold(5, chr)) {
+		for (Scaffold scaffold: SequencesTestObjectGenerator.GenerateScaffold(5, chr)) {
 			scaffold.setId(lastId++);
 			scaffold.setOrder(i++);
 			scaffold.setIsUnplaced(false);
 			scaffoldsPlaced.add(scaffold);
 		}
-		for (Scaffold scaffold:SequencesOM.GenerateScaffold(4, chr)) {
+		for (Scaffold scaffold: SequencesTestObjectGenerator.GenerateScaffold(4, chr)) {
 			scaffold.setId(lastId++);
 			scaffold.setOrder(0);
 			scaffold.setIsUnplaced(true);

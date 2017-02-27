@@ -6,10 +6,10 @@ import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Rna;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.RnasOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.RnasTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
@@ -30,13 +30,13 @@ public class RnaRepositoryTest extends AbstractIntegrationTest {
 
 	@Test
 	public void basicTest() throws Exception {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		sp = speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
+		Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		seq = sequenceRepo.save(seq);
-		Rna rna = RnasOM.Generate(1, seq).get(0);
+		Rna rna = RnasTestObjectGenerator.Generate(1, seq).get(0);
 		rna = rnaRepo.save(rna);
 		Rna postRna = rnaRepo.findOne(rna.getId());
 		assertEquals(rna, postRna);
@@ -45,13 +45,13 @@ public class RnaRepositoryTest extends AbstractIntegrationTest {
 	@Test
 	public void findByTest() throws Exception {
 		int nOfRnas = 3;
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		sp = speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
+		Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		seq = sequenceRepo.save(seq);
-		for (Rna rna:RnasOM.Generate(nOfRnas, seq)) {
+		for (Rna rna: RnasTestObjectGenerator.Generate(nOfRnas, seq)) {
 			rna = rnaRepo.save(rna);
 		}
 		assertEquals(nOfRnas, rnaRepo.findBySequenceChromosomeSpecies(sp).size());

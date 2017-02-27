@@ -8,9 +8,9 @@ import java.util.List;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.junit.Test;
@@ -28,11 +28,11 @@ public class ScaffoldRepositoryTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void basicTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Scaffold scaffold = SequencesOM.GenerateScaffold(1, chr).get(0);
+		Scaffold scaffold = SequencesTestObjectGenerator.GenerateScaffold(1, chr).get(0);
 		scaffold = scaffoldRepo.save(scaffold);
 		Scaffold scaffoldPost = scaffoldRepo.findOne(scaffold.getId());
 		assertEquals(scaffold, scaffoldPost);
@@ -41,11 +41,11 @@ public class ScaffoldRepositoryTest extends AbstractIntegrationTest {
 //	List<Scaffold> findByName(String name);
 	@Test
 	public void findByNameTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Scaffold scaffold = SequencesOM.GenerateScaffold(1, chr).get(0);
+		Scaffold scaffold = SequencesTestObjectGenerator.GenerateScaffold(1, chr).get(0);
 		scaffold = scaffoldRepo.save(scaffold);
 		Scaffold scaffoldPost = scaffoldRepo.findByName(scaffold.getName()).get(0);
 		assertEquals(scaffold, scaffoldPost);
@@ -54,11 +54,11 @@ public class ScaffoldRepositoryTest extends AbstractIntegrationTest {
 //	List<Scaffold> findByNameAndVersion(String name, String version);
 	@Test
 	public void findByNameAndVersionTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Scaffold scaffold = SequencesOM.GenerateScaffold(1, chr).get(0);
+		Scaffold scaffold = SequencesTestObjectGenerator.GenerateScaffold(1, chr).get(0);
 		scaffold = scaffoldRepo.save(scaffold);
 		Scaffold scaffoldPost = scaffoldRepo.findByNameAndVersion(scaffold.getName(), scaffold.getVersion()).get(0);
 		assertEquals(scaffold, scaffoldPost);
@@ -67,11 +67,11 @@ public class ScaffoldRepositoryTest extends AbstractIntegrationTest {
 //	List<Scaffold> findByChromosome(Chromosome chromosome);
 	@Test
 	public void findByChromosomeTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Scaffold scaffold = SequencesOM.GenerateScaffold(1, chr).get(0);
+		Scaffold scaffold = SequencesTestObjectGenerator.GenerateScaffold(1, chr).get(0);
 		scaffold = scaffoldRepo.save(scaffold);
 		Scaffold scaffoldPost = scaffoldRepo.findByChromosome(chr).get(0);
 		assertEquals(scaffold, scaffoldPost);
@@ -80,11 +80,11 @@ public class ScaffoldRepositoryTest extends AbstractIntegrationTest {
 //	List<Scaffold> findByChromosomeSpecies(Species species);
 	@Test
 	public void findByChromosomeSpeciesTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Scaffold scaffold = SequencesOM.GenerateScaffold(1, chr).get(0);
+		Scaffold scaffold = SequencesTestObjectGenerator.GenerateScaffold(1, chr).get(0);
 		scaffold = scaffoldRepo.save(scaffold);
 		Scaffold scaffoldPost = scaffoldRepo.findByChromosomeSpecies(sp).get(0);
 		assertEquals(scaffold, scaffoldPost);
@@ -93,14 +93,14 @@ public class ScaffoldRepositoryTest extends AbstractIntegrationTest {
 //	public abstract List<Scaffold> findAllPlacedByChromosome(Chromosome chromosome);
 	@Test
 	public void findAllPlacedByChromosomeSpeciesTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
 		List<Scaffold> scaffolds = new ArrayList<Scaffold>();
 		int i = 0;
 		int nOfPlaced = 0;
-		for ( Scaffold scaffold:SequencesOM.GenerateScaffold(5, chr) ) {
+		for ( Scaffold scaffold: SequencesTestObjectGenerator.GenerateScaffold(5, chr) ) {
 			if ( i%2 == 0 ) {
 				scaffold.setIsUnplaced(false);
 				nOfPlaced++;
@@ -118,14 +118,14 @@ public class ScaffoldRepositoryTest extends AbstractIntegrationTest {
 //	public abstract List<Scaffold> findAllUnplacedByChromosome(Chromosome chromosome);
 	@Test
 	public void findAllUnplacedByChromosomeTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
 		List<Scaffold> scaffolds = new ArrayList<Scaffold>();
 		int i = 0;
 		int nOfPlaced = 0;
-		for ( Scaffold scaffold:SequencesOM.GenerateScaffold(5, chr) ) {
+		for ( Scaffold scaffold: SequencesTestObjectGenerator.GenerateScaffold(5, chr) ) {
 			if ( i%2 == 0 ) {
 				scaffold.setIsUnplaced(true);
 				nOfPlaced++;

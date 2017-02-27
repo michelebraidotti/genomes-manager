@@ -1,7 +1,7 @@
 package org.genomesmanager.services.repeats;
 
 import org.genomesmanager.domain.entities.*;
-import org.genomesmanager.domain.entities.objectmothers.*;
+import org.genomesmanager.domain.entities.testobjectgenerators.*;
 import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
@@ -42,19 +42,19 @@ public class RepeatsImporterTest {
 		MockitoAnnotations.initMocks(this);
 
 		generator = new Random();
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr.setId(generator.nextInt());
 		int seqLength = 150;
-		seq = SequencesOM.Generate(1, chr).get(0);
+		seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		seq.setId(generator.nextInt());
-		seq.setSequenceText(SequencesOM.GenererateSequence(seqLength).toString());
+		seq.setSequenceText(SequencesTestObjectGenerator.GenererateSequence(seqLength).toString());
 		seq.setLength(seqLength);
 		
 		String repClassDefinition = "I, I, LTR, test, test";		
-		RepeatsClassification repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		int repeatId = generator.nextInt();
-		ltrRepeat = RepeatsOM.GenerateLtrs(1, repClass, seq).get(0);
+		ltrRepeat = RepeatsTestObjectGenerator.GenerateLtrs(1, repClass, seq).get(0);
 		ltrRepeat.setId(repeatId);
 		
 		gff3Content.add("##gff-version 3");

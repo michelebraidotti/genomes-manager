@@ -1,6 +1,5 @@
 package org.genomesmanager.services.sequences;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
@@ -13,12 +12,10 @@ import java.util.List;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
-import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.sequences.ScaffoldsImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,10 +39,10 @@ public class ScaffoldsImporterTest {
 	public void initMocks() {
 		MockitoAnnotations.initMocks(this); 
 		
-		sp = SpeciesOM.Generate(1).get(0);
-		chr = ChromosomesOM.Generate(1, sp).get(0);
-		manifest = ScaffoldsImporterOM.GenerateManifest(20, chr);
-		fastaContent = ScaffoldsImporterOM.GenerateFasta(manifest);
+		sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
+		manifest = ScaffoldsImporterTestObjectGenerator.GenerateManifest(20, chr);
+		fastaContent = ScaffoldsImporterTestObjectGenerator.GenerateFasta(manifest);
 		
 		when(chromosomeRepo.findByChromosomeNumberAndSpecies(chr.getNumber(), sp)).thenReturn(chr);
 		when(scaffoldRepository.findByName(anyString())).thenReturn(new ArrayList<Scaffold>());

@@ -15,9 +15,9 @@ import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Rna;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.genes.RnaRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.genes.RnasImporterImpl;
@@ -43,10 +43,10 @@ public class RnasImporterTest {
 	public void initMocks() {
 		MockitoAnnotations.initMocks(this);
 		generator = new Random();
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr.setId(generator.nextInt());
-		seq = SequencesOM.Generate(1, chr).get(0);
+		seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		seq.setId(generator.nextInt());
 		
 		gff3Content.add(seq.getId() +"\t##gff-version 3");

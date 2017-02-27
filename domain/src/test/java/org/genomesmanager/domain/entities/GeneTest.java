@@ -2,10 +2,10 @@ package org.genomesmanager.domain.entities;
 
 import static org.junit.Assert.assertEquals;
 
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.GenesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.GenesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,10 +15,10 @@ public class GeneTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		seq = SequencesOM.Generate(1, chr).get(0);
-		gene = GenesOM.Generate(1, seq).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
+		seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
+		gene = GenesTestObjectGenerator.Generate(1, seq).get(0);
 	}
 
 	@Test

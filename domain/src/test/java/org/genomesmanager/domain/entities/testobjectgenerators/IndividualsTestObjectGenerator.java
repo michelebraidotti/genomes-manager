@@ -1,4 +1,4 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.genomesmanager.domain.entities.Individual;
 import org.genomesmanager.domain.entities.Variety;
 
-public class IndividualsOM {
+public class IndividualsTestObjectGenerator {
 	public static List<Individual> Generate(int amount, Variety variety) {
 		List<Individual> res = new ArrayList<Individual>();
 		for (int i = 0; i < amount ; i++) {

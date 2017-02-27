@@ -7,11 +7,8 @@ import org.genomesmanager.domain.entities.Gene;
 import org.genomesmanager.domain.entities.Mrna;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.GenesOM;
-import org.genomesmanager.domain.entities.objectmothers.MrnasOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.*;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
@@ -34,15 +31,15 @@ public class MrnaRepositoryTest extends AbstractIntegrationTest {
 
 	@Test
 	public void test() throws Exception {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chromosomeRepo.save(chr);
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
+		Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		sequenceRepo.save(seq);
-		Gene gene = GenesOM.Generate(1, seq).get(0);
+		Gene gene = GenesTestObjectGenerator.Generate(1, seq).get(0);
 		geneRepo.save(gene);
-		Mrna mrna = MrnasOM.Generate(1, gene).get(0);
+		Mrna mrna = MrnasTestObjectGenerator.Generate(1, gene).get(0);
 		mrna = mrnaRepo.save(mrna);
 		Mrna postMrna = mrnaRepo.findOne(mrna.getId());
 		assertEquals(mrna, postMrna);

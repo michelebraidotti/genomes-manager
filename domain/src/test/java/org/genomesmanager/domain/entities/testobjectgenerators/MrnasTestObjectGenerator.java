@@ -1,4 +1,4 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Random;
 import org.genomesmanager.domain.entities.Gene;
 import org.genomesmanager.domain.entities.Mrna;
 
-public class MrnasOM {
+public class MrnasTestObjectGenerator {
 	public static List<Mrna> Generate(int amount, Gene gene) {
 		List<Mrna> mrnas = new ArrayList<Mrna>();
 		Random generator = new Random();

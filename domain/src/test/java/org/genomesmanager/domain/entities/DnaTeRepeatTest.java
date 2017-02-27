@@ -7,11 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.Properties;
 
 import org.genomesmanager.domain.dtos.RepeatsGff3Order;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.*;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,12 +18,12 @@ public class DnaTeRepeatTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
+		Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		String repClassDefinition = "II, I, DNA_TE, test, test";
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		dnate = RepeatsOM.GenerateDnaTes(1, repClass, seq).get(0);
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
+		dnate = RepeatsTestObjectGenerator.GenerateDnaTes(1, repClass, seq).get(0);
 	}
 
 	@Test

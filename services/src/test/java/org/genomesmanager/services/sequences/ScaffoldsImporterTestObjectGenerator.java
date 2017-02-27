@@ -6,7 +6,7 @@ import java.util.Random;
 
 import org.genomesmanager.domain.entities.Chromosome;
 
-public class ScaffoldsImporterOM {
+public class ScaffoldsImporterTestObjectGenerator {
 
 	public static List<String> GenerateManifest(int nOfScaffolds, Chromosome chr) {
 		List<String> res = new ArrayList<String>();

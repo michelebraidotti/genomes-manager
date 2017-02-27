@@ -6,10 +6,10 @@ import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Gene;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.GenesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.GenesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
@@ -17,6 +17,9 @@ import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 public class GeneRepositoryTest extends AbstractIntegrationTest {
@@ -32,13 +35,13 @@ public class GeneRepositoryTest extends AbstractIntegrationTest {
 
 	@Test
 	public void basicTest() throws Exception {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		sp = speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
+		Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		seq = sequenceRepo.save(seq);
-		Gene gene = GenesOM.Generate(1, seq).get(0);
+		Gene gene = GenesTestObjectGenerator.Generate(1, seq).get(0);
 		gene = geneRepo.save(gene);
 		Gene postGene = geneRepo.findOne(gene.getId());
 		assertEquals(gene, postGene);
@@ -47,16 +50,19 @@ public class GeneRepositoryTest extends AbstractIntegrationTest {
 	@Test
 	public void findByTest() throws Exception {
 		int nOfGenes = 5;
-		Species sp = SpeciesOM.Generate(1).get(0);
+		int nOfSequences = 2;
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		sp = speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
-		seq = sequenceRepo.save(seq);
-		for (Gene gene:GenesOM.Generate(nOfGenes, seq)) {
+		List<Sequence> sequences = new ArrayList<>();
+		for (Sequence seq: SequencesTestObjectGenerator.Generate(nOfSequences, chr)) {
+			sequences.add(sequenceRepo.save(seq));
+		}
+		for (Gene gene : GenesTestObjectGenerator.Generate(nOfGenes*nOfSequences, sequences)) {
 			gene = geneRepo.save(gene);
 		}
-		assertEquals(nOfGenes, geneRepo.findBySequenceChromosome(chr).size());
-		assertEquals(nOfGenes, geneRepo.findBySequenceChromosomeSpecies(sp).size());
+		assertEquals(nOfGenes*nOfSequences, geneRepo.findBySequenceChromosome(chr).size());
+		assertEquals(nOfGenes*nOfSequences, geneRepo.findBySequenceChromosomeSpecies(sp).size());
 	}
 }

@@ -16,11 +16,8 @@ import org.genomesmanager.domain.entities.Repeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.*;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.genomesmanager.services.impl.repeats.RepeatsExporterImpl;
@@ -50,29 +47,29 @@ public class RepeatsExporterTest {
 		
 		Random generator = new Random();
 		int nOfRepeats = 7;
-		sp = SpeciesOM.Generate(1).get(0);
-		chr = ChromosomesOM.Generate(1, sp).get(0);
-		seq = SequencesOM.Generate(1, chr).get(0);
+		sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
+		seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		seq.setId(generator.nextInt());
 		
 		String repClassDefinition = "I, I, LTR, test, test";		
-		RepeatsClassification repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+		RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		int id = generator.nextInt();
-		for (LtrRepeat ltr:RepeatsOM.GenerateLtrs(nOfRepeats, repClass, seq) ) {
+		for (LtrRepeat ltr: RepeatsTestObjectGenerator.GenerateLtrs(nOfRepeats, repClass, seq) ) {
 			ltr.setId(id++);
 			repeats.add(ltr);
 		}
 		
 		repClassDefinition = "II, II, Helitron, test, test";
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		for (HelitronRepeat hel:RepeatsOM.GenerateHelitrons(nOfRepeats, repClass, seq) ) {
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
+		for (HelitronRepeat hel: RepeatsTestObjectGenerator.GenerateHelitrons(nOfRepeats, repClass, seq) ) {
 			hel.setId(id++);
 			repeats.add(hel);
 		}
 		
 		repClassDefinition = "II, I, DNA_TE, test, test";
-		repClass = RepeatsClassificationOM.Generate(repClassDefinition);
-		for (DnaTeRepeat dnaTe:RepeatsOM.GenerateDnaTes(nOfRepeats, repClass, seq) ) {
+		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
+		for (DnaTeRepeat dnaTe: RepeatsTestObjectGenerator.GenerateDnaTes(nOfRepeats, repClass, seq) ) {
 			dnaTe.setId(id++);
 			repeats.add(dnaTe);
 		}

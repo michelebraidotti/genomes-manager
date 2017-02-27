@@ -1,4 +1,4 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Random;
 import org.genomesmanager.domain.entities.Exon;
 import org.genomesmanager.domain.entities.Mrna;
 
-public class ExonsOM {
+public class ExonsTestObjectGenerator {
 	public static List<Exon> Generate(int amount, Mrna mrna) {
 		List<Exon> exons = new ArrayList<Exon>();
 		Random generator = new Random();

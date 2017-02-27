@@ -1,4 +1,4 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Sequence;
 
-public class SequencesOM {
+public class SequencesTestObjectGenerator {
 	public static List<Sequence> Generate(int amount, Chromosome chr) {
 		List<Sequence> sequences = new ArrayList<Sequence>();
 		for (int i = 0; i < amount ; i++) {

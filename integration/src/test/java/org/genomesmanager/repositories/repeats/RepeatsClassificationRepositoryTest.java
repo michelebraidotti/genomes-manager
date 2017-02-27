@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsClassificationException;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsClassificationTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +47,7 @@ public class RepeatsClassificationRepositoryTest extends AbstractIntegrationTest
 		repClassDefinitions.add(sineClass);
 		repClassList = new ArrayList<RepeatsClassification>();
 		for (String repClassDefinition:repClassDefinitions) {
-			RepeatsClassification repClass = RepeatsClassificationOM.Generate(repClassDefinition);
+			RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 			repClass = repeatsClassificationRepository.save(repClass);
 			repClassList.add(repeatsClassificationRepository.findOne(repClass.getId()));
 		}
@@ -61,7 +61,7 @@ public class RepeatsClassificationRepositoryTest extends AbstractIntegrationTest
 				"UNKNOWN, UNKNOWN, UNKNOWN, test, test",
 				"I, I, SINE, test, test" };
 		for (String repClassDefinition : repClassDefinitions) {
-			RepeatsClassification repClass = RepeatsClassificationOM
+			RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator
 					.Generate(repClassDefinition);
 			repClass = repeatsClassificationRepository.save(repClass);
 			RepeatsClassification repClassPost = repeatsClassificationRepository

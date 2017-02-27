@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.genomesmanager.domain.entities.Individual;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.Variety;
-import org.genomesmanager.domain.entities.objectmothers.IndividualsOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.domain.entities.objectmothers.VarietiesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.IndividualsTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.VarietiesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,11 @@ public class IndividualRepositoryTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void test() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Variety variety = VarietiesOM.Generate(1, sp).get(0);
+		Variety variety = VarietiesTestObjectGenerator.Generate(1, sp).get(0);
 		varietyRepo.save(variety);
-		Individual individual = IndividualsOM.Generate(1, variety).get(0);
+		Individual individual = IndividualsTestObjectGenerator.Generate(1, variety).get(0);
 		individualRepo.save(individual);
 		Individual individualPost = individualRepo.findOne(individual.getId());
 		assertEquals(individual, individualPost);

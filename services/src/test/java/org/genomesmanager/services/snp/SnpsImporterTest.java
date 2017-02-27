@@ -18,10 +18,10 @@ import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Snp;
 import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.Variety;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
-import org.genomesmanager.domain.entities.objectmothers.VarietiesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.VarietiesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.repositories.snps.SnpRepository;
 import org.genomesmanager.repositories.species.IndividualRepository;
@@ -32,8 +32,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 public class SnpsImporterTest {
 	@Mock
@@ -56,12 +54,12 @@ public class SnpsImporterTest {
 		MockitoAnnotations.initMocks(this);
 
 		generator = new Random();
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr.setId(generator.nextInt(1000));
-		scaffold = SequencesOM.GenerateScaffold(1, chr).get(0);
+		scaffold = SequencesTestObjectGenerator.GenerateScaffold(1, chr).get(0);
 		scaffold.setId(generator.nextInt(1000));
-		varieties = VarietiesOM.Generate(nOfSnps, sp);
+		varieties = VarietiesTestObjectGenerator.Generate(nOfSnps, sp);
 
 		when(sequenceRepository.findLatest(anyString())).thenReturn(scaffold);
 		when(varietyRepository.findByName(isA(String.class))).thenReturn(varieties);

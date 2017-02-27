@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.junit.Test;
@@ -20,9 +20,9 @@ public class ChromosomeRepositoryTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void basicTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
 		Chromosome chrPost = chromosomeRepo.findOne(chr.getId());
 		assertEquals(chr, chrPost);
@@ -32,9 +32,9 @@ public class ChromosomeRepositoryTest extends AbstractIntegrationTest {
 	public void testFind() {
 		int nOfChrs = 3;
 		int nOfChrsPre = chromosomeRepo.findAll().size();
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		for ( Chromosome chr:ChromosomesOM.Generate(nOfChrs, sp) ) {
+		for ( Chromosome chr: ChromosomesTestObjectGenerator.Generate(nOfChrs, sp) ) {
 			chromosomeRepo.save(chr);
 		}
 		assertEquals(nOfChrsPre + nOfChrs, chromosomeRepo.findAll().size());
@@ -43,9 +43,9 @@ public class ChromosomeRepositoryTest extends AbstractIntegrationTest {
 
 	@Test
 	public void testFindByChromosomeNumberAndSpecies() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
 		Chromosome chrPost = chromosomeRepo.findByChromosomeNumberAndSpecies(chr.getNumber(), sp);
 		assertEquals(chr, chrPost);

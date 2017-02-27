@@ -1,4 +1,4 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SineRepeat;
 import org.genomesmanager.domain.entities.UnknownRepeat;
 
-public class RepeatsOM {
+public class RepeatsTestObjectGenerator {
 	// Generate new (Specific) Repeat, the index 'i' is used to generate all
 	// sorts of info in the repeat, useful when generating a list of repeats
 	// in a loop

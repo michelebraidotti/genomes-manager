@@ -16,11 +16,11 @@ import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.SequenceSliceException;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsClassificationTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
 import org.genomesmanager.services.impl.sequences.ScaffoldsExporterImpl;
@@ -51,18 +51,18 @@ public class ScaffoldsExporterTest {
 		MockitoAnnotations.initMocks(this); 
 		generator = new Random();
 		
-		sp = SpeciesOM.Generate(1).get(0);
-		chr = ChromosomesOM.Generate(1, sp).get(0);
+		sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		seqs = new ArrayList<Scaffold>();
 		int i = 1;
 		int lastId = generator.nextInt();
-		for (Scaffold scaffold:SequencesOM.GenerateScaffold(5, chr)) {
+		for (Scaffold scaffold: SequencesTestObjectGenerator.GenerateScaffold(5, chr)) {
 			scaffold.setId(lastId++);
 			scaffold.setOrder(i++);
 			scaffold.setIsUnplaced(false);
 			seqs.add(scaffold);
 		}
-		for (Scaffold scaffold:SequencesOM.GenerateScaffold(4, chr)) {
+		for (Scaffold scaffold: SequencesTestObjectGenerator.GenerateScaffold(4, chr)) {
 			scaffold.setId(lastId++);
 			scaffold.setOrder(0);
 			scaffold.setIsUnplaced(true);
@@ -88,8 +88,8 @@ public class ScaffoldsExporterTest {
 	@Test
 	public void getAllScaffoldsMaskedTest() throws Exception {
 		for (Sequence seq:seqs) {
-			RepeatsClassification repClass = RepeatsClassificationOM.Generate("I, I, LINE, test, test");
-			Repeat repeat = RepeatsOM.Generate(1, repClass, seq).get(0);
+			RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator.Generate("I, I, LINE, test, test");
+			Repeat repeat = RepeatsTestObjectGenerator.Generate(1, repClass, seq).get(0);
 			seq.getRepeats().add(repeat);
 		}
 		when(scaffoldRepository.findByChromosome(chr)).thenReturn(seqs);

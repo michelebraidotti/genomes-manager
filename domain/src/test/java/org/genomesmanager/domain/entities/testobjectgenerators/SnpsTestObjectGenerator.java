@@ -1,4 +1,4 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.genomesmanager.domain.entities.Individual;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Snp;
 
-public class SnpsOM {
+public class SnpsTestObjectGenerator {
 	public static List<Snp> Generate(int amount, Individual individual, Sequence sequence) {
 		List<Snp> snps = new ArrayList<Snp>();
 		Random generator = new Random();

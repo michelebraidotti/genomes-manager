@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Pseudomolecule;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
 import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.junit.Test;
@@ -23,11 +23,11 @@ public class PseudomoleculeRepositoryTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void basicTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Pseudomolecule pseudomolecule = SequencesOM.GeneratePseudomolecule(1, chr).get(0);
+		Pseudomolecule pseudomolecule = SequencesTestObjectGenerator.GeneratePseudomolecule(1, chr).get(0);
 		pseudomolecule = pseudomoleculeRepo.save(pseudomolecule);
 		Pseudomolecule pseudomoleculePost= pseudomoleculeRepo.findOne(pseudomolecule.getId());
 		assertEquals(pseudomolecule, pseudomoleculePost);
@@ -36,11 +36,11 @@ public class PseudomoleculeRepositoryTest extends AbstractIntegrationTest {
 //	List<Pseudomolecule> findByName(String name);
 	@Test
 	public void findByNameTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Pseudomolecule pseudomolecule = SequencesOM.GeneratePseudomolecule(1, chr).get(0);
+		Pseudomolecule pseudomolecule = SequencesTestObjectGenerator.GeneratePseudomolecule(1, chr).get(0);
 		pseudomolecule = pseudomoleculeRepo.save(pseudomolecule);
 		Pseudomolecule pseudomoleculePost= pseudomoleculeRepo.findByName(pseudomolecule.getName()).get(0);
 		assertEquals(pseudomolecule, pseudomoleculePost);
@@ -49,11 +49,11 @@ public class PseudomoleculeRepositoryTest extends AbstractIntegrationTest {
 //	List<Pseudomolecule> findByNameAndVersion(String name, String version);
 	@Test
 	public void findByNameAndVersionTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Pseudomolecule pseudomolecule = SequencesOM.GeneratePseudomolecule(1, chr).get(0);
+		Pseudomolecule pseudomolecule = SequencesTestObjectGenerator.GeneratePseudomolecule(1, chr).get(0);
 		pseudomolecule = pseudomoleculeRepo.save(pseudomolecule);
 		Pseudomolecule pseudomoleculePost= pseudomoleculeRepo.findByNameAndVersion(pseudomolecule.getName(), pseudomolecule.getVersion()).get(0);
 		assertEquals(pseudomolecule, pseudomoleculePost);
@@ -62,11 +62,11 @@ public class PseudomoleculeRepositoryTest extends AbstractIntegrationTest {
 //	List<Pseudomolecule> findByChromosome(Chromosome chromosome);
 	@Test
 	public void findByChromosomeTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Pseudomolecule pseudomolecule = SequencesOM.GeneratePseudomolecule(1, chr).get(0);
+		Pseudomolecule pseudomolecule = SequencesTestObjectGenerator.GeneratePseudomolecule(1, chr).get(0);
 		pseudomolecule = pseudomoleculeRepo.save(pseudomolecule);
 		Pseudomolecule pseudomoleculePost= pseudomoleculeRepo.findByChromosome(chr).get(0);
 		assertEquals(pseudomolecule, pseudomoleculePost);
@@ -75,11 +75,11 @@ public class PseudomoleculeRepositoryTest extends AbstractIntegrationTest {
 //	List<Pseudomolecule> findByChromosomeSpecies(Species species);
 	@Test
 	public void findByChromosomeSpeciesTest() {
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesRepo.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepo.save(chr);
-		Pseudomolecule pseudomolecule = SequencesOM.GeneratePseudomolecule(1, chr).get(0);
+		Pseudomolecule pseudomolecule = SequencesTestObjectGenerator.GeneratePseudomolecule(1, chr).get(0);
 		pseudomolecule = pseudomoleculeRepo.save(pseudomolecule);
 		Pseudomolecule pseudomoleculePost= pseudomoleculeRepo.findByChromosomeSpecies(sp).get(0);
 		assertEquals(pseudomolecule, pseudomoleculePost);

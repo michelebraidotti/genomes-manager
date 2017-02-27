@@ -2,10 +2,7 @@ package org.genomesmanager.domain.entities;
 
 import static org.junit.Assert.assertEquals;
 
-import org.genomesmanager.domain.entities.RepeatsClassification;
-import org.genomesmanager.domain.entities.RepeatsClassificationException;
-import org.genomesmanager.domain.entities.RepeatsOrder;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsClassificationTestObjectGenerator;
 import org.junit.Test;
 
 public class RepeatsClassificationTest {
@@ -157,7 +154,7 @@ public class RepeatsClassificationTest {
 				"UNKNOWN, UNKNOWN, UNKNOWN, test, test",
 				"I, I, SINE, test, test" };
 		for (String repClassDefinition : repClassDefinitions) {
-			RepeatsClassification repeatsClassification = RepeatsClassificationOM
+			RepeatsClassification repeatsClassification = RepeatsClassificationTestObjectGenerator
 					.Generate(repClassDefinition);
 			repeatsClassification.validate();
 		}

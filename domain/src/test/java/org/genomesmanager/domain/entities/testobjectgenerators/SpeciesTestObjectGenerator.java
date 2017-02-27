@@ -1,11 +1,11 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.genomesmanager.domain.entities.Species;
 
-public class SpeciesOM {
+public class SpeciesTestObjectGenerator {
 	public static List<Species> Generate(int amount) {
 		List<Species> res = new ArrayList<Species>();
 		for (int i = 0; i < amount ; i++) {

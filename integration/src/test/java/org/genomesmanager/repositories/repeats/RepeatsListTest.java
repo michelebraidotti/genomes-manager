@@ -7,14 +7,12 @@ import org.genomesmanager.domain.entities.LtrRepeat;
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsClassificationOM;
-import org.genomesmanager.domain.entities.objectmothers.RepeatsOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsClassificationTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.AbstractIntegrationTest;
-import org.genomesmanager.repositories.repeats.RepeatRepository;
-import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.repositories.species.SpeciesRepository;
@@ -36,19 +34,19 @@ public class RepeatsListTest extends AbstractIntegrationTest {
 	@Test
 	public void test() throws Exception {
 		int nOfRepeats = 7;
-		Species sp = SpeciesOM.Generate(1).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		sp = speciesRepository.save(sp);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr = chromosomeRepository.save(chr);
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
+		Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		seq = sequenceRepository.save(seq);
 
 		String repClassDefinition = "I, I, LTR, test, test";
-		RepeatsClassification repClass = RepeatsClassificationOM
+		RepeatsClassification repClass = RepeatsClassificationTestObjectGenerator
 				.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
 
-		for (LtrRepeat ltr : RepeatsOM.GenerateLtrs(nOfRepeats, repClass, seq)) {
+		for (LtrRepeat ltr : RepeatsTestObjectGenerator.GenerateLtrs(nOfRepeats, repClass, seq)) {
 			repeatRepo.save(ltr);
 		}
 		assertEquals(nOfRepeats, repeatRepo.findAllRepeatsBySequence(seq.getId()).size());

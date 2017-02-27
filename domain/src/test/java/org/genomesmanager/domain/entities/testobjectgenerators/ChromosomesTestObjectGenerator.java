@@ -1,4 +1,4 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Species;
 
-public class ChromosomesOM {
+public class ChromosomesTestObjectGenerator {
 	
 	public static List<Chromosome> Generate(int amount, Species species) {
 		List<Chromosome> res = new ArrayList<Chromosome>();

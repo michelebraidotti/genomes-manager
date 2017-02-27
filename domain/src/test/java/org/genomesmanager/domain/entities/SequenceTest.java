@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.apache.commons.lang3.StringUtils;
-import org.genomesmanager.domain.entities.objectmothers.*;
+import org.genomesmanager.domain.entities.testobjectgenerators.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,9 +27,9 @@ public class SequenceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		Species sp = SpeciesOM.Generate(1).get(0);
-		Chromosome chr = ChromosomesOM.Generate(1, sp).get(0);
-		seq = SequencesOM.Generate(1, chr).get(0);
+		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
+		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
+		seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class SequenceTest {
 	@Test
 	public void testGetMaskedSequence() throws Exception {
 
-		LtrRepeat ltr = RepeatsOM.GenerateLtrs(1, RepeatsClassificationOM.Generate("I, I, LTR, test, test"),seq).get(0);
+		LtrRepeat ltr = RepeatsTestObjectGenerator.GenerateLtrs(1, RepeatsClassificationTestObjectGenerator.Generate("I, I, LTR, test, test"),seq).get(0);
 		seq.getRepeats().add(ltr);
 		ltr.setX(seq.getSequenceText().length() + 1 );
 		try {

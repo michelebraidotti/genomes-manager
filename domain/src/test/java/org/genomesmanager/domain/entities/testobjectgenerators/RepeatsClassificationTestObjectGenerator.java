@@ -1,8 +1,8 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import org.genomesmanager.domain.entities.RepeatsClassification;
 
-public class RepeatsClassificationOM {
+public class RepeatsClassificationTestObjectGenerator {
 	public static RepeatsClassification Generate(
 			String classificationCommaSeparated) throws Exception {
 		String[] pieces = classificationCommaSeparated.split(",\\s*");

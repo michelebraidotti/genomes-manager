@@ -1,4 +1,4 @@
-package org.genomesmanager.domain.entities.objectmothers;
+package org.genomesmanager.domain.entities.testobjectgenerators;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.Random;
 import org.genomesmanager.domain.entities.Rna;
 import org.genomesmanager.domain.entities.Sequence;
 
-public class RnasOM {
+public class RnasTestObjectGenerator {
 	public static List<Rna> Generate(int amount, Sequence sequence) {
 		List<Rna> rnas = new ArrayList<Rna>();
 		Random generator = new Random();

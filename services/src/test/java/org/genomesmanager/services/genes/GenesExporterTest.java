@@ -15,12 +15,12 @@ import org.genomesmanager.domain.entities.Gene;
 import org.genomesmanager.domain.entities.Mrna;
 import org.genomesmanager.domain.entities.Sequence;
 import org.genomesmanager.domain.entities.Species;
-import org.genomesmanager.domain.entities.objectmothers.ChromosomesOM;
-import org.genomesmanager.domain.entities.objectmothers.ExonsOM;
-import org.genomesmanager.domain.entities.objectmothers.GenesOM;
-import org.genomesmanager.domain.entities.objectmothers.MrnasOM;
-import org.genomesmanager.domain.entities.objectmothers.SequencesOM;
-import org.genomesmanager.domain.entities.objectmothers.SpeciesOM;
+import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.ExonsTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.GenesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.MrnasTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
+import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.genes.GeneRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.services.impl.genes.GenesExporterImpl;
@@ -53,23 +53,23 @@ public class GenesExporterTest {
 		int nOfGenes = 5;
 		int nOfMRnas = 3;
 		int nOfExons = 2;
-		sp = SpeciesOM.Generate(1).get(0);
+		sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		speciesService.save(sp);
-		chr = ChromosomesOM.Generate(1, sp).get(0);
+		chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
 		chr.setId(generator.nextInt());
-		Sequence seq = SequencesOM.Generate(1, chr).get(0);
+		Sequence seq = SequencesTestObjectGenerator.Generate(1, chr).get(0);
 		seq.setId(generator.nextInt());
 		genes = new ArrayList<Gene>();
 		int geneId = generator.nextInt();
 		int mrnaId = generator.nextInt();
 		int exonsId = generator.nextInt();
-		for (Gene gene:GenesOM.Generate(nOfGenes, seq)) {
+		for (Gene gene: GenesTestObjectGenerator.Generate(nOfGenes, seq)) {
 			gene.setId(geneId++);
-			List<Mrna> mrnas = MrnasOM.Generate(nOfMRnas, gene);
+			List<Mrna> mrnas = MrnasTestObjectGenerator.Generate(nOfMRnas, gene);
 			for (Mrna mrna:mrnas) {
 				mrna.setId(mrnaId++);
 				if ( mrna.length() > 10 ) {
-					List<Exon> exons = ExonsOM.Generate(nOfExons, mrna);
+					List<Exon> exons = ExonsTestObjectGenerator.Generate(nOfExons, mrna);
 					for (Exon exon:exons) {
 						exon.setId(exonsId++);
 						mrna.getExons().add(exon);
