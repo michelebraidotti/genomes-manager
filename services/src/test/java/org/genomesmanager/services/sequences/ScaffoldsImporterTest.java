@@ -16,7 +16,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.ChromosomesTestOb
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
-import org.genomesmanager.services.impl.sequences.ScaffoldsImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +28,7 @@ public class ScaffoldsImporterTest {
 	@Mock
 	private ScaffoldRepository scaffoldRepository;
 	@InjectMocks
-	private ScaffoldsImporter scaffoldsImporter = new ScaffoldsImporterImpl();	
+	private ScaffoldsImporter scaffoldsImporter = new ScaffoldsImporter();
 	private Chromosome chr;
 	private List<String> manifest;
 	private List<String> fastaContent;

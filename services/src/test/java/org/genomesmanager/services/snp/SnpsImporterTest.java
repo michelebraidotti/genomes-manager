@@ -26,7 +26,6 @@ import org.genomesmanager.repositories.sequences.SequenceRepository;
 import org.genomesmanager.repositories.snps.SnpRepository;
 import org.genomesmanager.repositories.species.IndividualRepository;
 import org.genomesmanager.repositories.species.VarietyRepository;
-import org.genomesmanager.services.impl.snps.SnpsImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -43,7 +42,7 @@ public class SnpsImporterTest {
 	@Mock
 	private SnpRepository snpRepository;
 	@InjectMocks
-	private SnpsImporter snpsImporter = new SnpsImporterImpl();
+	private SnpsImporter snpsImporter = new SnpsImporter();
 	private List<Variety> varieties;
 	private static final int nOfSnps = 7;
 	private Random generator;

@@ -20,7 +20,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObje
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.genes.GeneRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
-import org.genomesmanager.services.impl.genes.GenesImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -34,7 +33,7 @@ public class GenesImporterTest {
 	@Mock
 	private GeneRepository geneRepo;
 	@InjectMocks
-	private GenesImporter genesImporter = new GenesImporterImpl();
+	private GenesImporter genesImporter = new GenesImporter();
 	private Random generator;
 	private Sequence seq;
 	private List<String> gff3Content = new ArrayList<String>();

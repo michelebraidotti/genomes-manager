@@ -11,7 +11,6 @@ import org.genomesmanager.domain.entities.Species;
 import org.genomesmanager.domain.entities.SpeciesPK;
 import org.genomesmanager.repositories.species.SpeciesNotFound;
 import org.genomesmanager.repositories.species.SpeciesRepoException;
-import org.genomesmanager.services.species.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

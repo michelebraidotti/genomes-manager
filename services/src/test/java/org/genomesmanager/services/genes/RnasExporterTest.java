@@ -18,7 +18,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObje
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.genes.RnaRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
-import org.genomesmanager.services.impl.genes.RnasExporterImpl;
 import org.genomesmanager.services.species.SpeciesService;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +33,7 @@ public class RnasExporterTest {
 	@Mock
 	private SequenceRepository sequenceRepository;
 	@InjectMocks
-	private RnasExporter rnasExporter = new RnasExporterImpl();
+	private RnasExporter rnasExporter = new RnasExporter();
 	private Species sp;
 	private Chromosome chr;
 	private Random generator;

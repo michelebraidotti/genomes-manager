@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.genomesmanager.domain.dtos.LtrRepeatsPresenceInSativaStats;
 import org.genomesmanager.domain.dtos.RepeatsStatsByClassification;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface RepeatsStatsRepository {
+@Transactional(readOnly = true)
+public interface RepeatsStats {
 
 	/* (non-Javadoc)
 	 * @see org.genomesmanager.services.impl.repeats.RepeatsStats#countRepeatsBasesByChromosome(int)

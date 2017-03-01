@@ -7,7 +7,7 @@ public class RepeatsClassificationServiceTest {
 
 	@Test
 	public void nothingToTestHere() {
-		// All methods in RepeatsClassificationServiceImpl are delegated to RepeatsClassificationsList
+		// All methods in RepeatsClassificationService are delegated to RepeatsClassificationsList
 		assertTrue(true);
 	}
 }

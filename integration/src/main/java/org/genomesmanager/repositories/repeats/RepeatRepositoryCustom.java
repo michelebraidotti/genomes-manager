@@ -1,11 +1,25 @@
 package org.genomesmanager.repositories.repeats;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.genomesmanager.domain.entities.*;
 
 public interface RepeatRepositoryCustom {
+	/**
+	 * This method should be preferred over <S extends Repeat> S save(S repeat) supplied by the Crud or JpaRepository
+	 * the present method is supposed to validate the Repeat against basic rules to insure its correctness (e.g. the feature
+	 * position is consistent with the sequence length). In case of update the method will validate the update but also
+	 * update some fields (like the count of contained elements).
+	 *
+	 * @param repeat
+	 * @param <S extends Repeat>
+	 * @return
+	 * @throws RepeatException
+	 * @throws OutOfBoundsException
+	 * @throws IntervalFeatureException
+	 */
+	public abstract <S extends Repeat> S saveAndValidate(S repeat) throws RepeatException, OutOfBoundsException, IntervalFeatureException;
+
 	public abstract DnaTeRepeat findDnaTeRepeat(int dnaTeId);
 
 	public abstract HelitronRepeat findHelitronRepeat(int helitronId);

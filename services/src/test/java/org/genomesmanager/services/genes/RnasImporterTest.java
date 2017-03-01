@@ -20,7 +20,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObje
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.genes.RnaRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
-import org.genomesmanager.services.impl.genes.RnasImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -34,7 +33,7 @@ public class RnasImporterTest {
 	@Mock
 	private RnaRepository rnaRepository;
 	@InjectMocks
-	private RnasImporter rnasImporter = new RnasImporterImpl();
+	private RnasImporter rnasImporter = new RnasImporter();
 	private Random generator;
 	private Sequence seq;
 	private List<String> gff3Content = new ArrayList<String>();

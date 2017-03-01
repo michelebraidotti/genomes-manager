@@ -30,11 +30,11 @@ import org.genomesmanager.repositories.species.SpeciesRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
+public class RepeatsStatsTest extends AbstractIntegrationTest {
 	@Autowired
 	private RepeatsClassificationRepository repeatsClassificationRepo;
 	@Autowired
-	private RepeatRepository repeatRepo;
+	private RepeatRepository repeatRepository;
 	@Autowired
 	private SpeciesRepository speciesRepository;
 	@Autowired
@@ -42,10 +42,10 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 	@Autowired
 	private SequenceRepository sequenceRepository;
 	@Autowired
-	private RepeatsStatsRepository repeatsStatsRepo;
+	private RepeatsStats repeatsStats;
 
 	@Test
-	public void test() throws Exception {
+	public void testCounts() throws Exception {
 		Species sp = SpeciesTestObjectGenerator.Generate(1).get(0);
 		sp = speciesRepository.save(sp);
 		Chromosome chr = ChromosomesTestObjectGenerator.Generate(1, sp).get(0);
@@ -67,7 +67,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 				.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
 		for (LineRepeat l : RepeatsTestObjectGenerator.GenerateLines(nOfRepeats, repClass, seq)) {
-			l = repeatRepo.save(l);
+			l = repeatRepository.save(l);
 			repeats.add(l);
 		}
 
@@ -77,7 +77,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repClass = repeatsClassificationRepo.save(repClass);
 		for (HelitronRepeat h : RepeatsTestObjectGenerator.GenerateHelitrons(nOfRepeats,
 				repClass, seq)) {
-			h = repeatRepo.save(h);
+			h = repeatRepository.save(h);
 			repeats.add(h);
 		}
 
@@ -86,7 +86,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
 		for (MiteRepeat m : RepeatsTestObjectGenerator.GenerateMites(nOfRepeats, repClass, seq)) {
-			m = repeatRepo.save(m);
+			m = repeatRepository.save(m);
 			repeats.add(m);
 		}
 
@@ -96,7 +96,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repClass = repeatsClassificationRepo.save(repClass);
 		for (DnaTeRepeat dnate : RepeatsTestObjectGenerator.GenerateDnaTes(nOfRepeats, repClass,
 				seq)) {
-			dnate = repeatRepo.save(dnate);
+			dnate = repeatRepository.save(dnate);
 			repeats.add(dnate);
 		}
 
@@ -105,7 +105,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repClass = RepeatsClassificationTestObjectGenerator.Generate(repClassDefinition);
 		repClass = repeatsClassificationRepo.save(repClass);
 		for (LtrRepeat ltr : RepeatsTestObjectGenerator.GenerateLtrs(nOfRepeats, repClass, seq)) {
-			ltr = repeatRepo.save(ltr);
+			ltr = repeatRepository.save(ltr);
 			repeats.add(ltr);
 		}
 
@@ -115,7 +115,7 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repClass = repeatsClassificationRepo.save(repClass);
 		for (UnknownRepeat unkn : RepeatsTestObjectGenerator.GenerateUnknowns(nOfRepeats,
 				repClass, seq)) {
-			unkn = repeatRepo.save(unkn);
+			unkn = repeatRepository.save(unkn);
 			repeats.add(unkn);
 		}
 
@@ -125,83 +125,83 @@ public class RepeatsStatsRepoTest extends AbstractIntegrationTest {
 		repClass = repeatsClassificationRepo.save(repClass);
 		for (SineRepeat sine : RepeatsTestObjectGenerator.GenerateSines(nOfRepeats, repClass,
 				seq)) {
-			sine = repeatRepo.save(sine);
+			sine = repeatRepository.save(sine);
 			repeats.add(sine);
 		}
 
 		System.out.println("countAllCompleteHelitrons  "
-				+ repeatsStatsRepo.countAllCompleteHelitrons());
+				+ repeatsStats.countAllCompleteHelitrons());
 		System.out.println("countAllCompleteHelitronsNucleotides  "
-				+ repeatsStatsRepo.countAllCompleteHelitronsNucleotides());
+				+ repeatsStats.countAllCompleteHelitronsNucleotides());
 		System.out.println("countAllDnaTeNucleotides  "
-				+ repeatsStatsRepo.countAllDnaTeNucleotides());
+				+ repeatsStats.countAllDnaTeNucleotides());
 		System.out.println("countAllDnaTes  "
-				+ repeatsStatsRepo.countAllDnaTes());
+				+ repeatsStats.countAllDnaTes());
 		System.out
-				.println("countAllLines  " + repeatsStatsRepo.countAllLines());
+				.println("countAllLines  " + repeatsStats.countAllLines());
 		System.out.println("countAllLinesNucleotides  "
-				+ repeatsStatsRepo.countAllLinesNucleotides());
+				+ repeatsStats.countAllLinesNucleotides());
 		System.out.println("countAllLtrNucleotides  "
-				+ repeatsStatsRepo.countAllLtrNucleotides());
-		System.out.println("countAllLtrs  " + repeatsStatsRepo.countAllLtrs());
+				+ repeatsStats.countAllLtrNucleotides());
+		System.out.println("countAllLtrs  " + repeatsStats.countAllLtrs());
 		System.out
-				.println("countAllMites  " + repeatsStatsRepo.countAllMites());
+				.println("countAllMites  " + repeatsStats.countAllMites());
 		System.out.println("countAllMitesNucleotides  "
-				+ repeatsStatsRepo.countAllMitesNucleotides());
+				+ repeatsStats.countAllMitesNucleotides());
 		System.out.println("countAllPartialHelitrons  "
-				+ repeatsStatsRepo.countAllPartialHelitrons());
+				+ repeatsStats.countAllPartialHelitrons());
 		System.out.println("countAllPartialHelitronsNucleotides  "
-				+ repeatsStatsRepo.countAllPartialHelitronsNucleotides());
+				+ repeatsStats.countAllPartialHelitronsNucleotides());
 		System.out
-				.println("countAllSines  " + repeatsStatsRepo.countAllSines());
+				.println("countAllSines  " + repeatsStats.countAllSines());
 		System.out.println("countAllSinesNucleotides  "
-				+ repeatsStatsRepo.countAllSinesNucleotides());
+				+ repeatsStats.countAllSinesNucleotides());
 		System.out
-				.println("countAllUnkns  " + repeatsStatsRepo.countAllUnkns());
+				.println("countAllUnkns  " + repeatsStats.countAllUnkns());
 		System.out.println("countCompleteLtrs  "
-				+ repeatsStatsRepo.countCompleteLtrs());
+				+ repeatsStats.countCompleteLtrs());
 		System.out.println("countOrfCountHelitrons  "
-				+ repeatsStatsRepo.countOrfCountHelitrons());
+				+ repeatsStats.countOrfCountHelitrons());
 		System.out.println("countPotAutonHelitrons  "
-				+ repeatsStatsRepo.countPotAutonHelitrons());
+				+ repeatsStats.countPotAutonHelitrons());
 		System.out.println("countPotCdsCountHelitrons  "
-				+ repeatsStatsRepo.countPotCdsCountHelitrons());
+				+ repeatsStats.countPotCdsCountHelitrons());
 		System.out.println("countRepeatsAndBases  "
-				+ repeatsStatsRepo.countRepeatsAndBases().size());
+				+ repeatsStats.countRepeatsAndBases().size());
 		System.out.println("countRepeatsBasesByChromosome  "
-				+ repeatsStatsRepo.countRepeatsBasesByChromosome(chr.getId())
+				+ repeatsStats.countRepeatsBasesByChromosome(chr.getId())
 						.size());
 		System.out
-				.println("countSoloLtrs  " + repeatsStatsRepo.countSoloLtrs());
+				.println("countSoloLtrs  " + repeatsStats.countSoloLtrs());
 		System.out.println("countTruncatedLtrs  "
-				+ repeatsStatsRepo.countTruncatedLtrs());
+				+ repeatsStats.countTruncatedLtrs());
 		Long nOfRepeatsCheck = new Long(nOfRepeats);
 		assertEquals(nOfRepeatsCheck,
-				repeatsStatsRepo.countAllCompleteHelitrons());
-		assertTrue(repeatsStatsRepo.countAllCompleteHelitronsNucleotides() > 0);
-		assertTrue(repeatsStatsRepo.countAllDnaTeNucleotides() > 0);
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllDnaTes());
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllLines());
-		assertTrue(repeatsStatsRepo.countAllLinesNucleotides() > 0);
-		assertTrue(repeatsStatsRepo.countAllLtrNucleotides() > 0);
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllLtrs());
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllMites());
-		assertTrue(repeatsStatsRepo.countAllMitesNucleotides() > 0);
-		assertEquals(new Long(0), repeatsStatsRepo.countAllPartialHelitrons());
+				repeatsStats.countAllCompleteHelitrons());
+		assertTrue(repeatsStats.countAllCompleteHelitronsNucleotides() > 0);
+		assertTrue(repeatsStats.countAllDnaTeNucleotides() > 0);
+		assertEquals(nOfRepeatsCheck, repeatsStats.countAllDnaTes());
+		assertEquals(nOfRepeatsCheck, repeatsStats.countAllLines());
+		assertTrue(repeatsStats.countAllLinesNucleotides() > 0);
+		assertTrue(repeatsStats.countAllLtrNucleotides() > 0);
+		assertEquals(nOfRepeatsCheck, repeatsStats.countAllLtrs());
+		assertEquals(nOfRepeatsCheck, repeatsStats.countAllMites());
+		assertTrue(repeatsStats.countAllMitesNucleotides() > 0);
+		assertEquals(new Long(0), repeatsStats.countAllPartialHelitrons());
 		assertEquals(new Long(0),
-				repeatsStatsRepo.countAllPartialHelitronsNucleotides());
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllSines());
-		assertTrue(repeatsStatsRepo.countAllSinesNucleotides() > 0);
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countAllUnkns());
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countCompleteLtrs());
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countOrfCountHelitrons());
-		assertEquals(nOfRepeatsCheck, repeatsStatsRepo.countPotAutonHelitrons());
-		assertTrue(repeatsStatsRepo.countPotCdsCountHelitrons() > 0);
-		assertTrue(repeatsStatsRepo.countRepeatsAndBases().size() > 0);
-		assertTrue(repeatsStatsRepo.countRepeatsBasesByChromosome(chr.getId())
+				repeatsStats.countAllPartialHelitronsNucleotides());
+		assertEquals(nOfRepeatsCheck, repeatsStats.countAllSines());
+		assertTrue(repeatsStats.countAllSinesNucleotides() > 0);
+		assertEquals(nOfRepeatsCheck, repeatsStats.countAllUnkns());
+		assertEquals(nOfRepeatsCheck, repeatsStats.countCompleteLtrs());
+		assertEquals(nOfRepeatsCheck, repeatsStats.countOrfCountHelitrons());
+		assertEquals(nOfRepeatsCheck, repeatsStats.countPotAutonHelitrons());
+		assertTrue(repeatsStats.countPotCdsCountHelitrons() > 0);
+		assertTrue(repeatsStats.countRepeatsAndBases().size() > 0);
+		assertTrue(repeatsStats.countRepeatsBasesByChromosome(chr.getId())
 				.size() > 0);
-		assertEquals(new Long(0), repeatsStatsRepo.countSoloLtrs());
-		assertEquals(new Long(0), repeatsStatsRepo.countTruncatedLtrs());
+		assertEquals(new Long(0), repeatsStats.countSoloLtrs());
+		assertEquals(new Long(0), repeatsStats.countTruncatedLtrs());
 
 	}
 }

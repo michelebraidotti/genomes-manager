@@ -6,12 +6,31 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.genomesmanager.domain.entities.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public class RepeatRepositoryImpl implements RepeatRepositoryCustom {
 	@PersistenceContext
 	private EntityManager em;
 	private Query q;
 
+	@Override
+	public Repeat saveAndValidate(Repeat repeat) throws RepeatException, OutOfBoundsException, IntervalFeatureException {
+		validate(repeat);
+		if ( repeat.getId() != 0 ) { // we are updating
+			validateUpdate(repeat);
+			updateContainedElementsCount(repeat);
+		}
+		em.persist(repeat);
+		return repeat;
+	}
+
+	private void validate(Repeat repeat) throws IntervalFeatureException, OutOfBoundsException, RepeatException {
+		repeat.validate();
+		if (repeat instanceof LtrRepeat) {
+			((LtrRepeat) repeat).checkIsSolo();
+		}
+
+	}
 
 	@Override
 	public DnaTeRepeat findDnaTeRepeat(int dnaTeId) {

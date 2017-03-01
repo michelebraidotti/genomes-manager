@@ -18,7 +18,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObje
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.PseudomoleculeRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
-import org.genomesmanager.services.impl.sequences.PseudomoleculeExporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -31,7 +30,7 @@ public class PseudomoleculeExporterTest {
 	@Mock
 	private ScaffoldRepository scaffoldRepository;
 	@InjectMocks
-	private PseudomoleculeExporter pseudomoleculeExporter = new PseudomoleculeExporterImpl();
+	private PseudomoleculeExporter pseudomoleculeExporter = new PseudomoleculeExporter();
 	private Random generator;
 	
 	

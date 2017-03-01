@@ -23,7 +23,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObje
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.ScaffoldRepository;
-import org.genomesmanager.services.impl.sequences.ScaffoldsExporterImpl;
 import org.genomesmanager.services.species.SpeciesService;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +38,7 @@ public class ScaffoldsExporterTest {
 	@Mock
 	private ChromosomeRepository chromosomeRepository;
 	@InjectMocks
-	private ScaffoldsExporter scaffoldsExporter = new ScaffoldsExporterImpl();	
+	private ScaffoldsExporter scaffoldsExporter = new ScaffoldsExporter();
 	private Random generator;
 	private Chromosome chr;
 	private ArrayList<Scaffold> seqs;

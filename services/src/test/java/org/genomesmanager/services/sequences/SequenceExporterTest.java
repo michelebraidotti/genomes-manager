@@ -22,7 +22,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.RepeatsTestObject
 import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
-import org.genomesmanager.services.impl.sequences.SequencesExporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -33,7 +32,7 @@ public class SequenceExporterTest {
 	@Mock
 	private SequenceRepository sequenceRepository;
 	@InjectMocks
-	private SequencesExporter sequencesExporter = new SequencesExporterImpl();	
+	private SequencesExporter sequencesExporter = new SequencesExporter();
 	private Random generator;
 	private Chromosome chr;
 	private ArrayList<Sequence> seqs;

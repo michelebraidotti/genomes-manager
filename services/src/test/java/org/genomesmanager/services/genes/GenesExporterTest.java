@@ -22,8 +22,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.MrnasTestObjectGe
 import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObjectGenerator;
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.genes.GeneRepository;
-import org.genomesmanager.repositories.sequences.SequenceRepository;
-import org.genomesmanager.services.impl.genes.GenesExporterImpl;
 import org.genomesmanager.services.species.SpeciesService;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,10 +34,8 @@ public class GenesExporterTest {
 	private GeneRepository geneRepository;
 	@Mock
 	private SpeciesService speciesService;
-	@Mock
-	private SequenceRepository sequenceRepository;
 	@InjectMocks
-	private GenesExporter genesExporter = new GenesExporterImpl();
+	private GenesExporter genesExporter = new GenesExporter();
 	private Species sp;
 	private Chromosome chr;
 	private Random generator;

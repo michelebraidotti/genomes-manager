@@ -2,33 +2,55 @@ package org.genomesmanager.services.repeats;
 
 import org.genomesmanager.domain.entities.RepeatsClassification;
 import org.genomesmanager.domain.entities.RepeatsClassificationException;
+import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface RepeatsClassificationService {
+@Service("RepeatsClassificationService")
+public class RepeatsClassificationService {
+	@Autowired
+	private RepeatsClassificationRepository repeatsClassificationRepository;
+	
+	public List<RepeatsClassification> getAll() {
+		return repeatsClassificationRepository.getAll();
+	}
 
-	public abstract List<RepeatsClassification> getAll();
+	public List<String> getAllClassSubClassOrder() {
+    	return repeatsClassificationRepository.getAllClassSubClassOrder();
+    }
+    
+    public List<String> getAllSuperfamilies(String classifDefinition) throws RepeatsClassificationException {
+    	return repeatsClassificationRepository.getAllSuperfamilies(classifDefinition);
+    }
+    
+    public List<String> getAllSuperfamilies(String repClass, String subclass, String order) {
+    	return repeatsClassificationRepository.getAllSuperfamilies(repClass, subclass, order);
+    }
+    
+    public List<String> getAllFamilies(String classifDefinition) throws RepeatsClassificationException {
+    	return repeatsClassificationRepository.getAllFamilies(classifDefinition);
+    }
+    
+    public List<String> getAllFamilies(String repClass, String subclass, String order, String superfamily) {
+    	return repeatsClassificationRepository.getAllFamilies(repClass, subclass, order, superfamily);
+    }
 
-	public abstract List<String> getAllClassSubClassOrder();
+	public List<String> getAllClasses() {
+		return repeatsClassificationRepository.getAllClasses();
+	}
 
-	public abstract List<String> getAllSuperfamilies(String classifDefinition)
-			throws RepeatsClassificationException;
+	public List<String> getAllSubClasses(String repClass) {
+		return repeatsClassificationRepository.getAllSubClasses(repClass);
+	}
 
-	public abstract List<String> getAllSuperfamilies(String repClass,
-			String subclass, String order);
+	public List<String> getAllOrders(String repClass, String subclass) {
+		return repeatsClassificationRepository.getAllOrders(repClass, subclass);
+	}
 
-	public abstract List<String> getAllFamilies(String classifDefinition)
-			throws RepeatsClassificationException;
-
-	public abstract List<String> getAllFamilies(String repClass,
-			String subclass, String order, String superfamily);
-
-	public abstract List<String> getAllClasses();
-
-	public abstract List<String> getAllSubClasses(String repClass);
-
-	public abstract List<String> getAllOrders(String repClass, String subclass);
-
-	public abstract List<String> getAllOrders();
-
+	public List<String> getAllOrders() {
+		return repeatsClassificationRepository.getAllOrders();
+	}
+    
 }

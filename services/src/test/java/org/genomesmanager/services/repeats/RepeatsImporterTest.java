@@ -5,7 +5,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.*;
 import org.genomesmanager.repositories.repeats.RepeatRepository;
 import org.genomesmanager.repositories.repeats.RepeatsClassificationRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
-import org.genomesmanager.services.impl.repeats.RepeatsImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -31,7 +30,7 @@ public class RepeatsImporterTest {
 	@Mock
 	private SequenceRepository sequenceRepository;
 	@InjectMocks
-	private RepeatsImporter repeatsImporter = new RepeatsImporterImpl();
+	private RepeatsImporter repeatsImporter = new RepeatsImporter();
 	private List<String> gff3Content = new ArrayList<String>();
 	private Random generator;
 	private Sequence seq;

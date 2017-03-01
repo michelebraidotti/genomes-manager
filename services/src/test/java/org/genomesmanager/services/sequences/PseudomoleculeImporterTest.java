@@ -17,7 +17,6 @@ import org.genomesmanager.domain.entities.testobjectgenerators.SequencesTestObje
 import org.genomesmanager.domain.entities.testobjectgenerators.SpeciesTestObjectGenerator;
 import org.genomesmanager.repositories.sequences.ChromosomeRepository;
 import org.genomesmanager.repositories.sequences.SequenceRepository;
-import org.genomesmanager.services.impl.sequences.PseudomoleculeImporterImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -30,7 +29,7 @@ public class PseudomoleculeImporterTest {
 	@Mock
 	private SequenceRepository seqRepo;
 	@InjectMocks
-	private PseudomoleculeImporter pseudomoleculeImporter = new PseudomoleculeImporterImpl();
+	private PseudomoleculeImporter pseudomoleculeImporter = new PseudomoleculeImporter();
 
 	@Before
 	public void initMocks() {
