@@ -1,8 +1,8 @@
-package org.genomesmanager.bioprograms.parsers;
+package org.genomesmanager.parsers;
 
 import java.util.Properties;
 
-import org.genomesmanager.bioprograms.formats.Gff3Line;
+import org.genomesmanager.formats.Gff3Line;
 
 public class Gff3LineParser {
 

@@ -1,4 +1,4 @@
-package org.genomesmanager.bioprograms.formats;
+package org.genomesmanager.formats;
 
 public class ScaffoldInfoException extends Exception {
 	private static final long serialVersionUID = 7103472993517187069L;

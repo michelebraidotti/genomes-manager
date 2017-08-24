@@ -1,9 +1,9 @@
-package org.genomesmanager.bioprograms.parsers;
+package org.genomesmanager.parsers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.genomesmanager.bioprograms.formats.SimpleFasta;
+import org.genomesmanager.formats.SimpleFasta;
 
 public class FastaLinesToSimpleFasta {
 

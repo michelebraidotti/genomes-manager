@@ -1,6 +1,6 @@
 package org.genomesmanager.services.repeats;
 
-import org.genomesmanager.bioprograms.formats.AgiExportType;
+import org.genomesmanager.formats.AgiExportType;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.*;
 import org.genomesmanager.repositories.repeats.RepeatRepository;

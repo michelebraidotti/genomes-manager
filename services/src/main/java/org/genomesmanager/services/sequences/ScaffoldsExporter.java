@@ -1,6 +1,6 @@
 package org.genomesmanager.services.sequences;
 
-import org.genomesmanager.bioprograms.formats.SimpleFasta;
+import org.genomesmanager.formats.SimpleFasta;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Scaffold;

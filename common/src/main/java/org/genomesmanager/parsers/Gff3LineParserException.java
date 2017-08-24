@@ -1,4 +1,4 @@
-package org.genomesmanager.bioprograms.parsers;
+package org.genomesmanager.parsers;
 
 public class Gff3LineParserException extends Exception {
 

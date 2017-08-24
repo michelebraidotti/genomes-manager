@@ -1,9 +1,9 @@
 package org.genomesmanager.services.sequences;
 
-import org.genomesmanager.bioprograms.formats.ScaffoldInfo;
-import org.genomesmanager.bioprograms.formats.ScaffoldInfoException;
-import org.genomesmanager.bioprograms.formats.SimpleFasta;
-import org.genomesmanager.bioprograms.parsers.FastaLinesToSimpleFasta;
+import org.genomesmanager.formats.ScaffoldInfo;
+import org.genomesmanager.formats.ScaffoldInfoException;
+import org.genomesmanager.formats.SimpleFasta;
+import org.genomesmanager.parsers.FastaLinesToSimpleFasta;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Scaffold;
 import org.genomesmanager.domain.entities.Species;

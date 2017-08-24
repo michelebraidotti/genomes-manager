@@ -37,7 +37,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.genomesmanager.bioprograms.formats.Gff3Line;
+import org.genomesmanager.formats.Gff3Line;
 import org.hibernate.annotations.Type;
 
 /*

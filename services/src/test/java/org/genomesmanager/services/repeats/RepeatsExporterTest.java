@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.genomesmanager.bioprograms.formats.AgiExportType;
+import org.genomesmanager.formats.AgiExportType;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.DnaTeRepeat;
 import org.genomesmanager.domain.entities.HelitronRepeat;

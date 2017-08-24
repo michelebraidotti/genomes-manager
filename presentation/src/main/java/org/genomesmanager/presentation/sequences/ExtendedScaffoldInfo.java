@@ -1,7 +1,7 @@
 package org.genomesmanager.presentation.sequences;
 
-import org.genomesmanager.bioprograms.formats.ScaffoldInfo;
-import org.genomesmanager.bioprograms.formats.ScaffoldInfoException;
+import org.genomesmanager.formats.ScaffoldInfo;
+import org.genomesmanager.formats.ScaffoldInfoException;
 
 public class ExtendedScaffoldInfo extends ScaffoldInfo {
 	private String chrDescr;

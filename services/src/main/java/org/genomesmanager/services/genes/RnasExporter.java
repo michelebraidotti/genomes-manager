@@ -1,6 +1,6 @@
 package org.genomesmanager.services.genes;
 
-import org.genomesmanager.bioprograms.formats.AgiExportType;
+import org.genomesmanager.formats.AgiExportType;
 import org.genomesmanager.domain.dtos.CannotParseSpeciesDefinitionException;
 import org.genomesmanager.domain.entities.Chromosome;
 import org.genomesmanager.domain.entities.Rna;

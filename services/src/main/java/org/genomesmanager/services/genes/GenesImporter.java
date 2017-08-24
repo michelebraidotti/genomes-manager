@@ -1,7 +1,7 @@
 package org.genomesmanager.services.genes;
 
-import org.genomesmanager.bioprograms.parsers.Gff3LineParser;
-import org.genomesmanager.bioprograms.parsers.Gff3LineParserException;
+import org.genomesmanager.parsers.Gff3LineParser;
+import org.genomesmanager.parsers.Gff3LineParserException;
 import org.genomesmanager.domain.entities.Exon;
 import org.genomesmanager.domain.entities.Gene;
 import org.genomesmanager.domain.entities.Mrna;

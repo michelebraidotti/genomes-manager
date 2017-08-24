@@ -1,4 +1,4 @@
-package org.genomesmanager.bioprograms.formats;
+package org.genomesmanager.formats;
 
 import java.io.Serializable;
 
